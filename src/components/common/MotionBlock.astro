@@ -1,0 +1,16 @@
+---
+interface Props {
+  enabled?: boolean;
+  hover?: 'row' | 'project' | 'media';
+  follow?: 'surface' | 'media' | 'motif';
+  scroll?: boolean;
+}
+const { enabled = true, hover, follow, scroll = true } = Astro.props;
+---
+{enabled ? (
+  <div data-motion-block data-motion-scroll={scroll ? '' : undefined} data-motion-hover={hover} data-motion-follow={follow}>
+    <div data-motion-roll>
+      <div data-motion-surface><slot /></div>
+    </div>
+  </div>
+) : <slot />}

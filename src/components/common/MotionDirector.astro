@@ -1,10 +1,18 @@
 ---
 ---
 <script>
+  import { bindSiteMotion } from "../../lib/site-motion";
+  let disposeFormal: (() => void) | undefined;
   let motionAbort: AbortController | undefined;
 
   const bindMotionDirector = () => {
     motionAbort?.abort();
+    disposeFormal?.();
+    disposeFormal = undefined;
+    if (document.body.classList.contains("formal-site")) {
+      disposeFormal = bindSiteMotion();
+      return;
+    }
     motionAbort = new AbortController();
     const { signal } = motionAbort;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -100,6 +108,7 @@
     startDirector();
   };
 
+  document.addEventListener('astro:before-swap', () => { motionAbort?.abort(); disposeFormal?.(); disposeFormal = undefined; });
   document.addEventListener('astro:page-load', bindMotionDirector);
   bindMotionDirector();
 </script>

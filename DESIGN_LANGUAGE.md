@@ -88,7 +88,7 @@
 - 默认无阴影；Hover 阴影最多 `0 12px 40px rgba(25,91,86,.08)`。
 - Glassmorphism 只用于导航、搜索、浮动 Summer/Night 控件和全站迷你播放器。
 - 按钮数量要少，优先文本链接与箭头反馈。
-- Hover 可使用 `translateX(4px)`、下划线展开或 2px 轻微上浮。
+- Hover 使用统一联动：列表抬起 2px、展示块最多 4px，标题色带展开、箭头移向右上；项目块可有低强度局部青绿柔光与最多 2deg 倾斜。
 - 禁止 Glow、霓虹、厚重 Dashboard 和游戏启动器视觉。
 
 ## 7. Music Identity
@@ -105,14 +105,17 @@
 
 ## 8. Motion
 
-- 近景风、水波 Motif 周期为 8s–20s；全站环境天气周期为 45s–90s，层与层不得齐步。
-- 天气视差桌面控制在 4px，触摸保留 2px；Motif 自身的 6px × 4px 视差不叠加天气变量。
-- 页面反馈使用 180ms–320ms 的淡入、轻微位移或 Blur-lite。
-- 首页滚动叙事只有一个 rAF 导演，按 `p = clamp(-track.top / (track.height - viewport), 0, 1)` 写入章节 `--p`；滚动本身零 duration，正向与反向必须沿同一时间轴连续还原。禁止一次性 fade-in、`scroll-snap`、GSAP/Lenis 与滚轮劫持。
-- 滚动驱动的文案位移不超过 `32px`，Motif 不超过 `24px`，比例限制在 `0.94–1.04`，Music `rotateY` 不超过 `12deg`。文档流整段只允许 `opacity: .35 → 1` 与 `translateY: 16px → 0`，不得让每条列表分别飞入。
-- 禁止 Bounce、高频 Parallax 和快速位移。
-- `≤900px` 取消 Hero / Watching 的 sticky 加长，章节回到正常文档流。Music 在所有视口都由水平拖拽与方向键切换，不占用滚动时间轴，不增加巡航。`prefers-reduced-motion` 下 track 塌回内容高度、章节进度冻结，所有内容不依赖动画也能完整阅读。
-- 触摸移动端保留 2px 天气视差；只有 `prefers-reduced-motion` 才归零。
+- 正式页使用原生 CSS 与按需 rAF，保持原生滚轮；不引入 GSAP/Lenis 或 scroll-snap。
+- 通过 MotionBlock 输出稳定测量层、滚动层、悬停层，图片在最内层独立移动。禁止对同一层叠加滚动、悬停与专辑拖拽变换。
+- 滚动位置直接映射轻翻页：桌面进入 -12deg、离开 +16deg，位移不超过 10px；中间 40% 区间完全平稳，正反滚动连续还原。最低透明度 .88，不逐字播放入场动画。
+- 正式页移除旧的 72px 横向 reveal 和整段二次淡入；每条文章、每个项目、每张 Watching 图片连同说明作为完整单元运动。音乐唱片廊整体运动，内部保留横向拖拽。
+- 悬停节奏：箭头 180ms、抬起 320ms、标题色带与图片 520ms，统一 cubic-bezier(.22, 1, .36, 1)。图片放大最多 1.035。
+- 仅 hover:hover + pointer:fine 且非减少动态效果时启用局部跟随；项目倾斜最多 2deg，图片及首屏图形位移最多 4px。柔光只出现在项目表面，不改变全站光源。拖拽时暂停封面悬停，离开与滚动时清除跟随状态。
+- ≤900px 的滚动倾斜最多 ±6deg、位移最多 4px。粗指针关闭跟随和悬停抬起，播放与访问入口始终可见。
+- prefers-reduced-motion 下所有新变换关闭、内容完整显示；无 JavaScript 时默认静态可读。键盘焦点提供与悬停相同的色带、箭头与边框反馈；正文及其标题保持稳定。
+- IntersectionObserver 限定可见目标；ResizeObserver 与字体/图片加载修正几何。滚动或指针变化才请求帧，静止后释放 will-change；astro:before-swap 清理监听、观察器、定时器与帧。
+- 原有天气与风水波保留低频 CSS 动画，减少动态效果时静止。自定义光标实时响应指针能力/动态偏好变化，输入框保留系统文本光标。
+- 内部属性、回归方式与已验证范围见 MOTION_DESIGN.md。
 
 ## 9. Responsive Rules
 

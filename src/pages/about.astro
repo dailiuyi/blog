@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/common/SiteHeader.astro';
+import MotionBlock from '../components/common/MotionBlock.astro';
 import PageHero from '../components/common/PageHero.astro';
 import LightingWhisper from '../components/lighting/LightingWhisper.astro';
 ---
@@ -8,11 +9,11 @@ import LightingWhisper from '../components/lighting/LightingWhisper.astro';
   <SiteHeader current="about" />
   <PageHero eyebrow="关于 / ABOUT" title={'一个真实的人，\n不是一条信息流。'} description="开发者、写作者、音乐听众。这个网站用于保存做过的项目、想清楚的问题，以及生活里值得记住的片段。" />
   <main class="about-page container">
-    <section class="intro" data-editorial-depth data-reveal-group><p data-scroll-reveal>01 / WHO</p><div data-scroll-reveal><h2>你好，我是 nabunana。</h2><p>我喜欢把问题做成系统，再把系统写清楚。日常在工程实践、Agent、底层原理与前端体验之间来回，也会为音乐、ACG 和夏天留下空间。</p><a class="profile-link" href="https://github.com/1753262762" target="_blank" rel="me noopener">GitHub / 1753262762 ↗</a></div></section>
-    <section class="identity-grid" data-reveal-group aria-label="个人兴趣"><article data-scroll-reveal><span>Developer</span><p>构建可靠、清晰、真正可用的软件。</p></article><article data-scroll-reveal><span>Writer</span><p>记录过程，而不只展示结果。</p></article><article data-scroll-reveal><span>Music Listener</span><p>Yorushika、n-buna 与 Vocaloid。</p></article><article data-scroll-reveal><span>ACG</span><p>动画、故事，以及那些留下余韵的场景。</p></article></section>
-    <section class="place" data-editorial-depth data-reveal-group><p data-scroll-reveal>02 / THIS PLACE</p><div data-scroll-reveal><h2>为什么还要有一个个人网站？</h2><p>因为信息流会不断向前，而个人网站允许内容按照自己的速度生长。这里不追求把每个兴趣做成标签墙，也不会让过时文章继续占据入口。</p><LightingWhisper /><a href="/blog/">开始阅读 ↗</a><a href="/music/">进入音乐页 ↗</a></div></section>
+<MotionBlock >    <section class="intro" data-editorial-depth data-reveal-group><p data-scroll-reveal>01 / WHO</p><div data-scroll-reveal><h2>你好，我是 nabunana。</h2><p>我喜欢把问题做成系统，再把系统写清楚。日常在工程实践、Agent、底层原理与前端体验之间来回，也会为音乐、ACG 和夏天留下空间。</p><a class="profile-link" href="https://github.com/1753262762" target="_blank" rel="me noopener">GitHub / 1753262762 ↗</a></div></section></MotionBlock>
+    <section class="identity-grid" data-reveal-group aria-label="个人兴趣"><MotionBlock><article data-scroll-reveal><span>Developer</span><p>构建可靠、清晰、真正可用的软件。</p></article></MotionBlock><MotionBlock><article data-scroll-reveal><span>Writer</span><p>记录过程，而不只展示结果。</p></article></MotionBlock><MotionBlock><article data-scroll-reveal><span>Music Listener</span><p>Yorushika、n-buna 与 Vocaloid。</p></article></MotionBlock><MotionBlock><article data-scroll-reveal><span>ACG</span><p>动画、故事，以及那些留下余韵的场景。</p></article></MotionBlock></section>
+<MotionBlock >    <section class="place" data-editorial-depth data-reveal-group><p data-scroll-reveal>02 / THIS PLACE</p><div data-scroll-reveal><h2>为什么还要有一个个人网站？</h2><p>因为信息流会不断向前，而个人网站允许内容按照自己的速度生长。这里不追求把每个兴趣做成标签墙，也不会让过时文章继续占据入口。</p><LightingWhisper /><a href="/blog/">开始阅读 ↗</a><a href="/music/">进入音乐页 ↗</a></div></section></MotionBlock>
   </main>
-  <footer class="about-footer"><div class="container"><strong>また、どこかで。</strong><p>See you somewhere on the internet.</p></div></footer>
+<MotionBlock >  <footer class="about-footer"><div class="container"><strong>また、どこかで。</strong><p>See you somewhere on the internet.</p></div></footer></MotionBlock>
 </BaseLayout>
 <style>
   .about-page{padding:clamp(5rem,9vw,9rem) 0}.intro,.place{display:grid;grid-template-columns:190px 1fr;gap:3rem;padding:4rem 0;border-bottom:1px solid var(--border)}.intro>p,.place>p{color:var(--accent);font:.62rem var(--font-mono);letter-spacing:.1em}.intro h2,.place h2{margin:0 0 1.5rem;color:var(--strong);font:500 clamp(2rem,4vw,4rem)/1.05 var(--font-serif);letter-spacing:-.04em}.intro div>p,.place div>p{max-width:720px;color:var(--muted);font:400 1rem/1.8 var(--font-serif)}.profile-link{display:inline-block;margin-top:1rem;color:var(--accent-deep);font-size:.72rem}.identity-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--border);border-left:1px solid var(--border);margin:5rem 0}.identity-grid article{min-height:170px;padding:1.8rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:transform .22s var(--ease)}.identity-grid article:hover{transform:translateY(-2px)}.identity-grid span{color:var(--strong);font:500 1.6rem var(--font-serif)}.identity-grid p{color:var(--muted);font-size:.78rem}.place a{display:inline-block;margin:1.5rem 1.5rem 0 0;color:var(--accent-deep);font-size:.72rem}.about-footer{padding:7rem 0 9rem;background:#0a201d;color:#e8f3f1}.about-footer strong{font:500 clamp(3rem,7vw,7rem) var(--font-serif);color:#96ddd5}.about-footer p{color:#8faeaa}
