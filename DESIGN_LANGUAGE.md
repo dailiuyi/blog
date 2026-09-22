@@ -1,5 +1,24 @@
 # nabunana Blog Design Language
 
+## Current public-site rules (2026-09-23)
+
+The public routes now use an editorial layout. These rules supersede conflicting
+typography, spacing, and motion prescriptions below; the archived prototypes keep
+their existing presentation.
+
+- Home order: identity, three selected projects, selected writing, music and personal links.
+- Shared width: 1120px; side gutters 32px on desktop and 20px on mobile.
+- Sans-serif for headings and body; handwriting only for short personal accents.
+- Body copy 14–16px, metadata 10–12px, section headings 23–32px. Articles keep a 720px reading column.
+- Use existing neutral/sage tokens and the night theme. Shared rules live in `src/styles/editorial.css`.
+- Navigation, page intros, project previews and footer share components. Selected-project facts live in `src/data/selected-projects.ts`.
+- Project media comes from the owner's repositories. ELMA plays only after a click;
+  Three Body opens a full screenshot; minialloc is explicitly a source excerpt.
+  Provenance is recorded in `public/media/projects/SOURCES.md`.
+- Keep first-load content visible, respect reduced motion, and use native cursors.
+- Keep personal identity details off the About page. Public repository links still identify the public account.
+- Do not expose placeholder sections or invented activity statistics to readers.
+
 > ACG × Music × Editorial — 一个喜欢写代码、听音乐和记录生活的人，为自己搭建的互联网小空间。
 
 ## 1. Design Position

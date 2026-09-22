@@ -1,0 +1,9 @@
+# Project preview sources
+
+Assets retrieved 2026-09-23 from the owner's public repositories.
+
+- `elma-demo.gif`: `dailiuyi/elma-gohan`, commit `bbc45f1e5972facb8beb790e9ebb94efbc08c587`, `docs/images/readme/product-demo.gif`.
+- `elma-still.png`: first frame of that GIF, used to avoid autoplay. The full animation is loaded only after pressing Play.
+- `elma-preview.jpg`: same repository and commit, `docs/images/readme/social-preview.jpg` (mini-program discovery card).
+- `threebody.png`: `dailiuyi/ThreeBodySimulation`, commit `444c21154677bd01a3d483d051fc051398bd8b00`, `screenshots/2026-08-14/屏幕截图 2026-08-14 144744.png`.
+- minialloc's text preview quotes `minimalloc.c` from `dailiuyi/minialloc`, commit `79afe6a16ed41e92116a896eff55f27f1c1f0e39`. It is labeled source code, not a running application screenshot.

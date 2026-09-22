@@ -3,9 +3,9 @@ interface Props { current?: 'home' | 'writing' | 'music' | 'projects' | 'about';
 const { current } = Astro.props;
 const links = [
   { key: 'home', label: '首页', sub: 'Home', href: '/' },
-  { key: 'writing', label: '文章', sub: 'Writing', href: '/blog/' },
-  { key: 'music', label: '音楽', sub: 'Music', href: '/music/' },
   { key: 'projects', label: '作品', sub: 'Projects', href: '/projects/' },
+  { key: 'writing', label: '文章', sub: 'Writing', href: '/blog/' },
+  { key: 'music', label: '音乐', sub: 'Music', href: '/music/' },
   { key: 'about', label: '关于', sub: 'About', href: '/about/' },
 ] as const;
 ---

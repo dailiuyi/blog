@@ -10,14 +10,14 @@ export async function getStaticPaths(){
 }
 const { post, newer, older }=Astro.props;
 const { Content, headings }=await render(post);
-const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headline:post.data.title,description:post.data.description,datePublished:post.data.published.toISOString(),dateModified:(post.data.updated??post.data.published).toISOString(),author:{"@type":"Person",name:'nabunana',url:'https://github.com/1753262762'},mainEntityOfPage:Astro.url.href};
+const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headline:post.data.title,description:post.data.description,datePublished:post.data.published.toISOString(),dateModified:(post.data.updated??post.data.published).toISOString(),author:{"@type":"Person",name:'nabunana',url:'https://github.com/dailiuyi'},mainEntityOfPage:Astro.url.href};
 ---
 <BaseLayout title={`${post.data.title} · nabunana`} description={post.data.description} pageClass="acg-site" lightingIntensity="reading" lightingRegister="quiet">
   <SiteHeader current="writing" />
   <div class="reading-progress" data-reading-progress></div>
   <article class="article-page">
     <header class="article-hero container" data-editorial-depth data-reveal-group>
-      <div class="article-heading"><a href="/blog/" data-scroll-reveal>← 文章 / Writing</a><p data-scroll-reveal><span>{post.data.category}</span><time datetime={post.data.published.toISOString()}>{post.data.published.toLocaleDateString('zh-CN')}</time><b>{post.data.readingTime}</b><b class="mobile-article-views">阅读 <i data-article-views>—</i></b><a href="https://github.com/1753262762" target="_blank" rel="author me noopener">编者 nabunana ↗</a></p><h1 data-scroll-reveal>{post.data.title}</h1><div class="description" data-scroll-reveal>{post.data.description}</div><footer data-scroll-reveal>{post.data.tags.map((tag)=><span>#{tag}</span>)}</footer></div>
+      <div class="article-heading"><a href="/blog/" data-scroll-reveal>← 文章 / Writing</a><p data-scroll-reveal><span>{post.data.category}</span><time datetime={post.data.published.toISOString()}>{post.data.published.toLocaleDateString('zh-CN')}</time><b>{post.data.readingTime}</b><b class="mobile-article-views">阅读 <i data-article-views>—</i></b><a href="https://github.com/dailiuyi" target="_blank" rel="author me noopener">编者 nabunana ↗</a></p><h1 data-scroll-reveal>{post.data.title}</h1><div class="description" data-scroll-reveal>{post.data.description}</div><footer data-scroll-reveal>{post.data.tags.map((tag)=><span>#{tag}</span>)}</footer></div>
       <div class="article-view-count" aria-label="文章阅读量"><small>ARTICLE VIEWS</small><span>阅读 <strong data-article-views aria-live="polite">—</strong></span></div>
       <WindWaveMotif compact label="Article wind and wave divider" />
     </header>
@@ -26,7 +26,7 @@ const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headl
       {headings.some((heading)=>heading.depth===2) && <aside><p>文章目录<br /><span>ON THIS PAGE</span></p>{headings.filter((heading)=>heading.depth===2).map((heading)=><a href={`#${heading.slug}`}>{heading.text}</a>)}</aside>}
     </div>
     <section class="after-reading container">
-      <div class="listening-note"><small>今聴いている / NOW LISTENING</small><strong>Yorushika</strong><p>读完之后，留一点安静给音乐。这是一则状态记录，不是播放器。</p></div>
+      <div class="listening-note"><small>今聴いている / NOW LISTENING</small><a href="/music/"><strong>Yorushika ↗</strong></a><p>读完之后，也可以到音乐页听听歌。</p></div>
       <nav aria-label="相邻文章">{older ? <a href={`/blog/${older.id}/`}><small>上一篇 / OLDER</small><strong>{older.data.title}</strong></a> : <span></span>}{newer ? <a href={`/blog/${newer.id}/`}><small>下一篇 / NEWER</small><strong>{newer.data.title}</strong></a> : <a href="/blog/"><small>返回</small><strong>全部文章</strong></a>}</nav>
     </section>
   </article>

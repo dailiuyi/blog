@@ -1,0 +1,54 @@
+/* Shared public-site rhythm. Archived prototypes retain their own presentation. */
+html body.formal-site.acg-site {
+  --container:1120px;
+  --font-hand:"LXGW WenKai Subset", "LXGW WenKai", "Kaiti SC", serif;
+  --font-serif:var(--font-sans);
+  --radius-md:12px;
+  --radius-lg:20px;
+}
+html body.formal-site.acg-site .container { width:min(calc(100% - 64px),var(--container)); }
+html body.formal-site.acg-site .eyebrow { font-size:10px; line-height:1.7; font-weight:500; }
+html body.formal-site.acg-site :is(h1,h2,h3) { text-wrap:pretty; }
+html body.formal-site.acg-site > .site-header.container { gap:24px; position:relative; z-index:30; }
+html body.formal-site.acg-site .site-header nav a { font-size:13px; }
+html body.formal-site.acg-site .site-header nav a small { display:none; }
+html body.formal-site.acg-site .site-brand { font-family:Georgia,serif; }
+html body.formal-site.acg-site .header-action { width:auto; min-width:40px; font-size:11px; padding-inline:14px; background:transparent; border-radius:6px; }
+html body.formal-site.acg-site .header-actions { gap:10px; }
+html body.formal-site.acg-site .mobile-menu summary { min-height:40px; display:flex; align-items:center; }
+html body.formal-site.acg-site :is(.article-hero,.article-content,.writing-page) { --font-serif:var(--font-sans); }
+html body.formal-site.acg-site .article-hero { display:block; min-height:0; }
+html body.formal-site.acg-site .article-heading { max-width:900px; padding:64px 0 42px; }
+html body.formal-site.acg-site .article-heading>p { margin:24px 0; font-size:11px; }
+html body.formal-site.acg-site .article-heading h1 { font-size:clamp(30px,4.5vw,48px); line-height:1.35; letter-spacing:-.04em; }
+html body.formal-site.acg-site .article-heading .description { font-size:15px; line-height:1.9; margin:20px 0; }
+html body.formal-site.acg-site .article-heading footer { font-size:11px; }
+html body.formal-site.acg-site .article-hero .wind-wave { display:none; }
+html body.formal-site.acg-site .article-content { padding-block:48px 64px; grid-template-columns:minmax(0,720px) 190px; gap:56px; }
+html body.formal-site.acg-site .article-content .prose { min-width:0; font-size:16px; line-height:1.95; overflow-wrap:anywhere; }
+html body.formal-site.acg-site .prose :is(pre,table) { max-width:100%; overflow-x:auto; }
+html body.formal-site.acg-site .prose table { display:block; border-collapse:collapse; font-size:14px; }
+html body.formal-site.acg-site .prose :is(th,td) { padding:10px 14px; border:1px solid var(--border); }
+html body.formal-site.acg-site .prose a { color:var(--accent-deep); text-decoration:underline; text-underline-offset:3px; }
+html body.formal-site.acg-site .prose h2 { font-size:26px; line-height:1.5; font-weight:550; }
+html body.formal-site.acg-site .prose h3 { font-size:21px; }
+html body.formal-site.acg-site .prose pre { font-size:13px; overflow-wrap:normal; }
+html body.formal-site.acg-site .article-content aside a { font-size:12px; line-height:1.65; }
+html body.formal-site.acg-site .after-reading { padding-bottom:60px; }
+html body.formal-site.acg-site .after-reading nav { margin-top:32px; }
+html body.formal-site.acg-site .after-reading nav strong { font-size:17px; line-height:1.7; }
+html body.formal-site.acg-site .article-view-count { display:none; }
+html body.formal-site.acg-site .mobile-article-views { display:inline; }
+/* Keep existing article reveal hooks readable even before JS initializes. */
+html body.formal-site.acg-site .article-page [data-scroll-reveal],html body.formal-site.acg-site .article-page [data-editorial-depth] { opacity:1; transform:none; }
+html body.formal-site.acg-site .personal-page { width:min(calc(100% - 64px),var(--container)); }
+html body.formal-site.acg-site .personal-page :is(.intro-text,.project-copy p,.experience-list p,.interest-grid p,.section-note,.personal-footer p:not(.eyeline)) { font-size:14px; line-height:1.9; }
+html body.formal-site.acg-site .personal-page :is(.eyeline,.tags li,.project-sub,.minor-link,.text-link,summary,.footer-links a) { font-size:12px; }
+html body.formal-site.acg-site .personal-page .signature { display:none; }
+html body.formal-site.acg-site .personal-page .personal-footer { padding-bottom:55px; }
+html body.formal-site.acg-site .personal-page .record-note { font-size:9px; }
+html body.formal-site.acg-site .personal-page .record-caption { font-size:11px; }
+html body.formal-site.acg-site .personal-page .handwritten { font-family:var(--font-hand); }
+@media(max-width:900px){html body.formal-site.acg-site .article-content{grid-template-columns:minmax(0,720px);gap:0}}
+@media(max-width:760px){html body.formal-site.acg-site .container,html body.formal-site.acg-site .personal-page{width:calc(100% - 40px)}html body.formal-site.acg-site .article-heading{padding-block:44px 30px}html body.formal-site.acg-site .article-content{padding-block:32px 48px}html body.formal-site.acg-site .header-actions .search-action{padding:0}html body.formal-site.acg-site .site-header{gap:12px}html body.formal-site.acg-site .site-brand b{display:block;font-size:18px}html body.formal-site.acg-site .site-brand i,html body.formal-site.acg-site .site-brand>span{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}html body.formal-site.acg-site *{scroll-behavior:auto}}

@@ -1,0 +1,43 @@
+---
+import type { ProjectId } from '../../data/selected-projects';
+interface Props { id: ProjectId; }
+const { id } = Astro.props;
+const excerpt = `#define config_heap 8 * 1024
+static uint8_t AllHeap[config_heap];
+
+Class(heap_node)
+{
+    heap_node *next;
+    size_t BlockSize;
+};`;
+---
+<div class:list={['project-preview', `preview-${id}`]}>
+  {id === 'elma' && <><div class="preview-caption"><span>ELMA / 微信小程序</span><span>操作录屏</span></div><div class="phone-stage"><div class="phone"><img src="/media/projects/elma-still.png" width="320" height="690" alt="ELMA 小程序真实界面：距离、预算与品类筛选" loading="lazy" data-elma-demo /></div><div class="demo-notes"><span>01 / 选择条件</span><span>02 / 看看推荐</span><span>03 / 换一家</span><button type="button" data-demo-toggle aria-pressed="false">播放演示 <span aria-hidden="true">▷</span></button></div></div></>}
+  {id === 'threebody' && <><div class="preview-caption"><span>THREE BODY LAB</span><span>运行截图</span></div><a class="simulation-image" href="/media/projects/threebody.png" target="_blank" rel="noopener" aria-label="查看三体实验室完整运行截图（新标签页）"><img src="/media/projects/threebody.png" width="1920" height="1010" alt="三体实验室真实界面：参数编辑、天体轨迹、时间轴和守恒量图表" loading="lazy" /><span>查看完整截图 ↗</span></a></>}
+  {id === 'minialloc' && <><div class="preview-caption"><span>minimalloc.c</span><span>源码节选 / C</span></div><div class="code-stage"><div class="memory-heading"><strong>8<span>KB</span></strong><span>一块堆，<br />从分配到归还。</span></div><pre><code>{excerpt}</code></pre><span class="code-caption">静态内存池 · 空闲链表 · 相邻合并</span></div></>}
+</div>
+<script>
+  let previewAbort: AbortController | undefined;
+  function bindPreviews() {
+    previewAbort?.abort();
+    previewAbort = new AbortController();
+    const { signal } = previewAbort;
+    document.querySelectorAll<HTMLButtonElement>('[data-demo-toggle]').forEach(button => {
+      button.addEventListener('click', () => {
+        const img = button.closest('.project-preview')?.querySelector<HTMLImageElement>('[data-elma-demo]');
+        if (!img) return;
+        const playing = button.getAttribute('aria-pressed') !== 'true';
+        img.src = playing ? '/media/projects/elma-demo.gif' : '/media/projects/elma-still.png';
+        button.setAttribute('aria-pressed', String(playing));
+        button.textContent = playing ? '停止演示 □' : '播放演示 ▷';
+      }, { signal });
+    });
+  }
+  document.addEventListener('astro:page-load', bindPreviews);
+  bindPreviews();
+</script>
+<style>
+  .project-preview{min-width:0;overflow:hidden;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);height:100%;min-height:300px;color:var(--text)}.preview-caption{display:flex;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);font:10px/1.5 var(--font-mono);color:var(--muted)}.phone-stage{display:flex;gap:clamp(15px,3vw,44px);justify-content:center;align-items:center;padding:24px 20px;height:340px}.phone{height:295px;aspect-ratio:320/690;overflow:hidden;border:5px solid #243c35;border-radius:22px;background:#fff;box-shadow:0 12px 24px #12352a18}.phone img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}.demo-notes{display:grid;gap:16px;font:11px var(--font-mono);color:var(--muted)}.demo-notes button{margin-top:14px;min-height:42px;border:1px solid var(--border);border-radius:6px;background:var(--surface);padding:8px 12px;color:var(--accent-deep);font-size:12px;cursor:pointer}.simulation-image{position:relative;display:flex;align-items:center;height:340px;padding:24px 18px;background:linear-gradient(145deg,var(--surface-2),var(--surface));overflow:hidden}.simulation-image img{width:100%;height:auto;border:1px solid var(--border);border-radius:4px;box-shadow:0 14px 30px #16382d12;transition:transform .25s}.simulation-image:hover img{transform:scale(1.025)}.simulation-image>span{position:absolute;bottom:14px;right:18px;font-size:11px;color:var(--accent-deep)}.code-stage{padding:24px 28px}.memory-heading{display:flex;align-items:center;gap:25px;margin-bottom:18px}.memory-heading strong{font:60px/1 Georgia,serif;color:var(--accent-deep)}.memory-heading strong span{font:14px var(--font-mono);margin-left:6px}.memory-heading>span{font-size:12px;line-height:1.8;color:var(--muted)}pre{margin:0;overflow:auto;font:12px/1.8 var(--font-mono);tab-size:4}.code-caption{display:block;margin-top:20px;font-size:10px;color:var(--muted)}
+  @media(max-width:600px){.project-preview{min-height:260px}.phone-stage{height:300px}.phone{height:265px}.simulation-image{height:260px;padding:16px 10px}.code-stage{padding:20px}pre{font-size:11px}.preview-caption{padding:13px 15px;font-size:9px}}
+  @media(prefers-reduced-motion:reduce){.simulation-image img{transition:none}}
+</style>

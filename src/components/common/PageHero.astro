@@ -1,13 +1,8 @@
 ---
-import MotionBlock from './MotionBlock.astro';
-import WindWaveMotif from '../acg/WindWaveMotif.astro';
 interface Props { eyebrow: string; title: string; description: string; count?: string; }
 const { eyebrow, title, description, count } = Astro.props;
 ---
-<MotionBlock ><header class="page-hero" data-editorial-depth data-reveal-group><div class="container page-hero-grid"><div><p data-scroll-reveal><span>{eyebrow}</span>{count && <b>{count}</b>}</p><h1 data-scroll-reveal>{title}</h1><div class="page-description" data-scroll-reveal><slot><span>{description}</span></slot></div></div><WindWaveMotif compact /></div></header></MotionBlock>
+<header class="page-hero container"><p class="eyebrow">{eyebrow}{count && <span>{count}</span>}</p><h1>{title}</h1><div class="page-description"><slot>{description}</slot></div></header>
 <style>
-  .page-hero{border-bottom:1px solid var(--border)}.page-hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:end;min-height:540px}.page-hero-grid>div:first-child{padding:7rem 5rem 6rem 0}.page-hero p{display:flex;gap:1rem;margin:0 0 3rem;color:var(--muted);font:.65rem var(--font-mono);letter-spacing:.12em}.page-hero p span{color:var(--accent-deep)}.page-hero p b{font-weight:500}.page-hero h1{max-width:900px;margin:0;color:var(--strong);font:500 clamp(3.4rem,7vw,7.2rem)/.92 var(--font-serif);letter-spacing:-.06em;white-space:pre-line}.page-description{max-width:620px;margin-top:2rem;color:var(--muted);font-family:var(--font-serif)}.page-hero :global(.wind-wave){align-self:stretch;min-height:100%;border-left:1px solid var(--border);border-top:0}
-  @media(max-width:800px){.page-hero-grid{grid-template-columns:1fr;min-height:auto}.page-hero-grid>div:first-child{padding:5rem 0 4rem}.page-hero :global(.wind-wave){min-height:190px;border-left:0;border-top:1px solid var(--border)}}
-  @media(max-height:800px){.page-hero-grid{min-height:0}}
-  @media(max-height:800px) and (min-width:801px){.page-hero-grid>div:first-child{padding:4rem 2.5rem 3rem 0}}
+  .page-hero{padding-block:72px 48px;border-bottom:1px solid var(--border)}.eyebrow{display:flex;gap:25px;align-items:center}.eyebrow span{color:var(--accent-deep)}h1{font:550 clamp(32px,4.5vw,54px)/1.25 var(--font-sans);letter-spacing:-.05em;white-space:pre-line;margin:24px 0 20px}.page-description{font-size:15px;line-height:1.9;max-width:620px;color:var(--muted)}@media(max-width:600px){.page-hero{padding-block:48px 32px}.page-description{font-size:14px}}
 </style>
