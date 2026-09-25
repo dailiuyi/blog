@@ -3,3 +3,4 @@ dist/
 .astro/
 logs/
 public/media/music/**/*.mp3
+.local/
