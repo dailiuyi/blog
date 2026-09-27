@@ -124,6 +124,12 @@ class FakeGitHub:
             self.next_pr += 1
             self.pulls.append(pull)
             return pull
+        if route.startswith(prefix + "/pulls/") and method == "GET":
+            number = int(route.rsplit("/", 1)[1])
+            pull = next(item for item in self.pulls if item["number"] == number)
+            if not self.tamper_pull_head:
+                pull["head"]["sha"] = self.branches[pull["head"]["ref"]]
+            return pull
         if route.startswith(prefix + "/issues/") and route.endswith("/comments") and method == "GET":
             issue = int(route.split("/")[-2])
             page = int(dict(pair.split("=", 1) for pair in query.split("&"))["page"])
@@ -257,11 +263,15 @@ class GitHubAcceptanceTests(unittest.TestCase):
             return result
 
         client = GitHub("o/r", transport=transport)
+        journal = []
         with self.assertRaises(APIError) as raised:
-            client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+            client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                           on_candidate=journal.append)
         self.assertTrue(raised.exception.transient)
         head = self.fake.branches["symphony/issue-3"]
-        retried = client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+        self.assertEqual(journal, [head])
+        retried = client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                                 candidate_sha=journal[-1], on_candidate=journal.append)
         self.assertEqual(retried["head_sha"], head)
         self.assertEqual(len(self.fake.commits), 2)
         self.assertEqual(len(self.fake.pulls), 1)
@@ -275,6 +285,232 @@ class GitHubAcceptanceTests(unittest.TestCase):
         with self.assertRaisesRegex(APIError, "changed outside"):
             self.client.publish(self.root, self.base_sha, "symphony/issue-3", self.base_sha, "T", "B", 3)
         self.assertEqual(len(self.fake.pulls), 0)
+
+    def test_publish_refreshes_exact_pr_when_list_head_lags_branch_update(self):
+        self.change_worktree()
+        first = self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+        (self.root / "keep.txt").write_text("second candidate\n", encoding="utf-8")
+
+        def transport(method, path, body):
+            result = self.fake(method, path, body)
+            if method == "GET" and path.startswith("/repos/o/r/pulls?"):
+                result = json.loads(json.dumps(result))
+                result[0]["head"]["sha"] = first["head_sha"]
+            return result
+
+        client = GitHub("o/r", transport=transport)
+        result = client.publish(self.root, self.base_sha, "symphony/issue-3", first["head_sha"], "T", "B", 3)
+        self.assertEqual(result["head_sha"], self.fake.branches["symphony/issue-3"])
+        self.assertNotEqual(result["head_sha"], first["head_sha"])
+        self.assertEqual(sum(method == "GET" and path == "/repos/o/r/pulls/10"
+                             for method, path, _ in self.fake.calls), 1)
+
+    def test_publish_pr_head_lag_is_transient_and_retry_reuses_published_commit(self):
+        self.change_worktree()
+        first = self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+        (self.root / "keep.txt").write_text("second candidate\n", encoding="utf-8")
+        lagging = True
+
+        def transport(method, path, body):
+            result = self.fake(method, path, body)
+            if lagging and method == "GET" and path.startswith("/repos/o/r/pulls"):
+                result = json.loads(json.dumps(result))
+                pull = result[0] if isinstance(result, list) else result
+                pull["head"]["sha"] = first["head_sha"]
+            return result
+
+        client = GitHub("o/r", transport=transport)
+        journal = []
+        with self.assertRaisesRegex(APIError, "head does not match") as raised:
+            client.publish(self.root, self.base_sha, "symphony/issue-3", first["head_sha"], "T", "B", 3,
+                           on_candidate=journal.append)
+        self.assertTrue(raised.exception.transient)
+        published = self.fake.branches["symphony/issue-3"]
+        commits_before = len(self.fake.commits)
+        lagging = False
+        result = client.publish(self.root, self.base_sha, "symphony/issue-3", first["head_sha"], "T", "B", 3,
+                                candidate_sha=journal[-1], on_candidate=journal.append)
+        self.assertEqual(result["head_sha"], published)
+        self.assertEqual(len(self.fake.commits), commits_before)
+        self.assertEqual(len(self.fake.pulls), 1)
+
+    def test_publish_pr_head_mismatch_is_fatal_after_foreign_branch_move(self):
+        self.change_worktree()
+        self.fake.tamper_pull_head = True
+        foreign_sha = "e" * 40
+
+        def transport(method, path, body):
+            result = self.fake(method, path, body)
+            if method == "GET" and path == "/repos/o/r/pulls/10":
+                self.fake.branches["symphony/issue-3"] = foreign_sha
+            return result
+
+        client = GitHub("o/r", transport=transport)
+        with self.assertRaisesRegex(APIError, "head does not match") as raised:
+            client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+        self.assertFalse(raised.exception.transient)
+        self.assertEqual(self.fake.branches["symphony/issue-3"], foreign_sha)
+
+    def test_matches_publication_recognizes_own_candidate_without_mutating_refs_or_prs(self):
+        self.change_worktree()
+        first = self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+        (self.root / "keep.txt").write_text("second candidate\n", encoding="utf-8")
+        published = self.client.publish(self.root, self.base_sha, "symphony/issue-3", first["head_sha"], "T", "B", 3)
+        calls_before = len(self.fake.calls)
+        self.assertTrue(self.client.matches_publication(
+            self.root, self.base_sha, "symphony/issue-3", first["head_sha"],
+            candidate_sha=published["head_sha"],
+        ))
+        self.assertEqual(self.fake.branches["symphony/issue-3"], published["head_sha"])
+        mutations = [(method, path) for method, path, _ in self.fake.calls[calls_before:] if method != "GET"]
+        self.assertTrue(mutations)
+        self.assertTrue(all(method == "POST" and path in {
+            "/repos/o/r/git/blobs", "/repos/o/r/git/trees",
+        } for method, path in mutations))
+
+    def test_matches_publication_rejects_foreign_tree_or_parent_and_changed_source(self):
+        self.change_worktree()
+        result = self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+        candidate = self.fake.commits[result["head_sha"]]
+        original = {"tree": candidate["tree"], "parents": list(candidate["parents"])}
+        self.assertTrue(self.client.matches_publication(self.root, self.base_sha, "symphony/issue-3", None,
+                                                        candidate_sha=result["head_sha"]))
+        for tree, parents in (("f" * 40, original["parents"]),
+                              (original["tree"], ["e" * 40]),
+                              (original["tree"], [self.base_sha, "e" * 40])):
+            with self.subTest(tree=tree, parents=parents):
+                candidate.update(tree=tree, parents=parents)
+                self.assertFalse(self.client.matches_publication(self.root, self.base_sha, "symphony/issue-3", None,
+                                                                 candidate_sha=result["head_sha"]))
+        candidate.update(original)
+        (self.root / "keep.txt").write_text("unchecked source\n", encoding="utf-8")
+        self.assertFalse(self.client.matches_publication(self.root, self.base_sha, "symphony/issue-3", None,
+                                                         candidate_sha=result["head_sha"]))
+
+    def test_matches_publication_rejects_missing_or_unchanged_branch(self):
+        self.change_worktree()
+        self.assertFalse(self.client.matches_publication(self.root, self.base_sha, "missing", None,
+                                                         candidate_sha="e" * 40))
+        self.assertFalse(self.client.matches_publication(self.root, self.base_sha, "main", self.base_sha,
+                                                         candidate_sha=self.base_sha))
+        self.assertTrue(all(method == "GET" for method, _, _ in self.fake.calls))
+
+    def test_candidate_lookup_preserves_api_errors_except_missing_commit(self):
+        for status, transient in ((503, True), (403, False), (404, False)):
+            with self.subTest(status=status):
+                error = APIError("candidate lookup failed", transient=transient, status=status)
+
+                def transport(method, path, body):
+                    self.assertEqual((method, path), ("GET", "/repos/o/r/git/commits/" + "e" * 40))
+                    raise error
+
+                client = GitHub("o/r", transport=transport)
+                if status == 404:
+                    self.assertFalse(client._matches_candidate("e" * 40, "f" * 40, None, self.base_sha))
+                else:
+                    with self.assertRaises(APIError) as raised:
+                        client._matches_candidate("e" * 40, "f" * 40, None, self.base_sha)
+                    self.assertIs(raised.exception, error)
+
+    def test_candidate_callback_precedes_both_ref_create_and_update(self):
+        self.change_worktree()
+        journal = []
+        ref_operations = []
+
+        def transport(method, path, body):
+            if method in {"POST", "PATCH"} and "/git/refs" in path:
+                self.assertEqual(journal[-1], body["sha"])
+                ref_operations.append(method)
+            return self.fake(method, path, body)
+
+        client = GitHub("o/r", transport=transport)
+        first = client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                               on_candidate=journal.append)
+        (self.root / "keep.txt").write_text("second candidate\n", encoding="utf-8")
+        second = client.publish(self.root, self.base_sha, "symphony/issue-3", first["head_sha"], "T", "B", 3,
+                                on_candidate=journal.append)
+        self.assertEqual(journal, [first["head_sha"], second["head_sha"]])
+        self.assertEqual(ref_operations, ["POST", "PATCH"])
+
+    def test_candidate_callback_failure_prevents_any_ref_or_pr_mutation(self):
+        self.change_worktree()
+
+        def failed_save(sha):
+            self.assertIn(sha, self.fake.commits)
+            raise RuntimeError("journal save failed")
+
+        for expected in (None, self.base_sha):
+            with self.subTest(expected=expected):
+                if expected:
+                    self.fake.branches["symphony/issue-3"] = expected
+                before_branches = dict(self.fake.branches)
+                calls_before = len(self.fake.calls)
+                with self.assertRaisesRegex(RuntimeError, "journal save failed"):
+                    self.client.publish(self.root, self.base_sha, "symphony/issue-3", expected, "T", "B", 3,
+                                        on_candidate=failed_save)
+                self.assertEqual(self.fake.branches, before_branches)
+                self.assertFalse(any(method in {"POST", "PATCH"} and ("/git/refs" in path or "/pulls" in path)
+                                     for method, path, _ in self.fake.calls[calls_before:]))
+
+    def test_journaled_candidate_is_reused_after_ref_write_never_reached_server(self):
+        self.change_worktree()
+        journal = []
+        fail_once = True
+
+        def transport(method, path, body):
+            nonlocal fail_once
+            if method == "POST" and path.endswith("/git/refs") and fail_once:
+                fail_once = False
+                raise TimeoutError("request never reached server")
+            return self.fake(method, path, body)
+
+        client = GitHub("o/r", transport=transport)
+        with self.assertRaises(APIError):
+            client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                           on_candidate=journal.append)
+        self.assertNotIn("symphony/issue-3", self.fake.branches)
+        candidate_sha = journal[-1]
+        commits_before = len(self.fake.commits)
+        result = client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                                candidate_sha=candidate_sha, on_candidate=journal.append)
+        self.assertEqual(result["head_sha"], candidate_sha)
+        self.assertEqual(len(self.fake.commits), commits_before)
+
+    def test_advanced_head_requires_journal_even_when_tree_and_parents_match(self):
+        self.change_worktree()
+        result = self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+        calls_before = len(self.fake.calls)
+        self.assertFalse(self.client.matches_publication(self.root, self.base_sha, "symphony/issue-3", None))
+        self.assertEqual(len(self.fake.calls), calls_before)
+        with self.assertRaisesRegex(APIError, "changed outside"):
+            self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3)
+
+        foreign_sha = "e" * 40
+        self.fake.commits[foreign_sha] = dict(self.fake.commits[result["head_sha"]])
+        self.fake.branches["symphony/issue-3"] = foreign_sha
+        self.assertFalse(self.client.matches_publication(self.root, self.base_sha, "symphony/issue-3", None,
+                                                         candidate_sha=result["head_sha"]))
+        with self.assertRaisesRegex(APIError, "changed outside"):
+            self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                                candidate_sha=result["head_sha"])
+        self.assertEqual(self.fake.branches["symphony/issue-3"], foreign_sha)
+
+    def test_journaled_candidate_cannot_publish_changed_worktree(self):
+        self.change_worktree()
+        journal = []
+
+        def stop_after_journal(sha):
+            journal.append(sha)
+            raise RuntimeError("stopped before ref write")
+
+        with self.assertRaises(RuntimeError):
+            self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                                on_candidate=stop_after_journal)
+        (self.root / "keep.txt").write_text("unreviewed change\n", encoding="utf-8")
+        with self.assertRaisesRegex(APIError, "recorded publication candidate does not match"):
+            self.client.publish(self.root, self.base_sha, "symphony/issue-3", None, "T", "B", 3,
+                                candidate_sha=journal[-1])
+        self.assertNotIn("symphony/issue-3", self.fake.branches)
 
     def test_publish_uses_configured_base_branch_and_checks_pr_head(self):
         self.change_worktree()

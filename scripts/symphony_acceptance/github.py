@@ -308,6 +308,8 @@ class GitHub:
         title: str,
         body: str,
         issue_number: int,
+        candidate_sha: str | None = None,
+        on_candidate: Callable[[str], None] | None = None,
     ) -> dict[str, Any]:
         """Publish the base-relative worktree snapshot with guarded branch updates.
 
@@ -315,32 +317,23 @@ class GitHub:
         worktree change and untracked non-ignored file.  This remains correct
         when the caller has already checked out or synchronized an earlier
         candidate as local HEAD.
+
+        ``on_candidate`` must durably save the commit SHA before returning.
+        Retries may recognize an advanced ref only with that ``candidate_sha``;
+        matching contents and parents alone do not establish ownership.
         """
         base_sha = self._sha(base_sha)
         expected_head = self._sha(expected_head) if expected_head else None
+        candidate_sha = self._sha(candidate_sha) if candidate_sha else None
+        if on_candidate is not None and not callable(on_candidate):
+            raise ValueError("on_candidate must be callable")
         branch = self._validate_branch(branch)
-        root_path = Path(root).resolve()
-        if not root_path.is_dir():
-            raise APIError("publication root is not a directory")
-
-        base_commit = self.request("GET", f"{self._repo_api}/git/commits/{base_sha}")
-        try:
-            base_tree = base_commit["tree"]["sha"]
-        except (KeyError, TypeError):
-            raise APIError("GitHub returned an invalid base commit") from None
-        tree_entries = self._snapshot_tree(root_path, base_sha)
-        desired_tree = self.request("POST", f"{self._repo_api}/git/trees", {
-            "base_tree": base_tree,
-            "tree": tree_entries,
-        })
-        try:
-            desired_tree_sha = self._sha(desired_tree["sha"])
-        except (KeyError, TypeError):
-            raise APIError("GitHub returned an invalid candidate tree") from None
+        base_tree, desired_tree_sha = self._candidate_tree(root, base_sha)
 
         remote_head = self.branch_head(branch)
         if remote_head != expected_head:
-            if remote_head and self._matches_candidate(remote_head, desired_tree_sha, expected_head, base_sha):
+            if (remote_head and remote_head == candidate_sha
+                    and self._matches_candidate(remote_head, desired_tree_sha, expected_head, base_sha)):
                 published_head = remote_head
             else:
                 raise APIError("acceptance branch changed outside the recorded publication")
@@ -350,18 +343,20 @@ class GitHub:
                 current_commit = self.request("GET", f"{self._repo_api}/git/commits/{expected_head}")
                 current_tree = current_commit.get("tree", {}).get("sha") if isinstance(current_commit, dict) else None
                 base_is_ancestor = self._base_is_ancestor(base_sha, expected_head)
-                if current_tree == desired_tree_sha and base_is_ancestor:
+                if current_tree == desired_tree_sha and base_is_ancestor and candidate_sha is None:
                     published_head = expected_head
                 else:
                     published_head = self._create_commit_and_update(
-                        branch, expected_head, base_sha, desired_tree_sha, desired_parents, issue_number
+                        branch, expected_head, base_sha, desired_tree_sha, desired_parents, issue_number,
+                        candidate_sha, on_candidate,
                     )
             else:
                 base_tree_sha = base_tree
                 if desired_tree_sha == base_tree_sha:
                     raise APIError("candidate contains no changes from the base")
                 published_head = self._create_commit_and_update(
-                    branch, None, base_sha, desired_tree_sha, desired_parents, issue_number
+                    branch, None, base_sha, desired_tree_sha, desired_parents, issue_number,
+                    candidate_sha, on_candidate,
                 )
 
         pull = self._find_pull(branch, self.base_branch)
@@ -382,7 +377,17 @@ class GitHub:
             raise APIError("GitHub returned an invalid pull request") from None
         actual_head = pull.get("head", {}).get("sha") if isinstance(pull.get("head"), dict) else None
         if actual_head != published_head:
-            raise APIError("GitHub pull request head does not match the published candidate")
+            # The list endpoint may briefly lag a successful branch update.
+            # Read the exact PR once before letting the caller retry safely.
+            refreshed = self.pr(number)
+            head = refreshed.get("head") if isinstance(refreshed, dict) else None
+            actual_head = head.get("sha") if isinstance(head, dict) else None
+            if actual_head != published_head:
+                raise APIError(
+                    "GitHub pull request head does not match the published candidate",
+                    transient=self.branch_head(branch) == published_head,
+                )
+            url = str(refreshed.get("html_url") or url)
         return {
             "number": number,
             "head_sha": actual_head,
@@ -390,6 +395,56 @@ class GitHub:
             "url": url,
             "branch": branch,
         }
+
+    def matches_publication(
+        self,
+        root: str | os.PathLike[str],
+        base_sha: str,
+        branch: str,
+        expected_head: str | None,
+        candidate_sha: str | None = None,
+    ) -> bool:
+        """Recognize an already-published pending candidate without moving refs.
+
+        Only immutable blobs and trees may be created here. A journaled SHA,
+        the same snapshot, and exact parents are all required for ownership.
+        """
+        if candidate_sha is None:
+            return False
+        base_sha = self._sha(base_sha)
+        expected_head = self._sha(expected_head) if expected_head else None
+        candidate_sha = self._sha(candidate_sha)
+        branch = self._validate_branch(branch)
+        remote_head = self.branch_head(branch)
+        if not remote_head or remote_head == expected_head or remote_head != candidate_sha:
+            return False
+        _, desired_tree_sha = self._candidate_tree(root, base_sha)
+        return (
+            self._matches_candidate(remote_head, desired_tree_sha, expected_head, base_sha)
+            and self.branch_head(branch) == remote_head
+        )
+
+    def _candidate_tree(
+        self, root: str | os.PathLike[str], base_sha: str,
+    ) -> tuple[str, str]:
+        root_path = Path(root).resolve()
+        if not root_path.is_dir():
+            raise APIError("publication root is not a directory")
+        base_commit = self.request("GET", f"{self._repo_api}/git/commits/{base_sha}")
+        try:
+            base_tree = self._sha(base_commit["tree"]["sha"])
+        except (KeyError, TypeError):
+            raise APIError("GitHub returned an invalid base commit") from None
+        tree_entries = self._snapshot_tree(root_path, base_sha)
+        desired_tree = self.request("POST", f"{self._repo_api}/git/trees", {
+            "base_tree": base_tree,
+            "tree": tree_entries,
+        })
+        try:
+            desired_tree_sha = self._sha(desired_tree["sha"])
+        except (KeyError, TypeError):
+            raise APIError("GitHub returned an invalid candidate tree") from None
+        return base_tree, desired_tree_sha
 
     def _snapshot_tree(self, root: Path, base_sha: str) -> list[dict[str, Any]]:
         raw = self._git(root, "diff", "--raw", "-z", "--no-renames", "--no-ext-diff", base_sha, "--")
@@ -445,26 +500,40 @@ class GitHub:
         tree_sha: str,
         parents: list[str],
         issue_number: int,
+        candidate_sha: str | None,
+        on_candidate: Callable[[str], None] | None,
     ) -> str:
         # Recheck immediately before constructing the branch update.  GitHub's
         # non-force ref update remains the final race guard.
-        if self.branch_head(branch) != expected_head:
-            current = self.branch_head(branch)
-            if current and self._matches_candidate(current, tree_sha, expected_head, base_sha):
-                return current
-            raise APIError("acceptance branch changed before publication")
-        commit = self.request("POST", f"{self._repo_api}/git/commits", {
-            "message": f"Symphony acceptance for issue #{self._number(issue_number)}\n\nCandidate tree {tree_sha}",
-            "tree": tree_sha,
-            "parents": parents,
-        })
-        try:
-            commit_sha = self._sha(commit["sha"])
-        except (KeyError, TypeError):
-            raise APIError("GitHub returned an invalid commit") from None
         current = self.branch_head(branch)
         if current != expected_head:
-            if current and self._matches_candidate(current, tree_sha, expected_head, base_sha):
+            if (current and current == candidate_sha
+                    and self._matches_candidate(current, tree_sha, expected_head, base_sha)):
+                return current
+            raise APIError("acceptance branch changed before publication")
+        if candidate_sha is not None:
+            if not self._matches_candidate(candidate_sha, tree_sha, expected_head, base_sha):
+                raise APIError("recorded publication candidate does not match the worktree or parents")
+            commit_sha = candidate_sha
+        else:
+            commit = self.request("POST", f"{self._repo_api}/git/commits", {
+                "message": f"Symphony acceptance for issue #{self._number(issue_number)}\n\nCandidate tree {tree_sha}",
+                "tree": tree_sha,
+                "parents": parents,
+            })
+            try:
+                commit_sha = self._sha(commit["sha"])
+            except (KeyError, TypeError):
+                raise APIError("GitHub returned an invalid commit") from None
+        # The controller durably journals ownership here. Failure must escape
+        # before any mutable ref operation, leaving only an immutable commit.
+        if on_candidate is not None:
+            on_candidate(commit_sha)
+            candidate_sha = commit_sha
+        current = self.branch_head(branch)
+        if current != expected_head:
+            if (current and current == candidate_sha
+                    and self._matches_candidate(current, tree_sha, expected_head, base_sha)):
                 return current
             raise APIError("acceptance branch changed during publication")
 
@@ -493,8 +562,10 @@ class GitHub:
     ) -> bool:
         try:
             commit = self.request("GET", f"{self._repo_api}/git/commits/{self._sha(head_sha)}")
-        except APIError:
-            return False
+        except APIError as exc:
+            if exc.status == 404:
+                return False
+            raise
         if not isinstance(commit, dict) or commit.get("tree", {}).get("sha") != tree_sha:
             return False
         raw_parents = commit.get("parents", [])

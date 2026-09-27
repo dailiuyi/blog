@@ -59,9 +59,12 @@ class FakeGitHub:
     def notify(self, number, body, key):
         self.notifications[key] = body
 
-    def publish(self, root, base, branch, expected, title, body, issue):
+    def publish(self, root, base, branch, expected, title, body, issue, candidate_sha=None, on_candidate=None):
         self.publish_count += 1
-        self.head = f'{self.publish_count:040x}'
+        candidate_sha = candidate_sha or f'{self.publish_count:040x}'
+        if on_candidate:
+            on_candidate(candidate_sha)
+        self.head = candidate_sha
         return {'number': 99, 'head_sha': self.head, 'base_sha': base,
                 'url': 'https://github.com/example/repo/pull/99', 'branch': branch}
 
@@ -205,6 +208,29 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(self.github.publish_count, 2)
         self.assertEqual(state['pr']['number'], 99)
 
+    def test_candidate_sha_is_durable_before_ref_write_and_survives_restart(self):
+        publish = self.github.publish
+        store = StateStore(self.config['control_root'], self.config['repository'], 1)
+        def interrupted(*args, **kwargs):
+            callback = kwargs['on_candidate']
+            def persist(sha):
+                self.assertIsNone(self.github.head)
+                callback(sha)
+                self.assertEqual(store.load()['publication_intent']['candidate_sha'], sha)
+            kwargs['on_candidate'] = persist
+            publish(*args, **kwargs)
+            raise SystemExit('lost publish response')
+        self.github.publish = interrupted
+        with self.assertRaises(SystemExit):
+            self.run_task()
+        published = self.github.head
+        self.assertEqual(store.load()['publication_intent']['candidate_sha'], published)
+        self.github.publish = publish
+        recovered = self.run_task()
+        self.assertEqual(recovered['phase'], 'ready')
+        self.assertEqual(recovered['head_sha'], published)
+        self.assertIsNone(recovered['publication_intent'])
+
     def test_checks_and_review_share_three_repairs(self):
         self.scenario.codes = ['bad-0', 'good-1', 'bad-2', 'good-3']
         self.scenario.verdicts = ['rework', 'rework']
@@ -265,6 +291,67 @@ class ControllerTests(unittest.TestCase):
         state = StateStore(self.config['control_root'], self.config['repository'], 1).load()
         self.assertEqual(state['phase'], 'ready')
         self.assertEqual(state['processed_commands'], [])
+
+    def test_resume_reconciles_only_matching_pending_publication(self):
+        self.run_task()
+        store = StateStore(self.config['control_root'], self.config['repository'], 1)
+        state = store.load()
+        previous = state['head_sha']
+        source = fingerprint(self.root)
+        state.update(phase='blocked', resume_phase='publishing',
+                     publication_intent={'expected_head': previous, 'fingerprint': source, 'candidate_sha': 'd' * 40})
+        store.save(state)
+        self.github.head = 'd' * 40
+        matched = []
+        self.github.matches_publication = lambda *args: matched.append(args) or True
+        self.github.comment_list = [{'id': 42, 'body': '/symphony resume',
+                                    'user': {'login': 'owner', 'type': 'User'}}]
+        self.controller.watch_once()
+        resumed = store.load()
+        self.assertEqual(resumed['phase'], 'publishing')
+        self.assertEqual(resumed['head_sha'], 'd' * 40)
+        self.assertEqual(resumed['pr']['head_sha'], 'd' * 40)
+        self.assertEqual(resumed['publication_intent']['expected_head'], previous)
+        self.assertEqual(matched[0][-2:], (previous, 'd' * 40))
+        self.assertEqual(resumed['processed_commands'], [42])
+        self.assertEqual(self.github.publish_count, 1)
+        self.assertEqual(self.github.statuses[-1], ('d' * 40, 'pending'))
+
+    def test_resume_rejects_foreign_or_changed_pending_candidate(self):
+        self.run_task()
+        store = StateStore(self.config['control_root'], self.config['repository'], 1)
+        state = store.load()
+        state.update(phase='blocked', resume_phase='publishing',
+                     publication_intent={'expected_head': state['head_sha'], 'fingerprint': fingerprint(self.root),
+                                         'candidate_sha': 'd' * 40})
+        store.save(state)
+        self.github.head = 'd' * 40
+        self.github.matches_publication = lambda *args: False
+        self.github.comment_list = [{'id': 42, 'body': '/symphony resume',
+                                    'user': {'login': 'owner', 'type': 'User'}}]
+        self.controller.watch_once()
+        self.assertEqual(store.load()['phase'], 'blocked')
+        self.assertEqual(store.load()['processed_commands'], [])
+        (self.root / 'value.txt').write_text('changed after checks')
+        self.github.matches_publication = lambda *args: self.fail('changed source must not reach reconciliation')
+        self.controller.watch_once()
+        self.assertEqual(store.load()['phase'], 'blocked')
+        self.assertEqual(store.load()['processed_commands'], [])
+
+    def test_resume_without_exact_candidate_journal_does_not_adopt_remote_head(self):
+        self.run_task()
+        store = StateStore(self.config['control_root'], self.config['repository'], 1)
+        state = store.load()
+        state.update(phase='blocked', resume_phase='publishing',
+                     publication_intent={'expected_head': state['head_sha'], 'fingerprint': fingerprint(self.root)})
+        store.save(state)
+        self.github.head = 'd' * 40
+        self.github.matches_publication = lambda *args: self.fail('missing SHA must fail closed')
+        self.github.comment_list = [{'id': 42, 'body': '/symphony resume',
+                                    'user': {'login': 'owner', 'type': 'User'}}]
+        self.controller.watch_once()
+        self.assertEqual(store.load()['phase'], 'blocked')
+        self.assertEqual(store.load()['processed_commands'], [])
 
     def test_changed_plan_requires_operator_registration(self):
         self.github.body = self.github.body.replace('The value is correct.', 'A different requirement.')

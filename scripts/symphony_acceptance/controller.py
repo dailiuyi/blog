@@ -444,15 +444,21 @@ class Controller:
         if self.github.base(self.config.get('base_branch', 'main')) != state['base_sha']:
             self.sync_base()
             return
-        # Persist intention before making any remote write. Retry reconciles the target tree.
+        # Persist intention, then the exact candidate SHA before moving any ref.
         if not state.get('publication_intent'):
             self.save(publication_intent={'expected_head': state.get('head_sha'), 'fingerprint': current})
         intent = state['publication_intent']
         if current != intent['fingerprint']:
             raise PipelineError('publication_source_changed')
+        def record_candidate(sha):
+            if intent.get('candidate_sha') and intent['candidate_sha'] != sha:
+                raise PipelineError('publication_candidate_changed')
+            intent['candidate_sha'] = sha
+            self.save(publication_intent=intent)
         pr = self.retry(lambda: self.github.publish(
             state['workspace'], state['base_sha'], state['branch'], intent['expected_head'],
-            state['plan']['title'], self.summary(), state['issue']))
+            state['plan']['title'], self.summary(), state['issue'],
+            candidate_sha=intent.get('candidate_sha'), on_candidate=record_candidate))
         if current != fingerprint(state['workspace']):
             raise PipelineError('source_changed_during_publication')
         self.save(pr=pr, head_sha=pr['head_sha'], publication_intent=None)
@@ -606,8 +612,27 @@ class Controller:
             return False  # Leave it unconsumed until the current run finishes.
         route = self.preflight(state, self.github.issue(state['issue']))
         self.validate_models(route, state.get('workspace', self.config['workspace_root']))
-        if state.get('head_sha') and self.github.branch_head(state['branch']) != state['head_sha']:
-            raise PipelineError('remote_head_changed')
+        recovered_head = None
+        if state.get('head_sha'):
+            remote_head = self.github.branch_head(state['branch'])
+            if remote_head != state['head_sha']:
+                intent = state.get('publication_intent') or {}
+                source = intent.get('fingerprint')
+                if (parsed['action'] != 'resume' or state.get('resume_phase') != 'publishing' or
+                        intent.get('expected_head') != state['head_sha'] or not source or
+                        intent.get('candidate_sha') != remote_head or
+                        (state.get('checks') or {}).get('status') != 'passed' or
+                        (state.get('checks') or {}).get('fingerprint_after') != source or
+                        fingerprint(state['workspace']) != source):
+                    raise PipelineError('remote_head_changed')
+                assert_scope(state['workspace'], state['plan'], self.config, state['base_sha'])
+                if (not self.retry(lambda: self.github.matches_publication(
+                        state['workspace'], state['base_sha'], state['branch'], intent['expected_head'],
+                        intent['candidate_sha'])) or
+                        fingerprint(state['workspace']) != source or
+                        self.github.branch_head(state['branch']) != remote_head):
+                    raise PipelineError('remote_head_changed')
+                recovered_head = remote_head
         store.evidence('history-' + state['run_id'] + '.json', state)
         state.setdefault('history', []).append({'run_id': state['run_id'], 'phase': state['phase']})
         state.setdefault('processed_commands', []).append(parsed['id'])
@@ -625,6 +650,10 @@ class Controller:
                      feedback=(parsed.get('reason') or state.get('feedback') or 'Resume after resolving the blocker.'),
                      enqueue_pending=True, delivery_pending=False, agent_blocker='', ci=None,
                      human_requests=human_requests)
+        if recovered_head:
+            state['head_sha'] = recovered_head
+            if state.get('pr'):
+                state['pr'] = dict(state['pr'], head_sha=recovered_head)
         store.save(state)  # Durable command consumption precedes all remote writes.
         if state.get('pr'):
             self.github.draft(state['pr']['number'], True)
