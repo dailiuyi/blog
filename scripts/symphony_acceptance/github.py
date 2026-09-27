@@ -687,6 +687,8 @@ class GitHub:
         try:
             completed = subprocess.run(
                 ["git", "-C", str(root), *args],
+                env={k: v for k, v in os.environ.items()
+                     if k not in {"GITHUB_TOKEN", "GH_TOKEN", "SYMPHONY_ACCEPTANCE_GITHUB_TOKEN", "DEEPSEEK_API_KEY"}},
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 check=False,

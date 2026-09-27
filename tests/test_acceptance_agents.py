@@ -46,6 +46,7 @@ for line in sys.stdin:
         emit({"id": request_id, "result": {"userAgent": "fake"}})
         emit({"method": "fake/env", "params": {
             "github": bool(os.environ.get("GITHUB_TOKEN")),
+            "symphony_alias": bool(os.environ.get("SYMPHONY_ACCEPTANCE_GITHUB_TOKEN")),
             "gh": bool(os.environ.get("GH_TOKEN")),
             "deepseek": bool(os.environ.get("DEEPSEEK_API_KEY")),
             "openai": bool(os.environ.get("OPENAI_API_KEY")),
@@ -70,6 +71,13 @@ for line in sys.stdin:
         if mode == "failed_turn":
             emit({"id": request_id, "error": {"code": -32001,
                                                    "message": "hidden details ghp_supersecretvalue"}})
+        elif mode == "failed_completion":
+            emit({"id": request_id, "result": {"turn": {
+                "id": "turn-1", "status": "inProgress", "items": []}}})
+            emit({"method": "turn/completed", "params": {"turn": {
+                "id": "turn-1", "status": "failed", "items": [],
+                "error": {"code": -32002,
+                          "message": "final turn failure ghp_supersecretvalue  "}}}})
         elif mode == "eof_turn":
             os._exit(0)
         elif mode == "timeout_turn":
@@ -118,6 +126,7 @@ class CodexSessionTests(unittest.TestCase):
             "FAKE_MODE": mode,
             "FAKE_LOG": str(self.log_path),
             "GITHUB_TOKEN": "ghp_supersecretvalue",
+            "SYMPHONY_ACCEPTANCE_GITHUB_TOKEN": "ghp_supersecretvalue",
             "GH_TOKEN": "github-secret-value",
             "DEEPSEEK_API_KEY": "sk-deepseek-secretvalue",
             "OPENAI_API_KEY": "sk-openai-secretvalue",
@@ -165,6 +174,7 @@ class CodexSessionTests(unittest.TestCase):
         self.assertEqual(thread["params"]["approvalPolicy"], "never")
         self.assertEqual(thread["params"]["sandbox"], "workspace-write")
         self.assertFalse(thread["params"]["config"]["features.apps"])
+        self.assertIn("CODEX_HOME", thread["params"]["config"]["shell_environment_policy.exclude"])
         turn = next(entry for entry in self.read_log() if entry.get("method") == "turn/start")
         self.assertEqual(turn["params"]["model"], "gpt-6-astra")
         self.assertEqual(turn["params"]["effort"], "low")
@@ -173,7 +183,10 @@ class CodexSessionTests(unittest.TestCase):
         self.assertEqual(turn["params"]["sandboxPolicy"]["type"], "workspaceWrite")
         self.assertEqual(turn["params"]["sandboxPolicy"]["writableRoots"], [str(self.cwd.resolve())])
         env_event = next(params for method, params in events if method == "fake/env")
-        self.assertEqual(env_event, {"github": False, "gh": False, "deepseek": False, "openai": False})
+        self.assertEqual(env_event, {
+            "github": False, "symphony_alias": False, "gh": False,
+            "deepseek": False, "openai": False,
+        })
         self.assertIn("item/agentMessage/delta", [method for method, _ in events])
         self.assertIn("turn/completed", [method for method, _ in events])
 
@@ -287,6 +300,14 @@ class CodexSessionTests(unittest.TestCase):
                 session.turn("exit")
         self.assertEqual(caught.exception.reason, "app_server_eof")
         self.assertTrue(caught.exception.transient)
+
+        with self.make_session("failed_completion") as session:
+            with self.assertRaises(AgentError) as caught:
+                session.turn("completed with failure")
+        self.assertEqual(caught.exception.reason, "turn_failed")
+        self.assertEqual(caught.exception.diagnostic,
+                         "-32002: final turn failure [redacted-github-token]")
+        self.assertNotIn("ghp_supersecretvalue", caught.exception.diagnostic)
 
     def test_approval_and_dynamic_tool_requests_are_refused(self) -> None:
         with self.make_session("approval") as session:

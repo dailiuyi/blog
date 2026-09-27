@@ -359,12 +359,13 @@ class CoreTests(unittest.TestCase):
             sandbox_config = profile_config(
                 sandbox_command=[sys.executable, str(wrapper), "{root}", "{cwd}"],
                 checks={"portable": {
-                    "command": [sys.executable, "-c", "import os; print(os.getcwd()); print(bool(os.getenv('GITHUB_TOKEN') or os.getenv('DEEPSEEK_API_KEY') or os.getenv('CUSTOM_TOKEN'))); print(os.getenv('ASTRO_TELEMETRY_DISABLED'))"],
+                    "command": [sys.executable, "-c", "import os; print(os.getcwd()); print(bool(os.getenv('GITHUB_TOKEN') or os.getenv('DEEPSEEK_API_KEY') or os.getenv('CUSTOM_TOKEN') or os.getenv('SYMPHONY_ACCEPTANCE_GITHUB_TOKEN'))); print(os.getenv('ASTRO_TELEMETRY_DISABLED'))"],
                     "cwd": "stats", "timeout_seconds": 5,
                 }},
             )
             with mock.patch.dict(os.environ, {
                 "GITHUB_TOKEN": "test-gh-secret", "DEEPSEEK_API_KEY": "test-provider-secret", "CUSTOM_TOKEN": "test-token",
+                "SYMPHONY_ACCEPTANCE_GITHUB_TOKEN": "test-controller-token",
             }):
                 sandboxed = run_checks(root, validate_plan(valid_plan(), sandbox_config), sandbox_config, evidence / "sandbox")
             self.assertEqual(sandboxed["status"], "passed")

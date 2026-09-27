@@ -21,6 +21,8 @@ GitHub 凭据只留在控制器侧；编码和验收子进程剥离凭据。检�
 
 安装后可通过 `scripts/start_symphony_acceptance.sh` 同时运行 runner 与监听器。设置 `SYMPHONY_BINARY` 为现有原生 Symphony 可执行文件路径，并通过标准输入传入 GitHub token；脚本不把 token 写入文件。Windows 的既有启动器可以把 `gh auth token` 输出直接管道传入 WSL 脚本。日志和 PID 文件位于外部安装目录。
 
+Symphony 会从 codex.command 环境中移除 tracker 的 GitHub 凭据。启动脚本为可信控制器保留专用的 SYMPHONY_ACCEPTANCE_GITHUB_TOKEN 别名；编码、验收、检查和 Git 子进程均剥离该变量。缺少控制器凭据时直接报阻塞，不尝试匿名发布。
+
 仓库配置的 `denied_read_paths` 禁止工具读取控制器记录和凭据目录；编码、验收会话均关闭工具网络访问。检查命令允许依赖下载，但同样拒绝读取这些目录。新的仓库配置应按所在主机更新路径。明确的临时网络错误最多重试两次，每次保留日志；源码变化会立即阻塞，重试不会消耗代码返工额度。
 
 `agent_denied_read_paths` 可单独配置模型会话的额外拒绝目录，未设置时沿用 `denied_read_paths`。模型会话本身默认拒绝整个文件系统，只开放系统工具、Codex 可执行文件和当前工作区；`.git` 始终只读。博客在 WSL 中使用这一默认拒绝规则隔离 Windows 挂载目录，避免 Codex 0.154 对这些目录重复设置拒绝规则时发生 bwrap 挂载错误；检查命令继续使用完整的显式拒绝列表。

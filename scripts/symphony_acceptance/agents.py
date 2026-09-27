@@ -317,7 +317,7 @@ class CodexSession:
         text = error.get("message")
         detail = (str(code) + ": " if code is not None else "")
         if isinstance(text, str):
-            detail += text[:1024]
+            detail += text[:1024].strip()
         return detail
 
     def _child_environment(self) -> dict[str, str]:
@@ -567,7 +567,10 @@ class CodexSession:
             "features.multi_agent": False,
             "features.web_search_request": False,
             "shell_environment_policy.ignore_default_excludes": False,
-            "shell_environment_policy.exclude": ["*KEY*", "*TOKEN*", "*SECRET*", "*PASSWORD*", "*CREDENTIAL*"],
+            "shell_environment_policy.exclude": [
+                "*KEY*", "*TOKEN*", "*SECRET*", "*PASSWORD*", "*CREDENTIAL*",
+                "CODEX_HOME",
+            ],
         }
         if self._permission_profile and not self._profile_cli_active:
             filesystem: dict[str, Any] = {
@@ -730,7 +733,10 @@ class CodexSession:
             if completed_turn.get("id") != turn_id:
                 raise self._error("turn_completion_id_mismatch")
             if completed_turn.get("status") != "completed":
-                raise self._error("turn_" + str(completed_turn.get("status", "failed")))
+                raise self._error(
+                    "turn_" + str(completed_turn.get("status", "failed")),
+                    diagnostic=self._rpc_diagnostic(completed_turn.get("error")),
+                )
 
             # item/completed is authoritative. Prefer the explicitly final
             # answer phase; never return a streamed delta or commentary item.

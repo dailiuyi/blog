@@ -7,12 +7,13 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from symphony_acceptance.controller import Controller, git
-from symphony_acceptance.core import StateStore, fingerprint
+from symphony_acceptance.core import StateStore, fingerprint, PipelineError, _git as core_git
 from symphony_acceptance.agents import AgentError
-from symphony_acceptance.github import APIError
+from symphony_acceptance.github import APIError, GitHub
 
 
 class FakeGitHub:
@@ -130,6 +131,22 @@ class TestController(Controller):
 
 
 class ControllerTests(unittest.TestCase):
+    def test_controller_alias_survives_tracker_filter_but_not_git_children(self):
+        with mock.patch.dict(os.environ, {'SYMPHONY_ACCEPTANCE_GITHUB_TOKEN': 'test-only-token'}, clear=True):
+            controller = Controller({'repository': 'o/r'})
+            self.assertEqual(controller.github.token, 'test-only-token')
+            with mock.patch('symphony_acceptance.controller.subprocess.run') as run:
+                run.return_value.returncode = 0
+                git('.', 'status')
+                self.assertNotIn('SYMPHONY_ACCEPTANCE_GITHUB_TOKEN', run.call_args.kwargs['env'])
+                core_git(Path('.'), ['status'])
+                self.assertNotIn('SYMPHONY_ACCEPTANCE_GITHUB_TOKEN', run.call_args.kwargs['env'])
+                GitHub._git(Path('.'), 'status')
+                self.assertNotIn('SYMPHONY_ACCEPTANCE_GITHUB_TOKEN', run.call_args.kwargs['env'])
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with self.assertRaisesRegex(PipelineError, 'github_credentials_missing'):
+                Controller({'repository': 'o/r'})
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

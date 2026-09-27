@@ -30,7 +30,7 @@ def now():
 
 def git(root, *args, check=True):
     env = {k: v for k, v in os.environ.items()
-           if k not in {'GITHUB_TOKEN', 'GH_TOKEN', 'DEEPSEEK_API_KEY'}}
+           if k not in {'GITHUB_TOKEN', 'GH_TOKEN', 'SYMPHONY_ACCEPTANCE_GITHUB_TOKEN', 'DEEPSEEK_API_KEY'}}
     result = subprocess.run(['git', '-C', str(root), *args], env=env,
                             capture_output=True, text=True, timeout=120)
     if check and result.returncode:
@@ -88,8 +88,12 @@ class Controller:
                  check_runner=run_checks, preparer=prepare_checks,
                  sleep=time.sleep, progress=None):
         self.config = config
+        token = (os.environ.get('SYMPHONY_ACCEPTANCE_GITHUB_TOKEN') or
+                 os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN'))
+        if github is None and not token:
+            raise PipelineError('github_credentials_missing')
         self.github = github or GitHub(config['repository'],
-                                       token=os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN'),
+                                       token=token,
                                        base_branch=config.get('base_branch', 'main'))
         self.agent_factory = agent_factory
         self.check_runner = check_runner
@@ -463,6 +467,9 @@ class Controller:
         root.parent.mkdir(parents=True, exist_ok=True)
         git(root.parent, 'clone', '--no-checkout', '--filter=blob:none',
             'https://github.com/' + self.config['repository'] + '.git', str(root))
+        # Match the coding checkout's Git normalization before materializing
+        # the exact commit (the blog font build copies a CRLF license).
+        git(root, 'config', '--local', 'core.autocrlf', 'input')
         git(root, 'fetch', 'origin', state['branch'])
         git(root, 'checkout', '--detach', state['head_sha'])
         if git(root, 'rev-parse', 'HEAD').stdout.strip() != state['head_sha']:
@@ -584,6 +591,10 @@ class Controller:
                         raise PipelineError('unknown_phase')
                 return self.state
             except (PipelineError, AgentError, APIError, OSError, subprocess.TimeoutExpired) as exc:
+                if isinstance(exc, AgentError):
+                    self.store.evidence(self.state['run_id'] + '-agent-error-' + uuid4().hex + '.json',
+                                        {'reason': exc.reason, 'diagnostic': exc.diagnostic,
+                                         'stderr': exc.stderr_evidence})
                 return self.block(str(exc))
 
     def command(self, store, state, comment):

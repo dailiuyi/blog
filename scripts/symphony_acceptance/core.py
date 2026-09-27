@@ -482,6 +482,8 @@ def _git(root: Path, args: list[str], *, input_data: bytes | None = None) -> sub
     try:
         result = subprocess.run(
             ["git", "-C", str(root), *args],
+            env={k: v for k, v in os.environ.items()
+                 if k not in {"GITHUB_TOKEN", "GH_TOKEN", "SYMPHONY_ACCEPTANCE_GITHUB_TOKEN", "DEEPSEEK_API_KEY"}},
             input=input_data,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,

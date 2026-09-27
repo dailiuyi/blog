@@ -5,6 +5,9 @@ IFS= read -r GITHUB_TOKEN
 GITHUB_TOKEN=${GITHUB_TOKEN%$'\r'}
 test -n "$GITHUB_TOKEN"
 export GITHUB_TOKEN
+# Symphony strips tracker credentials before codex.command. This command runs
+# the trusted controller; its agent/check filters remove this dedicated alias.
+export SYMPHONY_ACCEPTANCE_GITHUB_TOKEN="$GITHUB_TOKEN"
 acceptance_home="$HOME/.local/symphony-acceptance"
 export PATH="$HOME/.local/symphony-bin:$PATH"
 export PYTHONPATH="$acceptance_home/current/scripts"
