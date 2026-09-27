@@ -1,0 +1,31 @@
+{
+  "repository": "dailiuyi/blog",
+  "base_branch": "main",
+  "branch_prefix": "codex/acceptance-",
+  "control_root": "$HOME/.local/symphony-acceptance/state",
+  "workspace_root": "$HOME/.local/symphony-workspaces-blog",
+  "allowed_users": ["dailiuyi"],
+  "max_repairs": 3,
+  "poll_seconds": 30,
+  "agent_timeout_seconds": 1800,
+  "ci_timeout_seconds": 1800,
+  "sandbox_profile": "acceptance-check",
+  "denied_read_paths": ["$HOME/.local/symphony-acceptance", "$HOME/.local/symphony-codex-home", "$HOME/.codex", "$HOME/.config", "$HOME/.ssh", "/mnt/c/Users/emla", "/mnt/e"],
+  "agent_denied_read_paths": ["$HOME/.local/symphony-acceptance", "$HOME/.local/symphony-codex-home", "$HOME/.codex", "$HOME/.config", "$HOME/.ssh"],
+  "coder": {"model": "gpt-6-astra", "effort": "low"},
+  "reviewer": {"model": "gpt-6-astra", "effort": "high"},
+  "coding_command": ["python3", "$HOME/.local/symphony-acceptance/current/scripts/symphony_codex_adapter.py", "--deepseek-key-file", "/mnt/e/code/java/innovation-ar-resource-platform/.local/symphony/secrets/deepseek-api-key", "--", "codex", "app-server"],
+  "reviewer_command": ["codex", "app-server"],
+  "sandbox_command": ["codex", "sandbox", "-P", "acceptance-check", "-c", "permissions.acceptance-check.extends=\":workspace\"", "-c", "permissions.acceptance-check.network.enabled=true", "-C", "{root}", "--", "env", "-C", "{cwd}"],
+  "protected_paths": [".git/**", ".local/**", "WORKFLOW.md", "AGENTS.md", "config/symphony-*.json", "scripts/symphony_acceptance/**", "scripts/install_symphony_acceptance.py", "scripts/start_symphony_acceptance.sh", "scripts/symphony_codex_adapter.py", "scripts/symphony_deepseek_proxy.py", "scripts/workflow_verify.mjs", ".github/workflows/**"],
+  "required_checks": ["site", "stats", "release"],
+  "required_ci": ["Build"],
+  "conditional_checks": [{"paths": ["src/lib/motion-math.ts", "src/lib/site-motion.ts", "src/components/common/MotionDirector.astro", "scripts/test-motion.mjs"], "checks": ["motion"]}],
+  "prepare": [{"command": ["npm", "ci", "--prefer-offline", "--no-audit", "--no-fund"], "cwd": ".", "timeout_seconds": 600}],
+  "checks": {
+    "site": {"command": ["npm", "run", "build"], "cwd": ".", "timeout_seconds": 900, "artifacts": ["dist/index.html", "dist/robots.txt", "dist/rss.xml"]},
+    "stats": {"command": ["go", "test", "./..."], "cwd": "stats", "timeout_seconds": 180},
+    "release": {"command": ["bash", "scripts/test-deploy-release.sh"], "cwd": ".", "timeout_seconds": 120},
+    "motion": {"command": ["node", "--test", "scripts/test-motion.mjs"], "cwd": ".", "timeout_seconds": 120}
+  }
+}

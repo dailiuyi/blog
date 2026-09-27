@@ -4,3 +4,5 @@ dist/
 logs/
 public/media/music/**/*.mp3
 .local/
+__pycache__/
+*.pyc
