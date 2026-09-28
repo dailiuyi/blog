@@ -1,0 +1,678 @@
+{
+  "head_sha": "67f7dd118167979b17ba714411d5ec07500c83be",
+  "source": "candidate_build",
+  "generated_at": "2026-09-28T05:43:29.659Z",
+  "pages": [
+    {
+      "path": "/about/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "保留个人介绍",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "保留作品锚点链接",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击作品锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "作品区域进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "保留页尾引导标识",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "保留页尾标题",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "保留页尾说明文案",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "保留页尾署名",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留署名附文",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留GitHub外链地址",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留文章链接地址",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "保留RSS订阅地址",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "求职文案所在第三段已删除",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "页尾不留下空段落",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "鼠标切换Summer主题",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "确认Summer环境",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "确认浅色主题",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer页尾修改区域、保留文案及链接布局",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "聚焦Night主题按钮",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "键盘Enter切换Night主题",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "确认Night环境",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "确认Night按钮已选中",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night页尾修改区域、保留文案及链接布局",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "保留个人介绍",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "保留作品锚点链接",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击作品锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "作品区域进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "保留页尾引导标识",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "保留页尾标题",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "保留页尾说明文案",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "保留页尾署名",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留署名附文",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留GitHub外链地址",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留文章链接地址",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "保留RSS订阅地址",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "求职文案所在第三段已删除",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "页尾不留下空段落",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "鼠标切换Summer主题",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "确认Summer环境",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "确认浅色主题",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer页尾修改区域、保留文案及链接布局",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "聚焦Night主题按钮",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "键盘Enter切换Night主题",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "确认Night环境",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "确认Night按钮已选中",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night页尾修改区域、保留文案及链接布局",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "保留个人介绍",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "保留作品锚点链接",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击作品锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "作品区域进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "保留页尾引导标识",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "保留页尾标题",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "保留页尾说明文案",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "保留页尾署名",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留署名附文",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留GitHub外链地址",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留文章链接地址",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "保留RSS订阅地址",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "求职文案所在第三段已删除",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "页尾不留下空段落",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "鼠标切换Summer主题",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "确认Summer环境",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "确认浅色主题",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer页尾修改区域、保留文案及链接布局",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "聚焦Night主题按钮",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "键盘Enter切换Night主题",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "确认Night环境",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "确认Night按钮已选中",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night页尾修改区域、保留文案及链接布局",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/about/",
+      "width": 1440,
+      "file": "page-0-1440.png",
+      "sha256": "0d5285a1935e0ed343f61ac3e95aafe7b6034a5fbc50b8ecf0818a1d29e8e994"
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "step_index": 17,
+      "label": "Summer页尾修改区域、保留文案及链接布局",
+      "selector": ".personal-footer",
+      "file": "page-0-1440-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1872,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 406.22,
+          "right": 1280,
+          "bottom": 655.78,
+          "left": 160,
+          "width": 1120,
+          "height": 249.56
+        }
+      },
+      "sha256": "620be9723be06f2ef18ae5e451a96eef7df857f22430769915a45921b543e1ff"
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "step_index": 23,
+      "label": "Night页尾修改区域、保留文案及链接布局",
+      "selector": ".personal-footer",
+      "file": "page-0-1440-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 46)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1872,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 406.22,
+          "right": 1280,
+          "bottom": 655.78,
+          "left": 160,
+          "width": 1120,
+          "height": 249.56
+        }
+      },
+      "sha256": "46d8a05a64b794177819e0bc3b4e5df291f845aa40138c1dfbac51c2f15083c3"
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "file": "page-0-390.png",
+      "sha256": "0f7d52aed920a3d1317040d36d5871022899c56fc420c12025d35bb4b96ec3d0"
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "step_index": 17,
+      "label": "Summer页尾修改区域、保留文案及链接布局",
+      "selector": ".personal-footer",
+      "file": "page-0-390-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2584,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 227.06,
+          "right": 370,
+          "bottom": 615.41,
+          "left": 20,
+          "width": 350,
+          "height": 388.34
+        }
+      },
+      "sha256": "7f308c7b4e101e2cf8c2db3aba7b3d570817be61296c6a1b92046b8a74537708"
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "step_index": 23,
+      "label": "Night页尾修改区域、保留文案及链接布局",
+      "selector": ".personal-footer",
+      "file": "page-0-390-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(224, 226, 224)",
+        "text_color": "rgb(44, 44, 44)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2581,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 230.06,
+          "right": 370,
+          "bottom": 618.41,
+          "left": 20,
+          "width": 350,
+          "height": 388.34
+        }
+      },
+      "sha256": "d252569390c8169f302aacf1d59b3f712481fcab5ec97bd562f0df3c7197b1a1"
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "file": "page-0-320.png",
+      "sha256": "db9bbfb6582313121c522295f89cb68c986593dc5cbf626e5d404a360879af9e"
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "step_index": 17,
+      "label": "Summer页尾修改区域、保留文案及链接布局",
+      "selector": ".personal-footer",
+      "file": "page-0-320-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2758,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 227.75,
+          "right": 300,
+          "bottom": 616.09,
+          "left": 20,
+          "width": 280,
+          "height": 388.34
+        }
+      },
+      "sha256": "5cfd31fb6e8e1e396fbf1786b936d3cce69846cfb57bb7df442f2b36ccbff340"
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "step_index": 23,
+      "label": "Night页尾修改区域、保留文案及链接布局",
+      "selector": ".personal-footer",
+      "file": "page-0-320-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 45)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2750,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 235.75,
+          "right": 300,
+          "bottom": 624.09,
+          "left": 20,
+          "width": 280,
+          "height": 388.34
+        }
+      },
+      "sha256": "61fe7025c80591f04807a065efbac6ee711f62983c9938f7a42331cea234dcdb"
+    }
+  ],
+  "status": "passed",
+  "candidate_sha": "67f7dd118167979b17ba714411d5ec07500c83be",
+  "issue": 23
+}
