@@ -1,0 +1,216 @@
+{
+  "generated_at": "2026-09-28T03:55:23.106Z",
+  "head_sha": "04feef35f323fc82f560834ab2148d5603c16e23",
+  "pages": [
+    {
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "介绍段落、换行及空容器已移除",
+          "passed": true
+        },
+        {
+          "label": "保留首屏姓名标题",
+          "passed": true
+        },
+        {
+          "label": "保留四个个人方向标签",
+          "passed": true
+        },
+        {
+          "label": "新链接文案及作品锚点正确",
+          "passed": true
+        },
+        {
+          "label": "保留向下箭头并标记为装饰",
+          "passed": true
+        },
+        {
+          "label": "唱片保留音乐页入口和无障碍名称",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击最近在做的",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击后作品区进入视口",
+          "passed": true
+        },
+        {
+          "label": "聚焦首屏作品锚点链接",
+          "passed": true
+        },
+        {
+          "label": "键盘回车激活作品锚点",
+          "passed": true
+        },
+        {
+          "label": "回车后作品区进入视口",
+          "passed": true
+        },
+        {
+          "label": "作品区标题、三个作品及原有入口保留",
+          "passed": true
+        }
+      ],
+      "path": "/about/",
+      "width": 1440
+    },
+    {
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "介绍段落、换行及空容器已移除",
+          "passed": true
+        },
+        {
+          "label": "保留首屏姓名标题",
+          "passed": true
+        },
+        {
+          "label": "保留四个个人方向标签",
+          "passed": true
+        },
+        {
+          "label": "新链接文案及作品锚点正确",
+          "passed": true
+        },
+        {
+          "label": "保留向下箭头并标记为装饰",
+          "passed": true
+        },
+        {
+          "label": "唱片保留音乐页入口和无障碍名称",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击最近在做的",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击后作品区进入视口",
+          "passed": true
+        },
+        {
+          "label": "聚焦首屏作品锚点链接",
+          "passed": true
+        },
+        {
+          "label": "键盘回车激活作品锚点",
+          "passed": true
+        },
+        {
+          "label": "回车后作品区进入视口",
+          "passed": true
+        },
+        {
+          "label": "作品区标题、三个作品及原有入口保留",
+          "passed": true
+        }
+      ],
+      "path": "/about/",
+      "width": 390
+    },
+    {
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "介绍段落、换行及空容器已移除",
+          "passed": true
+        },
+        {
+          "label": "保留首屏姓名标题",
+          "passed": true
+        },
+        {
+          "label": "保留四个个人方向标签",
+          "passed": true
+        },
+        {
+          "label": "新链接文案及作品锚点正确",
+          "passed": true
+        },
+        {
+          "label": "保留向下箭头并标记为装饰",
+          "passed": true
+        },
+        {
+          "label": "唱片保留音乐页入口和无障碍名称",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击最近在做的",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击后作品区进入视口",
+          "passed": true
+        },
+        {
+          "label": "聚焦首屏作品锚点链接",
+          "passed": true
+        },
+        {
+          "label": "键盘回车激活作品锚点",
+          "passed": true
+        },
+        {
+          "label": "回车后作品区进入视口",
+          "passed": true
+        },
+        {
+          "label": "作品区标题、三个作品及原有入口保留",
+          "passed": true
+        }
+      ],
+      "path": "/about/",
+      "width": 320
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "page-0-1440.png",
+      "path": "/about/",
+      "sha256": "0d5285a1935e0ed343f61ac3e95aafe7b6034a5fbc50b8ecf0818a1d29e8e994",
+      "width": 1440
+    },
+    {
+      "file": "page-0-390.png",
+      "path": "/about/",
+      "sha256": "0f7d52aed920a3d1317040d36d5871022899c56fc420c12025d35bb4b96ec3d0",
+      "width": 390
+    },
+    {
+      "file": "page-0-320.png",
+      "path": "/about/",
+      "sha256": "83096a7e9bbaa2922059b309c16d7a3252b13ea798a726f453edd4be03eab5a5",
+      "width": 320
+    }
+  ],
+  "source": "candidate_build",
+  "status": "passed",
+  "candidate_sha": "04feef35f323fc82f560834ab2148d5603c16e23",
+  "issue": 21
+}
