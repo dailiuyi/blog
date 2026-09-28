@@ -1,0 +1,216 @@
+{
+  "head_sha": "67f7dd118167979b17ba714411d5ec07500c83be",
+  "source": "candidate_build",
+  "generated_at": "2026-09-28T04:44:31.466Z",
+  "pages": [
+    {
+      "path": "/about/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer 主题",
+          "passed": true
+        },
+        {
+          "label": "Summer 下保留页尾说明",
+          "passed": true
+        },
+        {
+          "label": "求职段落及空段落不存在",
+          "passed": true
+        },
+        {
+          "label": "保留页尾标题",
+          "passed": true
+        },
+        {
+          "label": "保留 GitHub 外链地址",
+          "passed": true
+        },
+        {
+          "label": "保留文章链接地址",
+          "passed": true
+        },
+        {
+          "label": "保留 RSS 链接地址",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击最近作品锚点",
+          "passed": true
+        },
+        {
+          "label": "作品锚点正确且目标进入视口",
+          "passed": true
+        },
+        {
+          "label": "聚焦 Night 主题按钮",
+          "passed": true
+        },
+        {
+          "label": "键盘 Enter 切换 Night",
+          "passed": true
+        },
+        {
+          "label": "Night 下页尾正常显示",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer 主题",
+          "passed": true
+        },
+        {
+          "label": "Summer 下保留页尾说明",
+          "passed": true
+        },
+        {
+          "label": "求职段落及空段落不存在",
+          "passed": true
+        },
+        {
+          "label": "保留页尾标题",
+          "passed": true
+        },
+        {
+          "label": "保留 GitHub 外链地址",
+          "passed": true
+        },
+        {
+          "label": "保留文章链接地址",
+          "passed": true
+        },
+        {
+          "label": "保留 RSS 链接地址",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击最近作品锚点",
+          "passed": true
+        },
+        {
+          "label": "作品锚点正确且目标进入视口",
+          "passed": true
+        },
+        {
+          "label": "聚焦 Night 主题按钮",
+          "passed": true
+        },
+        {
+          "label": "键盘 Enter 切换 Night",
+          "passed": true
+        },
+        {
+          "label": "Night 下页尾正常显示",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer 主题",
+          "passed": true
+        },
+        {
+          "label": "Summer 下保留页尾说明",
+          "passed": true
+        },
+        {
+          "label": "求职段落及空段落不存在",
+          "passed": true
+        },
+        {
+          "label": "保留页尾标题",
+          "passed": true
+        },
+        {
+          "label": "保留 GitHub 外链地址",
+          "passed": true
+        },
+        {
+          "label": "保留文章链接地址",
+          "passed": true
+        },
+        {
+          "label": "保留 RSS 链接地址",
+          "passed": true
+        },
+        {
+          "label": "鼠标点击最近作品锚点",
+          "passed": true
+        },
+        {
+          "label": "作品锚点正确且目标进入视口",
+          "passed": true
+        },
+        {
+          "label": "聚焦 Night 主题按钮",
+          "passed": true
+        },
+        {
+          "label": "键盘 Enter 切换 Night",
+          "passed": true
+        },
+        {
+          "label": "Night 下页尾正常显示",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/about/",
+      "width": 1440,
+      "file": "page-0-1440.png",
+      "sha256": "0d5285a1935e0ed343f61ac3e95aafe7b6034a5fbc50b8ecf0818a1d29e8e994"
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "file": "page-0-390.png",
+      "sha256": "0f7d52aed920a3d1317040d36d5871022899c56fc420c12025d35bb4b96ec3d0"
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "file": "page-0-320.png",
+      "sha256": "db9bbfb6582313121c522295f89cb68c986593dc5cbf626e5d404a360879af9e"
+    }
+  ],
+  "status": "passed",
+  "candidate_sha": "67f7dd118167979b17ba714411d5ec07500c83be",
+  "issue": 23
+}
