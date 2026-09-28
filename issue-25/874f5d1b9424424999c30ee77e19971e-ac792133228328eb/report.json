@@ -1,0 +1,1782 @@
+{
+  "head_sha": "188806ef41caa38aaf503b6f20ba0977dfdf53f7",
+  "source": "candidate_build",
+  "generated_at": "2026-09-28T06:38:20.195Z",
+  "pages": [
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "项目总数保持五个",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "第四张且最后一张展示卡为卡牌工具",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "配图明确标注为排版示意",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "展示带尺寸说明的本地配图",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "说明图片输入与真实尺寸输出",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "毫米换算和等比留白说明准确",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留 Python 技术标签",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留 Pillow 技术标签",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留 Tkinter 技术标签",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "源码链接指向正确仓库且不访问外站",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "示意图来源链接指向规格文章",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "卡牌项目没有重复展示或遗留工具入口",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "小工具区保留聊天摘要项目及文章入口",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "Summer 卡牌配图区域：检查尺寸、比例与裁切",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Summer 卡牌说明区域：检查标签、来源和链接无遮挡",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "键盘聚焦 Night 按钮",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Enter 切换 Night",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "确认 Night 生效",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "Night 卡牌配图区域：检查比例、对比度与溢出",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "Night 卡牌说明区域：检查文字换行和链接无遮挡",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "鼠标打开本站构建记录",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "构建记录正常打开且标题正确",
+          "passed": false,
+          "step_index": 23,
+          "error": "expected text not found: 从一个问题开始。"
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "项目总数保持五个",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "第四张且最后一张展示卡为卡牌工具",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "配图明确标注为排版示意",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "展示带尺寸说明的本地配图",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "说明图片输入与真实尺寸输出",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "毫米换算和等比留白说明准确",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留 Python 技术标签",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留 Pillow 技术标签",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留 Tkinter 技术标签",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "源码链接指向正确仓库且不访问外站",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "示意图来源链接指向规格文章",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "卡牌项目没有重复展示或遗留工具入口",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "小工具区保留聊天摘要项目及文章入口",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "Summer 卡牌配图区域：检查尺寸、比例与裁切",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Summer 卡牌说明区域：检查标签、来源和链接无遮挡",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "键盘聚焦 Night 按钮",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Enter 切换 Night",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "确认 Night 生效",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "Night 卡牌配图区域：检查比例、对比度与溢出",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "Night 卡牌说明区域：检查文字换行和链接无遮挡",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "鼠标打开本站构建记录",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "构建记录正常打开且标题正确",
+          "passed": false,
+          "step_index": 23,
+          "error": "expected text not found: 从一个问题开始。"
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "项目总数保持五个",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "第四张且最后一张展示卡为卡牌工具",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "配图明确标注为排版示意",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "展示带尺寸说明的本地配图",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "说明图片输入与真实尺寸输出",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "毫米换算和等比留白说明准确",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留 Python 技术标签",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留 Pillow 技术标签",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留 Tkinter 技术标签",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "源码链接指向正确仓库且不访问外站",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "示意图来源链接指向规格文章",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "卡牌项目没有重复展示或遗留工具入口",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "小工具区保留聊天摘要项目及文章入口",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "Summer 卡牌配图区域：检查尺寸、比例与裁切",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Summer 卡牌说明区域：检查标签、来源和链接无遮挡",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "键盘聚焦 Night 按钮",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Enter 切换 Night",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "确认 Night 生效",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "Night 卡牌配图区域：检查比例、对比度与溢出",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "Night 卡牌说明区域：检查文字换行和链接无遮挡",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "鼠标打开本站构建记录",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "构建记录正常打开且标题正确",
+          "passed": false,
+          "step_index": 23,
+          "error": "expected text not found: 从一个问题开始。"
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "切换 Summer 检查首页回归",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认首页 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击精选作品锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "作品锚点保持本站首页并进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "首页第一项仍为 ELMA",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "首页第二项仍为三体实验室",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "首页第三项且最后一项仍为内存项目",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "首页没有新增卡牌展示或第四项",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "鼠标启动原有 ELMA 演示",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "原有演示可播放",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "Enter 停止原有 ELMA 演示",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "原有演示恢复静止状态",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "Summer 首页精选作品区域回归截图",
+          "passed": false,
+          "step_index": 12,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "切换 Night 检查首页回归",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "确认首页 Night 生效",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "聚焦首页章节中的作品锚点",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Enter 激活作品锚点",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "键盘锚点使作品区进入视口",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Night 首页精选作品区域回归截图",
+          "passed": false,
+          "step_index": 18,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "全部作品入口保持正确",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": false
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "切换 Summer 检查首页回归",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认首页 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击精选作品锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "作品锚点保持本站首页并进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "首页第一项仍为 ELMA",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "首页第二项仍为三体实验室",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "首页第三项且最后一项仍为内存项目",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "首页没有新增卡牌展示或第四项",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "鼠标启动原有 ELMA 演示",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "原有演示可播放",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "Enter 停止原有 ELMA 演示",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "原有演示恢复静止状态",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "Summer 首页精选作品区域回归截图",
+          "passed": false,
+          "step_index": 12,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "切换 Night 检查首页回归",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "确认首页 Night 生效",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "聚焦首页章节中的作品锚点",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Enter 激活作品锚点",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "键盘锚点使作品区进入视口",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Night 首页精选作品区域回归截图",
+          "passed": false,
+          "step_index": 18,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "全部作品入口保持正确",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": false
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "切换 Summer 检查首页回归",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认首页 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击精选作品锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "作品锚点保持本站首页并进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "首页第一项仍为 ELMA",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "首页第二项仍为三体实验室",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "首页第三项且最后一项仍为内存项目",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "首页没有新增卡牌展示或第四项",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "鼠标启动原有 ELMA 演示",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "原有演示可播放",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "Enter 停止原有 ELMA 演示",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "原有演示恢复静止状态",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "Summer 首页精选作品区域回归截图",
+          "passed": false,
+          "step_index": 12,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "切换 Night 检查首页回归",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "确认首页 Night 生效",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "聚焦首页章节中的作品锚点",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Enter 激活作品锚点",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "键盘锚点使作品区进入视口",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Night 首页精选作品区域回归截图",
+          "passed": false,
+          "step_index": 18,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "全部作品入口保持正确",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": false
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "切换 Summer 检查共享数据回归",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认关于页 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击最近在做的锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "精选项目锚点进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "关于页第一项保留 ELMA",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "关于页第二项保留三体实验室",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "关于页第三项且最后一项保留内存项目",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "关于页未混入第四个精选项目",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "卡牌工具仍作为原有文字补充入口",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "补充入口保持原有文章地址",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "Summer 关于页精选及补充入口区域截图",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "鼠标切换 Night",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "确认关于页 Night 生效",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "键盘聚焦最近在做的锚点",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "Enter 激活精选项目锚点",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "键盘锚点保持关于页并定位精选区",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Night 关于页精选及补充入口区域截图",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "切换 Summer 检查共享数据回归",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认关于页 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击最近在做的锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "精选项目锚点进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "关于页第一项保留 ELMA",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "关于页第二项保留三体实验室",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "关于页第三项且最后一项保留内存项目",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "关于页未混入第四个精选项目",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "卡牌工具仍作为原有文字补充入口",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "补充入口保持原有文章地址",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "Summer 关于页精选及补充入口区域截图",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "鼠标切换 Night",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "确认关于页 Night 生效",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "键盘聚焦最近在做的锚点",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "Enter 激活精选项目锚点",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "键盘锚点保持关于页并定位精选区",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Night 关于页精选及补充入口区域截图",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "切换 Summer 检查共享数据回归",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认关于页 Summer 生效",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "鼠标点击最近在做的锚点",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "精选项目锚点进入视口",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "关于页第一项保留 ELMA",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "关于页第二项保留三体实验室",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "关于页第三项且最后一项保留内存项目",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "关于页未混入第四个精选项目",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "卡牌工具仍作为原有文字补充入口",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "补充入口保持原有文章地址",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "Summer 关于页精选及补充入口区域截图",
+          "passed": false,
+          "step_index": 10,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "鼠标切换 Night",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "确认关于页 Night 生效",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "键盘聚焦最近在做的锚点",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "Enter 激活精选项目锚点",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "键盘锚点保持关于页并定位精选区",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Night 关于页精选及补充入口区域截图",
+          "passed": false,
+          "step_index": 16,
+          "error": "screenshot target does not fit fully in viewport"
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": false
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": false
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "file": "page-0-1440.png",
+      "sha256": "b794383f83c5cca43b208eb781ea27501e12a65f359b84570a00d4149820e1da"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 15,
+      "label": "Summer 卡牌配图区域：检查尺寸、比例与裁切",
+      "selector": ".preview-cardpdf",
+      "file": "page-0-1440-step-15.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1509,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 304.75,
+          "right": 1254.98,
+          "bottom": 694.75,
+          "left": 787.08,
+          "width": 467.91,
+          "height": 390
+        }
+      },
+      "sha256": "f24322eaa44f2c07f895655511f103248caaca4abf1d6cc711b40dcf046298e6"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 16,
+      "label": "Summer 卡牌说明区域：检查标签、来源和链接无遮挡",
+      "selector": ".showcase-card:has(.preview-cardpdf) .showcase-copy",
+      "file": "page-0-1440-step-16.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1509,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 322.02,
+          "right": 723.08,
+          "bottom": 677.47,
+          "left": 185,
+          "width": 538.08,
+          "height": 355.45
+        }
+      },
+      "sha256": "f24322eaa44f2c07f895655511f103248caaca4abf1d6cc711b40dcf046298e6"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 20,
+      "label": "Night 卡牌配图区域：检查比例、对比度与溢出",
+      "selector": ".preview-cardpdf",
+      "file": "page-0-1440-step-20.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 45)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1509,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 304.75,
+          "right": 1254.98,
+          "bottom": 694.75,
+          "left": 787.08,
+          "width": 467.91,
+          "height": 390
+        }
+      },
+      "sha256": "cd0b64b4bfa5648a47abc71036c6e804a95029110ea756ddf56cfb8bc95db130"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 21,
+      "label": "Night 卡牌说明区域：检查文字换行和链接无遮挡",
+      "selector": ".showcase-card:has(.preview-cardpdf) .showcase-copy",
+      "file": "page-0-1440-step-21.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1509,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 322.02,
+          "right": 723.08,
+          "bottom": 677.47,
+          "left": 185,
+          "width": 538.08,
+          "height": 355.45
+        }
+      },
+      "sha256": "cd0b64b4bfa5648a47abc71036c6e804a95029110ea756ddf56cfb8bc95db130"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "file": "page-0-390.png",
+      "sha256": "cb220b68afe49d014e1823054ceecc6abdc75c78e7768a2e2e90fcf6812c0541"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 15,
+      "label": "Summer 卡牌配图区域：检查尺寸、比例与裁切",
+      "selector": ".preview-cardpdf",
+      "file": "page-0-390-step-15.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2326,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 270.97,
+          "right": 355,
+          "bottom": 573.47,
+          "left": 35,
+          "width": 320,
+          "height": 302.5
+        }
+      },
+      "sha256": "6513a9da52b0ab0c217ea423a374dc2628bfe32b811741ffb82598e668153f42"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 16,
+      "label": "Summer 卡牌说明区域：检查标签、来源和链接无遮挡",
+      "selector": ".showcase-card:has(.preview-cardpdf) .showcase-copy",
+      "file": "page-0-390-step-16.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2666,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 253.47,
+          "right": 355,
+          "bottom": 590.91,
+          "left": 35,
+          "width": 320,
+          "height": 337.44
+        }
+      },
+      "sha256": "7682940e12b16268537ab9e004378f4a86cb97ce0c1cf77a4c0a80a4390293c3"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 20,
+      "label": "Night 卡牌配图区域：检查比例、对比度与溢出",
+      "selector": ".preview-cardpdf",
+      "file": "page-0-390-step-20.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 46)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2326,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 270.97,
+          "right": 355,
+          "bottom": 573.47,
+          "left": 35,
+          "width": 320,
+          "height": 302.5
+        }
+      },
+      "sha256": "5b679866fe770dccbc3aa0dc5400843ee45971d3127ae36414f2eadf494989ef"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 21,
+      "label": "Night 卡牌说明区域：检查文字换行和链接无遮挡",
+      "selector": ".showcase-card:has(.preview-cardpdf) .showcase-copy",
+      "file": "page-0-390-step-21.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2666,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 253.47,
+          "right": 355,
+          "bottom": 590.91,
+          "left": 35,
+          "width": 320,
+          "height": 337.44
+        }
+      },
+      "sha256": "933ac85f430d9dc30d6edbdf1bc8c34a39e00894481798b060c13c2c106a12d8"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "file": "page-0-320.png",
+      "sha256": "020537c05376b9d2047348fc866a4b5bfb0478b713962e922375bce736d302d2"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 15,
+      "label": "Summer 卡牌配图区域：检查尺寸、比例与裁切",
+      "selector": ".preview-cardpdf",
+      "file": "page-0-320-step-15.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2428,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 270.94,
+          "right": 285,
+          "bottom": 573.44,
+          "left": 35,
+          "width": 250,
+          "height": 302.5
+        }
+      },
+      "sha256": "f215afc2a8fc01876e58cd3488a61a88372762c792d1172979f4625029ddcf26"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 16,
+      "label": "Summer 卡牌说明区域：检查标签、来源和链接无遮挡",
+      "selector": ".showcase-card:has(.preview-cardpdf) .showcase-copy",
+      "file": "page-0-320-step-16.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2793,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 228.44,
+          "right": 285,
+          "bottom": 615.86,
+          "left": 35,
+          "width": 250,
+          "height": 387.42
+        }
+      },
+      "sha256": "95934dd4648dc3f7d7a9c4cde517c3e0d0e69263277697773c4dd4e06fa3a2a4"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 20,
+      "label": "Night 卡牌配图区域：检查比例、对比度与溢出",
+      "selector": ".preview-cardpdf",
+      "file": "page-0-320-step-20.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(222, 225, 223)",
+        "text_color": "rgb(45, 46, 46)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2428,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 270.94,
+          "right": 285,
+          "bottom": 573.44,
+          "left": 35,
+          "width": 250,
+          "height": 302.5
+        }
+      },
+      "sha256": "60ffa5cbbc8220ee72a5a2e4ded90af8e8281dd104698afe987aa61a59085b8e"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 21,
+      "label": "Night 卡牌说明区域：检查文字换行和链接无遮挡",
+      "selector": ".showcase-card:has(.preview-cardpdf) .showcase-copy",
+      "file": "page-0-320-step-21.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2793,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 228.44,
+          "right": 285,
+          "bottom": 615.86,
+          "left": 35,
+          "width": 250,
+          "height": 387.42
+        }
+      },
+      "sha256": "2263c7497ba118f377937deeab2024d3c8216db02cf754a29c3ea2303707b502"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "file": "page-1-1440.png",
+      "sha256": "5c038bf7888d89579876a75a167fdb605467156ffff52c9ad3ad073c93b20de7"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "file": "page-1-390.png",
+      "sha256": "bb378da6a9fdc559464d75bc1228f0bf03cfd9956e829f4c0bc915ed477a712e"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "file": "page-1-320.png",
+      "sha256": "f2ba604886d1f59ead79ee715d58efaafe7464bdadd6c6ae3a4dd023f38d1825"
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "file": "page-2-1440.png",
+      "sha256": "0d5285a1935e0ed343f61ac3e95aafe7b6034a5fbc50b8ecf0818a1d29e8e994"
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "step_index": 10,
+      "label": "Summer 关于页精选及补充入口区域截图",
+      "selector": "#selected",
+      "file": "page-2-1440-step-10.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 492,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 201.59,
+          "right": 1280,
+          "bottom": 831.03,
+          "left": 160,
+          "width": 1120,
+          "height": 629.44
+        }
+      },
+      "sha256": "0395877af76dac2439bce8346d81d2d26e5e3d8fdda142e08f0aa68c10b90087"
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "step_index": 16,
+      "label": "Night 关于页精选及补充入口区域截图",
+      "selector": "#selected",
+      "file": "page-2-1440-step-16.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(199, 204, 202)",
+        "text_color": "rgb(66, 68, 67)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 484,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 209.59,
+          "right": 1280,
+          "bottom": 839.03,
+          "left": 160,
+          "width": 1120,
+          "height": 629.44
+        }
+      },
+      "sha256": "8a7a00a47ca582d4160632b65707fbd804271ce5eae9ec2304fb89421a281405"
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "file": "page-2-390.png",
+      "sha256": "52a0c25c520bc029a98559519ec633d61b0e2f8d19830a4b1b767e5a2f913b1a"
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "step_index": 10,
+      "label": "Summer 关于页精选及补充入口区域截图",
+      "selector": "#selected",
+      "file": "page-2-390-step-10.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 811,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 36,
+          "right": 370,
+          "bottom": 829.03,
+          "left": 20,
+          "width": 350,
+          "height": 793.03
+        }
+      },
+      "sha256": "9f3254a61154104a23ef779a449e0e8341cff554eeb413acd97c2c1640b17d83"
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "step_index": 16,
+      "label": "Night 关于页精选及补充入口区域截图",
+      "selector": "#selected",
+      "file": "page-2-390-step-16.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(222, 225, 223)",
+        "text_color": "rgb(45, 46, 46)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 807,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 40,
+          "right": 370,
+          "bottom": 833.03,
+          "left": 20,
+          "width": 350,
+          "height": 793.03
+        }
+      },
+      "sha256": "b4c5a9bd0e0104084eba5c326cb0faa84370c6e97650ab5424e6578d266f02f1"
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "file": "page-2-320.png",
+      "sha256": "83096a7e9bbaa2922059b309c16d7a3252b13ea798a726f453edd4be03eab5a5"
+    }
+  ],
+  "status": "failed",
+  "candidate_sha": "188806ef41caa38aaf503b6f20ba0977dfdf53f7",
+  "issue": 25
+}
