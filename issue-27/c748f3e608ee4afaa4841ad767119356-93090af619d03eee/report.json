@@ -1,0 +1,900 @@
+{
+  "head_sha": "e24392af3bfcba0cfc370ecf7a1e5daa01c25acd",
+  "source": "candidate_build",
+  "generated_at": "2026-09-28T08:55:51.732Z",
+  "pages": [
+    {
+      "path": "/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认 Summer 主题",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "介绍段落可见且保留两个换行",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "检查介绍第一行原文",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "检查介绍第二行原文",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "检查介绍第三行原文",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "保留标题第一段",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "保留标题第二段",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留标题第三段开头",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留标题手写文字",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留作品按钮文字和箭头",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "作品按钮指向本页锚点",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "保留关于我入口文字",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "保留关于页链接",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "保留唱片音乐入口",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "Summer 介绍区域：核对行序、标题、按钮及溢出重叠",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Summer 唱片区域：核对完整底部及区域间距",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "鼠标点击看看作品",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "确认作品锚点且目标进入视口",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦 Night 主题按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘 Enter 切换 Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认 Night 主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night 介绍区域：核对三行文案、布局及异常空白",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night 唱片区域：核对完整底部及区域间距",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认 Summer 主题",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "介绍段落可见且保留两个换行",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "检查介绍第一行原文",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "检查介绍第二行原文",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "检查介绍第三行原文",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "保留标题第一段",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "保留标题第二段",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留标题第三段开头",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留标题手写文字",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留作品按钮文字和箭头",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "作品按钮指向本页锚点",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "保留关于我入口文字",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "保留关于页链接",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "保留唱片音乐入口",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "Summer 介绍区域：核对行序、标题、按钮及溢出重叠",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Summer 唱片区域：核对完整底部及区域间距",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "鼠标点击看看作品",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "确认作品锚点且目标进入视口",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦 Night 主题按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘 Enter 切换 Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认 Night 主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night 介绍区域：核对三行文案、布局及异常空白",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night 唱片区域：核对完整底部及区域间距",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "鼠标切换 Summer",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "确认 Summer 主题",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "介绍段落可见且保留两个换行",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "检查介绍第一行原文",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "检查介绍第二行原文",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "检查介绍第三行原文",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "保留标题第一段",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "保留标题第二段",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "保留标题第三段开头",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "保留标题手写文字",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "保留作品按钮文字和箭头",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "作品按钮指向本页锚点",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "保留关于我入口文字",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "保留关于页链接",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "保留唱片音乐入口",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "Summer 介绍区域：核对行序、标题、按钮及溢出重叠",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "Summer 唱片区域：核对完整底部及区域间距",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "鼠标点击看看作品",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "确认作品锚点且目标进入视口",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦 Night 主题按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘 Enter 切换 Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认 Night 主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night 介绍区域：核对三行文案、布局及异常空白",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night 唱片区域：核对完整底部及区域间距",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/",
+      "width": 1440,
+      "file": "page-0-1440.png",
+      "sha256": "7c163960ddfa094825ed0bd86c946cc831d16f89dd3824ac09f178df5510ef11"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 15,
+      "label": "Summer 介绍区域：核对行序、标题、按钮及溢出重叠",
+      "selector": "section.home-intro > div",
+      "file": "page-0-1440-step-15.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 172,
+          "right": 753.47,
+          "bottom": 656.33,
+          "left": 160,
+          "width": 593.47,
+          "height": 484.33
+        }
+      },
+      "sha256": "37ec35c980757d3481e83d9651c18cdf42c1709776ee6becfbb6ecd245354c1e"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 16,
+      "label": "Summer 唱片区域：核对完整底部及区域间距",
+      "selector": "section.home-intro a.hero-record",
+      "file": "page-0-1440-step-16.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 192.13,
+          "right": 1297.48,
+          "bottom": 636.18,
+          "left": 922.52,
+          "width": 374.96,
+          "height": 444.05
+        }
+      },
+      "sha256": "37ec35c980757d3481e83d9651c18cdf42c1709776ee6becfbb6ecd245354c1e"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 22,
+      "label": "Night 介绍区域：核对三行文案、布局及异常空白",
+      "selector": "section.home-intro > div",
+      "file": "page-0-1440-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(239, 239, 237)",
+        "text_color": "rgb(31, 31, 31)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 172,
+          "right": 753.47,
+          "bottom": 656.33,
+          "left": 160,
+          "width": 593.47,
+          "height": 484.33
+        }
+      },
+      "sha256": "9f8fc334c41bd16c1d9a48feacd6c4d9ec84ef657ca2ef60557cdbb8b400acee"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 23,
+      "label": "Night 唱片区域：核对完整底部及区域间距",
+      "selector": "section.home-intro a.hero-record",
+      "file": "page-0-1440-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 192.13,
+          "right": 1297.48,
+          "bottom": 636.18,
+          "left": 922.52,
+          "width": 374.96,
+          "height": 444.05
+        }
+      },
+      "sha256": "9f8fc334c41bd16c1d9a48feacd6c4d9ec84ef657ca2ef60557cdbb8b400acee"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "file": "page-0-390.png",
+      "sha256": "7111df1f9a14e0b2cdb4d154a5d5e8eac84eaf8e3ceab0e8e1dc2f502da8f5d8"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 15,
+      "label": "Summer 介绍区域：核对行序、标题、按钮及溢出重叠",
+      "selector": "section.home-intro > div",
+      "file": "page-0-390-step-15.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 132,
+          "right": 370,
+          "bottom": 534.98,
+          "left": 20,
+          "width": 350,
+          "height": 402.98
+        }
+      },
+      "sha256": "8b198eea2b1569fcb6da4576138aa323273214f07b98f9303c7d55ef6ef59b07"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 16,
+      "label": "Summer 唱片区域：核对完整底部及区域间距",
+      "selector": "section.home-intro a.hero-record",
+      "file": "page-0-390-step-16.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 323,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 243.29,
+          "right": 339.15,
+          "bottom": 600.68,
+          "left": 50.85,
+          "width": 288.29,
+          "height": 357.38
+        }
+      },
+      "sha256": "9fea564bb9f69417e780c0fd6b0e652d934e78e28d7d3a32de892b154468c7a0"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 22,
+      "label": "Night 介绍区域：核对三行文案、布局及异常空白",
+      "selector": "section.home-intro > div",
+      "file": "page-0-390-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 46)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 3,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 129,
+          "right": 370,
+          "bottom": 531.98,
+          "left": 20,
+          "width": 350,
+          "height": 402.98
+        }
+      },
+      "sha256": "555039a8c4c3820bc941bffa51a256d7f566e3fda682900ad36b4d3aa886e52b"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 23,
+      "label": "Night 唱片区域：核对完整底部及区域间距",
+      "selector": "section.home-intro a.hero-record",
+      "file": "page-0-390-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 327,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 239.29,
+          "right": 339.15,
+          "bottom": 596.68,
+          "left": 50.85,
+          "width": 288.29,
+          "height": 357.38
+        }
+      },
+      "sha256": "6976d6e0301e0aa8f898357ffecde0e87757d9c15765c1a7a3feb2f12c5dbdc0"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "file": "page-0-320.png",
+      "sha256": "e8d1bfe00f77c8d587e6e1f45557dcf809ab17ee23b31d7e92a060b1413a8790"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 15,
+      "label": "Summer 介绍区域：核对行序、标题、按钮及溢出重叠",
+      "selector": "section.home-intro > div",
+      "file": "page-0-320-step-15.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 132,
+          "right": 300,
+          "bottom": 534.98,
+          "left": 20,
+          "width": 280,
+          "height": 402.98
+        }
+      },
+      "sha256": "d6a71b7c85812e02e38e38a079b23f9a06eb077f125eca49fa9b99c9b92ac6e4"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 16,
+      "label": "Summer 唱片区域：核对完整底部及区域间距",
+      "selector": "section.home-intro a.hero-record",
+      "file": "page-0-320-step-16.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 323,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 243.29,
+          "right": 304.15,
+          "bottom": 600.68,
+          "left": 15.85,
+          "width": 288.29,
+          "height": 357.38
+        }
+      },
+      "sha256": "ce34fe47c473805c229346892d7ebfd3dab6b9195a6863f82aa5b266cf23d4a6"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 22,
+      "label": "Night 介绍区域：核对三行文案、布局及异常空白",
+      "selector": "section.home-intro > div",
+      "file": "page-0-320-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 45)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 3,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 129,
+          "right": 300,
+          "bottom": 531.98,
+          "left": 20,
+          "width": 280,
+          "height": 402.98
+        }
+      },
+      "sha256": "70cba1ecfd4bfe49bdd8f9b74269995c9efdf70b01d7d5571800d6d9241de081"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 23,
+      "label": "Night 唱片区域：核对完整底部及区域间距",
+      "selector": "section.home-intro a.hero-record",
+      "file": "page-0-320-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 327,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 239.29,
+          "right": 304.15,
+          "bottom": 596.68,
+          "left": 15.85,
+          "width": 288.29,
+          "height": 357.38
+        }
+      },
+      "sha256": "18125f50ac59f96a2b5de43f1c451760cc589bf9d3d9cf871a0e5d57bb159ab0"
+    }
+  ],
+  "status": "passed",
+  "candidate_sha": "e24392af3bfcba0cfc370ecf7a1e5daa01c25acd",
+  "issue": 27
+}
