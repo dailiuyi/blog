@@ -1,0 +1,1788 @@
+{
+  "head_sha": "b415dbd2518c116cf6aaeeabe646417a072c7503",
+  "source": "candidate_build",
+  "generated_at": "2026-09-28T11:37:37.948Z",
+  "pages": [
+    {
+      "path": "/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "首页作品锚点保留",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "鼠标点击看看作品",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "锚点更新且作品标题进入视口",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "来源小字链接不在DOM中",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "ELMA项目描述保留",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "三体项目补充说明保留",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "第三张项目卡片保留",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "ELMA构建记录地址保留",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "ELMA源码地址保留",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "三体构建记录地址保留",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "三体在线体验地址保留",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "三体源码地址保留",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "ELMA预览图保留",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "三体预览图保留",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "鼠标切换Summer",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "确认Summer浅色主题",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "ELMA技术栈保留",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer：首页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Summer：首页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦Night按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘Enter切换Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认Night深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night：首页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night：首页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "首页作品锚点保留",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "鼠标点击看看作品",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "锚点更新且作品标题进入视口",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "来源小字链接不在DOM中",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "ELMA项目描述保留",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "三体项目补充说明保留",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "第三张项目卡片保留",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "ELMA构建记录地址保留",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "ELMA源码地址保留",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "三体构建记录地址保留",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "三体在线体验地址保留",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "三体源码地址保留",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "ELMA预览图保留",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "三体预览图保留",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "鼠标切换Summer",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "确认Summer浅色主题",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "ELMA技术栈保留",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer：首页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Summer：首页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦Night按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘Enter切换Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认Night深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night：首页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night：首页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "首页作品锚点保留",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "鼠标点击看看作品",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "锚点更新且作品标题进入视口",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "来源小字链接不在DOM中",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "ELMA项目描述保留",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "三体项目补充说明保留",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "第三张项目卡片保留",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "ELMA构建记录地址保留",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "ELMA源码地址保留",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "三体构建记录地址保留",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "三体在线体验地址保留",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "三体源码地址保留",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "ELMA预览图保留",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "三体预览图保留",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "鼠标切换Summer",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "确认Summer浅色主题",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "ELMA技术栈保留",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer：首页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Summer：首页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦Night按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘Enter切换Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认Night深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night：首页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night：首页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "来源小字链接不在DOM中",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "ELMA序号与副标题保留",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "三体序号与副标题保留",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "minialloc卡片保留",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "Card PDF Studio卡片保留",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "其他小工具列表保留",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "ELMA构建记录地址保留",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "ELMA源码地址保留",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "三体构建记录地址保留",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "三体在线体验地址保留",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "三体源码地址保留",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "卡牌工具构建记录地址保留",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "卡牌工具源码地址保留",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "ELMA预览图保留",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "三体预览图保留",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "鼠标切换Summer",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "确认Summer浅色主题",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer：作品页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Summer：作品页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦Night按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘Enter切换Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认Night深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night：作品页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night：作品页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "来源小字链接不在DOM中",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "ELMA序号与副标题保留",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "三体序号与副标题保留",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "minialloc卡片保留",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "Card PDF Studio卡片保留",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "其他小工具列表保留",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "ELMA构建记录地址保留",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "ELMA源码地址保留",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "三体构建记录地址保留",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "三体在线体验地址保留",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "三体源码地址保留",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "卡牌工具构建记录地址保留",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "卡牌工具源码地址保留",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "ELMA预览图保留",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "三体预览图保留",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "鼠标切换Summer",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "确认Summer浅色主题",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer：作品页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Summer：作品页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦Night按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘Enter切换Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认Night深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night：作品页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night：作品页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "checks": [
+        {
+          "label": "页面 HTTP 200",
+          "passed": true
+        },
+        {
+          "label": "无横向溢出",
+          "passed": true
+        },
+        {
+          "label": "来源小字链接不在DOM中",
+          "passed": true,
+          "step_index": 0
+        },
+        {
+          "label": "ELMA序号与副标题保留",
+          "passed": true,
+          "step_index": 1
+        },
+        {
+          "label": "三体序号与副标题保留",
+          "passed": true,
+          "step_index": 2
+        },
+        {
+          "label": "minialloc卡片保留",
+          "passed": true,
+          "step_index": 3
+        },
+        {
+          "label": "Card PDF Studio卡片保留",
+          "passed": true,
+          "step_index": 4
+        },
+        {
+          "label": "其他小工具列表保留",
+          "passed": true,
+          "step_index": 5
+        },
+        {
+          "label": "ELMA构建记录地址保留",
+          "passed": true,
+          "step_index": 6
+        },
+        {
+          "label": "ELMA源码地址保留",
+          "passed": true,
+          "step_index": 7
+        },
+        {
+          "label": "三体构建记录地址保留",
+          "passed": true,
+          "step_index": 8
+        },
+        {
+          "label": "三体在线体验地址保留",
+          "passed": true,
+          "step_index": 9
+        },
+        {
+          "label": "三体源码地址保留",
+          "passed": true,
+          "step_index": 10
+        },
+        {
+          "label": "卡牌工具构建记录地址保留",
+          "passed": true,
+          "step_index": 11
+        },
+        {
+          "label": "卡牌工具源码地址保留",
+          "passed": true,
+          "step_index": 12
+        },
+        {
+          "label": "ELMA预览图保留",
+          "passed": true,
+          "step_index": 13
+        },
+        {
+          "label": "三体预览图保留",
+          "passed": true,
+          "step_index": 14
+        },
+        {
+          "label": "鼠标切换Summer",
+          "passed": true,
+          "step_index": 15
+        },
+        {
+          "label": "确认Summer浅色主题",
+          "passed": true,
+          "step_index": 16
+        },
+        {
+          "label": "Summer：作品页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 17
+        },
+        {
+          "label": "Summer：作品页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 18
+        },
+        {
+          "label": "聚焦Night按钮",
+          "passed": true,
+          "step_index": 19
+        },
+        {
+          "label": "键盘Enter切换Night",
+          "passed": true,
+          "step_index": 20
+        },
+        {
+          "label": "确认Night深色主题",
+          "passed": true,
+          "step_index": 21
+        },
+        {
+          "label": "Night：作品页ELMA文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 22
+        },
+        {
+          "label": "Night：作品页三体文案、保留链接及删除位置补拍",
+          "passed": true,
+          "step_index": 23
+        },
+        {
+          "label": "summer 修改区域截图覆盖",
+          "passed": true
+        },
+        {
+          "label": "night 修改区域截图覆盖",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/",
+      "width": 1440,
+      "file": "page-0-1440.png",
+      "sha256": "7c163960ddfa094825ed0bd86c946cc831d16f89dd3824ac09f178df5510ef11"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 17,
+      "label": "Summer：首页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-0-1440-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 698,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 335.27,
+          "right": 1254.98,
+          "bottom": 656.13,
+          "left": 787.08,
+          "width": 467.91,
+          "height": 320.86
+        }
+      },
+      "sha256": "6ceac7e4a7a78da9e5a807b2e9c5e4ce0e32a8a7f1c0e662fae33ef316efd22c"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 18,
+      "label": "Summer：首页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-0-1440-step-18.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1162,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 353.52,
+          "right": 723.08,
+          "bottom": 645.88,
+          "left": 185,
+          "width": 538.08,
+          "height": 292.36
+        }
+      },
+      "sha256": "ca9466f403a61300a136addd2d2cb12ec8e24d7a743572acf720b636d42413f5"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 22,
+      "label": "Night：首页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-0-1440-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(239, 239, 237)",
+        "text_color": "rgb(31, 31, 31)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 694,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 339.27,
+          "right": 1254.98,
+          "bottom": 660.13,
+          "left": 787.08,
+          "width": 467.91,
+          "height": 320.86
+        }
+      },
+      "sha256": "cdcd5b9d5edbf32fbe5391994b1f1cc792b25b13fbc08c41489ffb1c10e26464"
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "step_index": 23,
+      "label": "Night：首页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-0-1440-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1162,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 353.52,
+          "right": 723.08,
+          "bottom": 645.88,
+          "left": 185,
+          "width": 538.08,
+          "height": 292.36
+        }
+      },
+      "sha256": "22d1cd72dd308c5e50019945e97064f7c538ec98ea8cd447c5f8985115545de3"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "file": "page-0-390.png",
+      "sha256": "7111df1f9a14e0b2cdb4d154a5d5e8eac84eaf8e3ceab0e8e1dc2f502da8f5d8"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 17,
+      "label": "Summer：首页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-0-390-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1342,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 219.47,
+          "right": 355,
+          "bottom": 522.31,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "6f5bc42b445d8de0666804a0a33ea0ad1bdd50becc85f337ca3863860538533c"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 18,
+      "label": "Summer：首页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-0-390-step-18.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1974,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 270.81,
+          "right": 355,
+          "bottom": 573.66,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "4a235e306c10110eec8c8d3cf17a839c8476d97d3b3adb161e5c7e5f6f72f426"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 22,
+      "label": "Night：首页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-0-390-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(202, 207, 205)",
+        "text_color": "rgb(63, 65, 64)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1291,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 270.47,
+          "right": 355,
+          "bottom": 573.31,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "e2a9d52a8eb88fdf88dd2a5d2b8abe7697d19efa3714de98db4c37ffa423160a"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "step_index": 23,
+      "label": "Night：首页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-0-390-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1974,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 270.81,
+          "right": 355,
+          "bottom": 573.66,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "7dae2a622a4b1a5956c542976a45bef7f94b02cf495decefc4da66df79507f53"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "file": "page-0-320.png",
+      "sha256": "4e63232935d313c14324d9e8f6654393d7f750a2489b9c24256c59207d61f981"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 17,
+      "label": "Summer：首页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-0-320-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1409,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 189.27,
+          "right": 285,
+          "bottom": 518.7,
+          "left": 35,
+          "width": 250,
+          "height": 329.44
+        }
+      },
+      "sha256": "4d7e9e0973e9d4c115d3432f7694ff2425b960bc814d88308d230fae3e6fa091"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 18,
+      "label": "Summer：首页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-0-320-step-18.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2038,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 270.2,
+          "right": 285,
+          "bottom": 573.05,
+          "left": 35,
+          "width": 250,
+          "height": 302.84
+        }
+      },
+      "sha256": "02b99e3ff63d0237e741590b9ea4a44d4516080216493a270d60b076d03b1fcc"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 22,
+      "label": "Night：首页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-0-320-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 45)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1341,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 257.27,
+          "right": 285,
+          "bottom": 586.7,
+          "left": 35,
+          "width": 250,
+          "height": 329.44
+        }
+      },
+      "sha256": "3becd23feff24c9886be3b39766d72747c5618b226e168b77eafab21613a4227"
+    },
+    {
+      "path": "/",
+      "width": 320,
+      "step_index": 23,
+      "label": "Night：首页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-0-320-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 2038,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 270.2,
+          "right": 285,
+          "bottom": 573.05,
+          "left": 35,
+          "width": 250,
+          "height": 302.84
+        }
+      },
+      "sha256": "a7e3310228b29fafd31cf241bcfdaf21011a77a8349719b0e97b160614404b76"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "file": "page-1-1440.png",
+      "sha256": "f367921dc9eb0bb4f4bbf410490c092346f65be3174e31bbdf4155f89a9b2344"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 17,
+      "label": "Summer：作品页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-1-1440-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 110,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 339.56,
+          "right": 1254.98,
+          "bottom": 660.42,
+          "left": 787.08,
+          "width": 467.91,
+          "height": 320.86
+        }
+      },
+      "sha256": "7b4be12bbaa67df176203904264d347714dcdc61fb5658f5db9287a9cf3541c9"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 18,
+      "label": "Summer：作品页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-1-1440-step-18.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 578,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 353.81,
+          "right": 723.08,
+          "bottom": 646.17,
+          "left": 185,
+          "width": 538.08,
+          "height": 292.36
+        }
+      },
+      "sha256": "0cd1318ff0a024e798ff39ff6be8fc8112b29c8a69350e8fddeb8372258aa4e4"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 22,
+      "label": "Night：作品页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-1-1440-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 46)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 110,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 339.56,
+          "right": 1254.98,
+          "bottom": 660.42,
+          "left": 787.08,
+          "width": 467.91,
+          "height": 320.86
+        }
+      },
+      "sha256": "b264cf0a92e511625086399ea1315b0fa5870180d09ff0a372197acf1147cfc5"
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "step_index": 23,
+      "label": "Night：作品页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-1-1440-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 578,
+        "fully_visible": true,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "target": {
+          "top": 353.81,
+          "right": 723.08,
+          "bottom": 646.17,
+          "left": 185,
+          "width": 538.08,
+          "height": 292.36
+        }
+      },
+      "sha256": "1a7dbe64f3db00036a11ed256a6f72722b8b734a3c550351ced8d51e22d68d72"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "file": "page-1-390.png",
+      "sha256": "cb220b68afe49d014e1823054ceecc6abdc75c78e7768a2e2e90fcf6812c0541"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 17,
+      "label": "Summer：作品页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-1-390-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 466,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 270.67,
+          "right": 355,
+          "bottom": 573.52,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "dffc63de938c7f05dd36832aae556cda3972f97c37db05c8780759db5cd267af"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 18,
+      "label": "Summer：作品页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-1-390-step-18.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1149,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 271.02,
+          "right": 355,
+          "bottom": 573.86,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "b114f9dec057223b5ebbb892e61966b76037df01b02bdfb56a7ec95abd82d0d3"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 22,
+      "label": "Night：作品页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-1-390-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(224, 226, 224)",
+        "text_color": "rgb(44, 45, 44)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 466,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 270.67,
+          "right": 355,
+          "bottom": 573.52,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "17ea331f82d713068046f50993c3c69a37593cb1dd79d495f9c0985f5590ad06"
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "step_index": 23,
+      "label": "Night：作品页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-1-390-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1149,
+        "fully_visible": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "target": {
+          "top": 271.02,
+          "right": 355,
+          "bottom": 573.86,
+          "left": 35,
+          "width": 320,
+          "height": 302.84
+        }
+      },
+      "sha256": "f6d809e97ff23f9255690bd57ff18b486ab59c70bcd94e7669cb486fb2c70b44"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "file": "page-1-320.png",
+      "sha256": "020537c05376b9d2047348fc866a4b5bfb0478b713962e922375bce736d302d2"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 17,
+      "label": "Summer：作品页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-1-320-step-17.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 531,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 257.66,
+          "right": 285,
+          "bottom": 587.09,
+          "left": 35,
+          "width": 250,
+          "height": 329.44
+        }
+      },
+      "sha256": "cc30bfd4489209e0e524ba864bee17b5b465dd3b6f2de674d846d0500ac4dca2"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 18,
+      "label": "Summer：作品页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-1-320-step-18.png",
+      "theme": {
+        "html_data_theme": "light",
+        "html_data_environment": "summer",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "light",
+        "background_color": "rgb(247, 247, 245)",
+        "text_color": "rgb(23, 23, 23)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1228,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 270.59,
+          "right": 285,
+          "bottom": 573.44,
+          "left": 35,
+          "width": 250,
+          "height": 302.84
+        }
+      },
+      "sha256": "d6d580f63837a92d7b43a955c75668296a4018739044e37bca1851c3e97a8ea7"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 22,
+      "label": "Night：作品页ELMA文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(1) .showcase-copy",
+      "file": "page-1-320-step-22.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(223, 225, 223)",
+        "text_color": "rgb(45, 46, 45)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 531,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 257.66,
+          "right": 285,
+          "bottom": 587.09,
+          "left": 35,
+          "width": 250,
+          "height": 329.44
+        }
+      },
+      "sha256": "1d17d3dab0d9149e4b59ee2a9f98370997964531e2189da036afc8aeb0f13213"
+    },
+    {
+      "path": "/projects/",
+      "width": 320,
+      "step_index": 23,
+      "label": "Night：作品页三体文案、保留链接及删除位置补拍",
+      "selector": ".showcase-card:nth-child(2) .showcase-copy",
+      "file": "page-1-320-step-23.png",
+      "theme": {
+        "html_data_theme": "dark",
+        "html_data_environment": "night",
+        "html_data_lighting_preset": "silver-river",
+        "body_data_theme": null,
+        "body_data_environment": null,
+        "body_data_lighting_preset": null,
+        "color_scheme": "dark",
+        "background_color": "rgb(16, 39, 36)",
+        "text_color": "rgb(231, 240, 237)"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 1228,
+        "fully_visible": true,
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "target": {
+          "top": 270.59,
+          "right": 285,
+          "bottom": 573.44,
+          "left": 35,
+          "width": 250,
+          "height": 302.84
+        }
+      },
+      "sha256": "6d311ccb520464aaf85e229a874943b9e4c43c904c8a23c52839f39b1e3b6453"
+    }
+  ],
+  "status": "passed",
+  "candidate_sha": "b415dbd2518c116cf6aaeeabe646417a072c7503",
+  "issue": 29
+}
