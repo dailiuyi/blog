@@ -6,7 +6,7 @@ import tempfile
 import unittest
 import urllib.error
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 
 from scripts.symphony_acceptance.github import APIError, GitHub, parse_command
 
@@ -32,6 +32,11 @@ class FakeGitHub:
         self.branches = {"main": base_sha}
         self.pulls = []
         self.comments_by_issue = {}
+        self.issues = []
+        self.events_by_issue = {}
+        self.last_edited_response = {
+            "data": {"repository": {"issue": {"lastEditedAt": None}}},
+        }
         self.next_comment_id = 1
         self.labels = {3: ["symphony:ready", "bug"]}
         self.check_runs = []
@@ -51,6 +56,8 @@ class FakeGitHub:
             return {"login": "app"}
 
         if route == "/graphql":
+            if "lastEditedAt" in body["query"]:
+                return self.last_edited_response
             field = "convertPullRequestToDraft" if "convertPullRequestToDraft" in body["query"] else "markPullRequestReadyForReview"
             desired = field == "convertPullRequestToDraft"
             node_id = body["variables"]["id"]
@@ -124,6 +131,19 @@ class FakeGitHub:
             self.next_pr += 1
             self.pulls.append(pull)
             return pull
+        if route == prefix + "/issues" and method == "GET":
+            parameters = parse_qs(query)
+            page = int(parameters["page"][0])
+            per_page = int(parameters["per_page"][0])
+            start = (page - 1) * per_page
+            return self.issues[start:start + per_page]
+        if route.startswith(prefix + "/issues/") and route.endswith("/events") and method == "GET":
+            issue = int(route.split("/")[-2])
+            parameters = parse_qs(query)
+            page = int(parameters["page"][0])
+            per_page = int(parameters["per_page"][0])
+            start = (page - 1) * per_page
+            return self.events_by_issue.get(issue, [])[start:start + per_page]
         if route.startswith(prefix + "/pulls/") and method == "GET":
             number = int(route.rsplit("/", 1)[1])
             pull = next(item for item in self.pulls if item["number"] == number)
@@ -568,6 +588,95 @@ class GitHubAcceptanceTests(unittest.TestCase):
         notify_id = self.client.notify(3, "finished", "run-42")
         self.assertEqual(self.client.notify(3, "ignored duplicate", "run-42"), notify_id)
         self.assertEqual(len(self.fake.comments_by_issue[3]), 103)
+
+    def test_issues_with_label_encodes_query_paginates_and_excludes_pull_requests(self):
+        label = "symphony:ready / review"
+        self.fake.issues = [
+            {"number": i + 1, "title": f"issue {i + 1}"}
+            for i in range(100)
+        ]
+        self.fake.issues[24]["pull_request"] = {"url": "https://api.github.com/repos/o/r/pulls/25"}
+        self.fake.issues.append({"number": 101, "title": "issue 101"})
+
+        issues = self.client.issues_with_label(label)
+
+        self.assertEqual(len(issues), 100)
+        self.assertEqual(issues[-1]["number"], 101)
+        self.assertTrue(all("pull_request" not in issue for issue in issues))
+        requests = [
+            path for method, path, _ in self.fake.calls
+            if method == "GET" and urlsplit(path).path == "/repos/o/r/issues"
+        ]
+        self.assertEqual(len(requests), 2)
+        for page, path in enumerate(requests, start=1):
+            parsed = urlsplit(path)
+            self.assertEqual(parsed.query.split("&")[0], "state=open")
+            self.assertIn("labels=symphony%3Aready%20%2F%20review", parsed.query)
+            parameters = parse_qs(parsed.query)
+            self.assertEqual(parameters["labels"], [label])
+            self.assertEqual(parameters["per_page"], ["100"])
+            self.assertEqual(parameters["page"], [str(page)])
+
+    def test_issue_events_paginate_and_preserve_raw_actor_and_label(self):
+        self.fake.events_by_issue[3] = [
+            {
+                "id": i + 1,
+                "event": "labeled" if i == 0 else "unlabeled",
+                "actor": {"id": i + 100, "login": f"actor-{i}"},
+                "label": {"id": i + 200, "name": "symphony:ready"},
+                "created_at": f"2026-09-28T00:{i % 60:02d}:00Z",
+            }
+            for i in range(101)
+        ]
+
+        events = self.client.issue_events(3)
+
+        self.assertEqual(len(events), 101)
+        self.assertEqual(events[0], self.fake.events_by_issue[3][0])
+        self.assertEqual(events[0]["event"], "labeled")
+        self.assertEqual(events[0]["actor"], {"id": 100, "login": "actor-0"})
+        self.assertEqual(events[0]["label"], {"id": 200, "name": "symphony:ready"})
+        self.assertEqual(events[-1]["id"], 101)
+        requests = [
+            path for method, path, _ in self.fake.calls
+            if method == "GET" and urlsplit(path).path == "/repos/o/r/issues/3/events"
+        ]
+        self.assertEqual(len(requests), 2)
+        self.assertEqual([parse_qs(urlsplit(path).query)["page"][0] for path in requests], ["1", "2"])
+        self.assertTrue(all(parse_qs(urlsplit(path).query)["per_page"] == ["100"] for path in requests))
+
+    def test_issue_last_edited_at_returns_timestamp_or_null_from_graphql(self):
+        timestamp = "2026-09-28T03:04:05Z"
+        self.fake.last_edited_response = {
+            "data": {"repository": {"issue": {"lastEditedAt": timestamp}}},
+        }
+
+        self.assertEqual(self.client.issue_last_edited_at(3), timestamp)
+        method, path, body = self.fake.calls[-1]
+        self.assertEqual((method, path), ("POST", "/graphql"))
+        self.assertIn("lastEditedAt", body["query"])
+        self.assertEqual(body["variables"], {"owner": "o", "name": "r", "number": 3})
+
+        self.fake.last_edited_response = {
+            "data": {"repository": {"issue": {"lastEditedAt": None}}},
+        }
+        self.assertIsNone(self.client.issue_last_edited_at(3))
+
+    def test_issue_last_edited_at_fails_closed_on_errors_or_invalid_data(self):
+        invalid_responses = [
+            {"errors": [{"message": "denied"}], "data": {"repository": {"issue": {"lastEditedAt": None}}}},
+            {},
+            {"data": {"repository": None}},
+            {"data": {"repository": {"issue": {}}}},
+            {"data": {"repository": {"issue": {"lastEditedAt": 42}}}},
+            {"data": {"repository": {"issue": {"lastEditedAt": "not a timestamp"}}}},
+            {"data": {"repository": {"issue": {"lastEditedAt": "2026-09-28T03:04:05"}}}},
+        ]
+        for response in invalid_responses:
+            with self.subTest(response=response):
+                self.fake.last_edited_response = response
+                with self.assertRaises(APIError):
+                    self.client.issue_last_edited_at(3)
 
     def test_set_labels_only_changes_managed_labels_and_is_idempotent(self):
         labels = self.client.set_labels(3, ["symphony:done"], ["symphony:ready"])

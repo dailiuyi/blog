@@ -10,7 +10,7 @@ import unittest
 from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from symphony_acceptance.controller import Controller, git
+from symphony_acceptance.controller import Controller, git, parse_coder_result
 from symphony_acceptance.core import StateStore, fingerprint, PipelineError, _git as core_git
 from symphony_acceptance.agents import AgentError
 from symphony_acceptance.github import APIError, GitHub
@@ -82,6 +82,9 @@ class Scenario:
         self.sessions = []
         self.on_review = None
         self.unavailable = False
+        self.coder_status = 'ready'
+        self.coder_summary = 'implemented'
+        self.prompts = []
 
     def factory(self, command, cwd, model, effort, readonly=False, **kwargs):
         scenario = self
@@ -101,19 +104,21 @@ class Scenario:
                 return 'fresh-' + str(len(scenario.sessions))
 
             def turn(self, prompt, schema):
+                scenario.prompts.append((readonly, prompt))
                 if not readonly:
-                    value = scenario.codes.pop(0) if len(scenario.codes) > 1 else scenario.codes[0]
-                    (Path(cwd) / 'value.txt').write_text(value, encoding='utf-8')
-                    payload = {'status': 'ready', 'summary': 'implemented'}
+                    if scenario.coder_status == 'ready':
+                        value = scenario.codes.pop(0) if len(scenario.codes) > 1 else scenario.codes[0]
+                        (Path(cwd) / 'value.txt').write_text(value, encoding='utf-8')
+                    payload = {'status': scenario.coder_status, 'summary': scenario.coder_summary}
                 else:
-                    request = json.loads(prompt[prompt.index('{'):])
+                    request, _ = json.JSONDecoder().raw_decode(prompt[prompt.index('{'):])
                     verdict = scenario.verdicts.pop(0) if len(scenario.verdicts) > 1 else scenario.verdicts[0]
                     payload = dict(request['binding'], verdict=verdict, summary='reviewed',
                                    criteria=[{'criterion': criterion,
                                               'status': 'met' if verdict == 'pass' else 'unmet',
                                               'evidence': 'value.txt inspected and unit check observed'}
                                              for criterion in request['criteria']], findings=[])
-                    if verdict == 'rework':
+                    if verdict in {'rework', 'recapture'}:
                         payload['findings'] = [{'blocking': True, 'path': 'value.txt', 'line': 1,
                                                 'evidence': 'value violates requested boundary',
                                                 'required_fix': 'correct the value'}]
@@ -121,6 +126,40 @@ class Scenario:
                         scenario.on_review(payload, cwd)
                 return {'text': json.dumps(payload), 'thread_id': 'fresh-' + str(len(scenario.sessions)), 'turn_id': 'turn'}
         return Session()
+
+
+class CoderResultParsingTests(unittest.TestCase):
+    def test_coder_result_requires_exact_json_contract(self):
+        cases = [
+            ('non-dict result', None, None, 'missing_text'),
+            ('missing text', {}, None, 'missing_text'),
+            ('non-string text', {'text': 42}, None, 'missing_text'),
+            ('raw Markdown prose', {'text': '# Done\n\nImplemented successfully.'}, None, 'not_json'),
+            ('fenced JSON', {'text': '```json\n{"status":"ready","summary":"done"}\n```'}, None, 'not_json'),
+            ('array', {'text': '[]'}, None, 'schema_mismatch'),
+            ('null', {'text': 'null'}, None, 'schema_mismatch'),
+            ('extra key', {'text': '{"status":"ready","summary":"done","extra":true}'}, None,
+             'schema_mismatch'),
+            ('missing summary', {'text': '{"status":"ready"}'}, None, 'schema_mismatch'),
+            ('non-string summary', {'text': '{"status":"ready","summary":1}'}, None, 'schema_mismatch'),
+            ('empty summary', {'text': '{"status":"ready","summary":""}'}, None, 'schema_mismatch'),
+            ('whitespace summary', {'text': '{"status":"blocked","summary":"  \\n\\t"}'}, None,
+             'schema_mismatch'),
+            ('invalid status', {'text': '{"status":"complete","summary":"done"}'}, None,
+             'schema_mismatch'),
+            ('valid ready', {'text': '{"status":"ready","summary":"Implemented the approved change."}'},
+             {'status': 'ready', 'summary': 'Implemented the approved change.'}, None),
+            ('valid blocked', {'text': '{"status":"blocked","summary":"Need one missing detail."}'},
+             {'status': 'blocked', 'summary': 'Need one missing detail.'}, None),
+        ]
+        for name, result, expected, error_suffix in cases:
+            with self.subTest(name=name):
+                if error_suffix:
+                    with self.assertRaises(PipelineError) as caught:
+                        parse_coder_result(result)
+                    self.assertEqual(str(caught.exception), f'invalid_coder_result:{error_suffix}')
+                else:
+                    self.assertEqual(parse_coder_result(result), expected)
 
 
 class TestController(Controller):
@@ -199,6 +238,59 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(self.run_task()['phase'], 'ready')
         self.assertEqual(self.github.publish_count, 1)
 
+    def test_merged_pr_refreshes_the_single_reply_and_recovers_after_write_failure(self):
+        self.run_task()
+        self.github.pr = lambda number: {'number': number, 'state': 'closed', 'merged': True,
+                                         'head': {'sha': self.github.head}, 'draft': False}
+        original = self.github.summary
+        self.github.summary = lambda *args: (_ for _ in ()).throw(SystemExit('crash while refreshing summary'))
+        with self.assertRaises(SystemExit):
+            self.controller.watch_once()
+        self.assertEqual(self.controller.state['phase'], 'closed')
+        self.assertTrue(self.controller.state['summary_pending'])
+        self.github.summary = original
+        self.controller.watch_once()
+        self.assertFalse(self.controller.state['summary_pending'])
+        self.assertTrue(self.github.summary_body.startswith('**已合并。**'))
+        self.assertEqual(len(self.github.notifications), 0)
+
+    def test_legitimate_coder_block_stops_before_checks(self):
+        self.scenario.coder_status = 'blocked'
+        self.scenario.coder_summary = 'Need one missing acceptance detail.'
+        state = self.run_task()
+        self.assertEqual(state['phase'], 'blocked')
+        self.assertEqual(state['reason'], 'coder_blocked')
+        self.assertEqual(state['agent_blocker'], 'Need one missing acceptance detail.')
+        self.assertEqual(self.check_calls, [])
+        self.assertEqual(self.github.publish_count, 0)
+
+    def test_coder_and_reviewer_forward_live_and_final_usage_with_stable_keys(self):
+        events = []
+        self.controller.event_callback = lambda method, params: events.append((method, params))
+        factory = self.scenario.factory
+        usage = {'total': {'inputTokens': 10, 'outputTokens': 2, 'totalTokens': 12}}
+        original_params = {'threadId': 'provider-thread', 'tokenUsage': usage}
+        def instrumented(*args, **kwargs):
+            session = factory(*args, **kwargs)
+            turn = session.turn
+            def observed(prompt, schema):
+                kwargs['event_callback']('thread/tokenUsage/updated', original_params)
+                result = turn(prompt, schema)
+                result.update(thread_id='provider-remapped-thread', usage=usage)
+                return result
+            session.turn = observed
+            return session
+        self.controller.agent_factory = instrumented
+        self.assertEqual(self.run_task()['phase'], 'ready')
+        self.assertEqual(len(events), 4)
+        self.assertEqual([event[1]['role'] for event in events], ['coder', 'coder', 'reviewer', 'reviewer'])
+        keys = [event[1]['sessionKey'] for event in events]
+        self.assertEqual(keys[0], keys[1])
+        self.assertEqual(keys[2], keys[3])
+        self.assertNotEqual(keys[0], keys[2])
+        self.assertNotIn('sessionKey', original_params)
+        self.assertNotIn('role', original_params)
+
     def test_review_repair_then_pass_same_pr(self):
         self.scenario.codes = ['good-but-incomplete', 'good-fixed']
         self.scenario.verdicts = ['rework', 'pass']
@@ -207,6 +299,117 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(state['repairs'], 1)
         self.assertEqual(self.github.publish_count, 2)
         self.assertEqual(state['pr']['number'], 99)
+        coder_prompts = [prompt for readonly, prompt in self.scenario.prompts if not readonly]
+        self.assertIn('correct the value', coder_prompts[1])
+        self.assertIn('value violates requested boundary', coder_prompts[1])
+        self.assertIn('若源码已满足要求且仅等待控制器补截图或执行检查，必须返回ready', coder_prompts[1])
+
+    def test_evidence_retry_preserves_candidate_and_does_not_run_coder(self):
+        self.scenario.verdicts = ['recapture', 'pass']
+        with mock.patch('symphony_acceptance.browser.needs_browser', return_value=True), \
+                mock.patch.object(self.controller, 'browser_review', return_value={'status': 'passed', 'screenshots': []}):
+            state = self.run_task()
+        self.assertEqual(state['phase'], 'ready')
+        self.assertEqual(state['repairs'], 1)
+        self.assertEqual(self.github.publish_count, 1)
+        self.assertEqual(len([p for readonly, p in self.scenario.prompts if not readonly]), 1)
+        reviewer_prompts = [p for readonly, p in self.scenario.prompts if readonly]
+        self.assertIn('correct the value', reviewer_prompts[1])
+
+    def test_evidence_and_code_repairs_share_budget(self):
+        self.scenario.codes = ['good-first', 'good-fixed']
+        self.scenario.verdicts = ['rework', 'recapture', 'recapture', 'recapture']
+        with mock.patch('symphony_acceptance.browser.needs_browser', return_value=True), \
+                mock.patch.object(self.controller, 'browser_review', return_value={'status': 'passed', 'screenshots': []}):
+            state = self.run_task()
+        self.assertEqual(state['reason'], 'repair_limit_reached')
+        self.assertEqual(state['repairs'], 3)
+        self.assertEqual(self.github.publish_count, 2)
+        self.assertEqual(state['feedback']['verdict'], 'recapture')
+
+    def test_real_blocker_is_saved_without_automatic_coding(self):
+        self.scenario.verdicts = ['blocked']
+        state = self.run_task()
+        self.assertEqual(state['reason'], 'review_blocked')
+        self.assertEqual(state['repairs'], 0)
+        self.assertEqual(state['feedback'], state['review'])
+
+    def test_reregister_same_plan_preserves_reviewer_feedback(self):
+        self.scenario.verdicts = ['blocked']
+        blocked = self.run_task()
+        expected = blocked['review']
+        registered = self.controller.register(1, update_plan=True)
+        self.assertEqual(registered['feedback'], expected)
+        self.assertEqual(registered['head_sha'], blocked['head_sha'])
+
+    def test_recapture_without_browser_stays_blocked(self):
+        self.scenario.verdicts = ['recapture']
+        self.assertEqual(self.run_task()['reason'], 'browser_recapture_unavailable')
+
+    def test_latest_ci_feedback_survives_reregister_and_resume(self):
+        state = self.run_task()
+        feedback = {'reason': 'GitHub CI failed', 'ci': {'state': 'failure', 'checks': ['Build']}}
+        state.update(phase='blocked', repairs=3, resume_phase='reviewing', feedback=feedback,
+                     reason='repair_limit_reached')
+        store = StateStore(self.config['control_root'], self.config['repository'], 1)
+        store.save(state)
+        self.assertEqual(self.controller.register(1, update_plan=True)['feedback'], feedback)
+        store.save(state)
+        comment = {'id': 42, 'body': '/symphony resume', 'user': {'login': 'owner', 'type': 'User'}}
+        self.assertTrue(self.controller.command(store, state, comment))
+        self.assertEqual(store.load()['feedback'], feedback)
+
+    def test_browser_plan_receives_feedback_and_observed_themes_are_required(self):
+        self.run_task()
+        self.controller.state['feedback'] = {'required_fix': 'Capture footer in Night'}
+        self.config['browser'] = {'required_screenshot_themes': ['summer', 'night']}
+        plan = {'pages': []}
+        session = mock.Mock()
+        session.turn.return_value = {'text': json.dumps(plan)}
+        report = {'status': 'passed', 'pages': [{'path': '/about/', 'width': w, 'checks': []}
+                                              for w in (1440, 390, 320)],
+                  'screenshots': [{'path': '/about/', 'width': w, 'step_index': 1,
+                                   'label': 'claims Night but actual Summer',
+                                   'theme': {'html_data_environment': 'summer'}} for w in (1440, 390, 320)]}
+        with mock.patch('symphony_acceptance.browser.validate_browser_plan', side_effect=[PipelineError('invalid_browser_attribute'), plan]), \
+                mock.patch('symphony_acceptance.browser.run_browser', return_value=report), \
+                mock.patch('symphony_acceptance.evidence.publish_browser_evidence', side_effect=lambda api, state, value: value):
+            result = self.controller.browser_review(self.root, session, lambda *args: None)
+        self.assertIn('Capture footer in Night', session.turn.call_args.args[0])
+        self.assertIn('invalid_browser_attribute', session.turn.call_args.args[0])
+        self.assertEqual(session.turn.call_count, 2)
+        self.assertEqual(self.controller.state['repairs'], 1)
+        self.assertEqual(result['status'], 'failed')
+        for page in result['pages']:
+            self.assertEqual([item['passed'] for item in page['checks']], [True, False])
+
+    def test_invalid_browser_plan_retries_are_bounded_and_preserved(self):
+        self.run_task()
+        session = mock.Mock()
+        session.turn.return_value = {'text': '{}'}
+        with self.assertRaisesRegex(PipelineError, 'repair_limit_reached'):
+            self.controller.browser_review(self.root, session, lambda *args: None)
+        self.assertEqual(session.turn.call_count, 4)
+        self.assertEqual(self.controller.state['repairs'], 3)
+        saved = list(self.controller.store.home.rglob('*browser-plan-*.json'))
+        self.assertEqual(len(saved), 4)
+        self.assertEqual(self.controller.state['browser_plan_error'], 'invalid_browser_plan')
+
+    def test_browser_plan_error_survives_interruption(self):
+        self.run_task()
+        session = mock.Mock()
+        session.turn.side_effect = [{'text': '{}'}, SystemExit('interrupted')]
+        with self.assertRaises(SystemExit):
+            self.controller.browser_review(self.root, session, lambda *args: None)
+        self.controller.state = self.controller.store.load()
+        self.assertEqual(self.controller.state['repairs'], 1)
+        session = mock.Mock()
+        session.turn.side_effect = SystemExit('inspect restored prompt')
+        with self.assertRaises(SystemExit):
+            self.controller.browser_review(self.root, session, lambda *args: None)
+        prompt = session.turn.call_args.args[0]
+        self.assertIn('"previous_plan_error": "invalid_browser_plan"', prompt)
+        self.assertEqual(self.controller.state['repairs'], 1)
 
     def test_candidate_sha_is_durable_before_ref_write_and_survives_restart(self):
         publish = self.github.publish
@@ -367,19 +570,20 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(len(attempts), 3)
 
     def test_ready_delivery_crash_is_reconciled_by_watcher(self):
-        original = self.github.notify
+        original = self.github.summary
         def crash(*args):
             raise SystemExit('simulated process loss after terminal state persistence')
-        self.github.notify = crash
+        self.github.summary = crash
         with self.assertRaises(SystemExit):
             self.run_task()
         store = StateStore(self.config['control_root'], self.config['repository'], 1)
         self.assertTrue(store.load()['delivery_pending'])
-        self.github.notify = original
+        self.github.summary = original
         self.controller.watch_once()
         self.assertFalse(store.load()['delivery_pending'])
         self.assertFalse(self.github.drafts[-1])
-        self.assertEqual(len(self.github.notifications), 1)
+        self.assertEqual(len(self.github.notifications), 0)
+        self.assertIn("自动审查通过", self.github.summary_body)
 
     def test_blocked_delivery_crash_is_reconciled_by_watcher(self):
         self.scenario.unavailable = True
@@ -429,11 +633,11 @@ class ControllerTests(unittest.TestCase):
         self.assertTrue(self.github.drafts[-1])
 
     def test_ready_replay_rechecks_ci_after_crash(self):
-        original = self.github.notify
-        self.github.notify = lambda *args: (_ for _ in ()).throw(SystemExit('crash'))
+        original = self.github.summary
+        self.github.summary = lambda *args: (_ for _ in ()).throw(SystemExit('crash'))
         with self.assertRaises(SystemExit):
             self.run_task()
-        self.github.notify = original
+        self.github.summary = original
         self.github.ci_state = 'pending'
         self.controller.watch_once()
         self.assertEqual(self.controller.state['phase'], 'waiting_ci')

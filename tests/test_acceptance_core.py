@@ -280,6 +280,11 @@ class CoreTests(unittest.TestCase):
         with self.assertRaisesRegex(PipelineError, "review_pass_conflicts_with_evidence"):
             validate_review({**report, "criteria": unmet}, binding, plan)
         finding = {"blocking": True, "path": "src/page.md", "line": 4, "evidence": "Broken link.", "required_fix": "Fix link."}
+        with self.assertRaisesRegex(PipelineError, "review_recapture_request_missing"):
+            validate_review({**report, "verdict": "recapture"}, binding, plan)
+        with self.assertRaisesRegex(PipelineError, "review_rework_request_missing"):
+            validate_review({**report, "verdict": "rework", "findings": [{**finding, "blocking": False}]}, binding, plan)
+        self.assertEqual(validate_review({**report, "verdict": "recapture", "findings": [finding]}, binding, plan)['verdict'], 'recapture')
         with self.assertRaisesRegex(PipelineError, "review_pass_conflicts_with_evidence"):
             validate_review({**report, "findings": [finding]}, binding, plan)
         with self.assertRaisesRegex(PipelineError, "review_fields_invalid"):

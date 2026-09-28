@@ -637,12 +637,30 @@ class CodexSession:
         items = turn.get("items")
         return [item for item in items if isinstance(item, dict)] if isinstance(items, list) else []
 
-    def turn(self, prompt: str, schema: dict[str, Any] | None = None) -> dict[str, Any]:
+    def turn(self, prompt: str, schema: dict[str, Any] | None = None,
+             *, images: list[str] | None = None) -> dict[str, Any]:
         """Run one turn and return only its completed final agent message."""
         if not isinstance(prompt, str):
             raise ValueError("prompt must be a string")
         if schema is not None and not isinstance(schema, dict):
             raise ValueError("schema must be a JSON schema object")
+        image_inputs = []
+        for image in images or []:
+            path = Path(image).resolve()
+            if not path.is_relative_to(self.cwd.resolve()) or not path.is_file() or path.suffix.lower() != '.png':
+                raise ValueError('review image must be a PNG inside its workspace')
+            image_inputs.append({'type': 'localImage', 'path': str(path)})
+        if schema is not None:
+            # Some provider routes do not enforce outputSchema. Keep the wire
+            # contract and tell the model the final-answer contract explicitly.
+            # Append it so the routing envelope remains the first input lines.
+            prompt += (
+                "\n\nFinal response format: return exactly one JSON object matching the following JSON Schema. "
+                "Do not include Markdown, code fences, headings, or text outside that object. "
+                "Put any completion summary or blocker explanation in the schema's string fields. "
+                "This format requirement does not authorize additional actions or checks.\n"
+                + json.dumps(schema, ensure_ascii=False)
+            )
         thread_id = self.start()
         if self._turn_active:
             raise self._error("concurrent_turn_not_supported")
@@ -654,7 +672,7 @@ class CodexSession:
         try:
             params: dict[str, Any] = {
                 "threadId": thread_id,
-                "input": [{"type": "text", "text": prompt}],
+                "input": [{"type": "text", "text": prompt}] + image_inputs,
                 "cwd": str(self.cwd),
                 "approvalPolicy": "never",
                 "model": self.model,

@@ -112,6 +112,20 @@ for line in sys.stdin:
 
 
 class CodexSessionTests(unittest.TestCase):
+    def test_review_images_use_local_image_input_and_cannot_escape_workspace(self):
+        screenshot = self.cwd / 'review.png'
+        screenshot.write_bytes(b'\x89PNG\r\n\x1a\n')
+        with self.make_session(readonly=True) as session:
+            session.turn('Inspect the candidate screenshot.', images=[str(screenshot)])
+        turn = next(item for item in self.read_log() if item.get('method') == 'turn/start')
+        self.assertEqual(turn['params']['input'][1], {'type': 'localImage', 'path': str(screenshot.resolve())})
+        with tempfile.TemporaryDirectory() as external:
+            outside = Path(external) / 'outside.png'
+            outside.write_bytes(b'\x89PNG\r\n\x1a\n')
+            with self.make_session(readonly=True) as session:
+                with self.assertRaises(ValueError):
+                    session.turn('Do not read outside.', images=[str(outside)])
+
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory(prefix="acceptance-agents-")
         self.temp_path = Path(self.temp.name)
@@ -153,14 +167,17 @@ class CodexSessionTests(unittest.TestCase):
 
     def test_handshake_pagination_fresh_thread_turn_and_callback(self) -> None:
         events: list[tuple[str, dict[str, object]]] = []
-        schema = {"type": "object", "properties": {"answer": {"type": "string"}}}
+        schema = {"type": "object", "properties": {
+            "answer": {"type": "string", "description": "验收摘要"}}}
+        prompt = ("[SYMPHONY_ROUTING_V1]\nissue=GH-42\n"
+                  "label=symphony:model:gpt-6-astra\n[/SYMPHONY_ROUTING_V1]\nreview this")
         with self.make_session(event_callback=lambda method, params: events.append((method, params))) as session:
             catalog = session.catalog()
             self.assertEqual(catalog["gpt-6-astra"], {"low", "high"})
             self.assertEqual(catalog["gpt-6-luna"], {"medium"})
             self.assertEqual(session.start(), "fresh-thread")
             self.assertEqual(session.start(), "fresh-thread")
-            result = session.turn("review this", schema)
+            result = session.turn(prompt, schema)
 
         self.assertEqual(result, {
             "text": "final answer", "thread_id": "fresh-thread", "turn_id": "turn-1",
@@ -180,6 +197,10 @@ class CodexSessionTests(unittest.TestCase):
         self.assertEqual(turn["params"]["effort"], "low")
         self.assertEqual(turn["params"]["approvalPolicy"], "never")
         self.assertEqual(turn["params"]["outputSchema"], schema)
+        turn_input = turn["params"]["input"][0]["text"]
+        self.assertTrue(turn_input.startswith(prompt))
+        self.assertRegex(turn_input, r"return exactly one JSON object.*Do not include Markdown")
+        self.assertTrue(turn_input.endswith(json.dumps(schema, ensure_ascii=False)))
         self.assertEqual(turn["params"]["sandboxPolicy"]["type"], "workspaceWrite")
         self.assertEqual(turn["params"]["sandboxPolicy"]["writableRoots"], [str(self.cwd.resolve())])
         env_event = next(params for method, params in events if method == "fake/env")
@@ -199,6 +220,7 @@ class CodexSessionTests(unittest.TestCase):
         turn = next(entry for entry in log if entry.get("method") == "turn/start")
         self.assertEqual(thread["params"]["sandbox"], "read-only")
         self.assertEqual(turn["params"]["sandboxPolicy"], {"type": "readOnly"})
+        self.assertEqual(turn["params"]["input"], [{"type": "text", "text": "review only"}])
         self.assertEqual(turn["params"]["threadId"], "fresh-thread")
         self.assertNotIn("thread/resume", [entry.get("method") for entry in log])
         self.assertNotIn("thread/fork", [entry.get("method") for entry in log])

@@ -23,13 +23,19 @@ from symphony_acceptance.bridge import Bridge
 
 def bundle_paths(source: Path) -> list[Path]:
     paths = [
+        source / "AGENTS.md",
         source / "WORKFLOW.md",
+        source / "docs" / "README.md",
+        source / "docs" / "DECISIONS.md",
+        source / "docs" / "SYMPHONY_ACCEPTANCE.md",
+        source / "docs" / "symphony-acceptance-pilot.md",
         source / "config" / "symphony-blog.json",
         source / "scripts" / "symphony_codex_adapter.py",
         source / "scripts" / "symphony_deepseek_proxy.py",
         source / "scripts" / "start_symphony_acceptance.sh",
     ]
-    return paths + sorted((source / "scripts" / "symphony_acceptance").glob("*.py"))
+    return (paths + sorted((source / "scripts" / "symphony_acceptance").glob("*.py"))
+            + sorted((source / "scripts" / "symphony_acceptance").glob("*.cjs")))
 
 
 def copy_bundle_source(destination: Path) -> Path:
@@ -88,6 +94,26 @@ class InstallerPackagingTests(unittest.TestCase):
 
         self.assertFalse((self.destination / "current").exists())
         self.assertTrue(Path(valid["release"]).is_dir())
+
+    def test_decision_documents_travel_with_release_and_change_its_version(self) -> None:
+        first = installer.install(self.source, self.destination)
+        release = Path(first["release"])
+        for relative in ("AGENTS.md", "docs/README.md", "docs/DECISIONS.md",
+                         "docs/SYMPHONY_ACCEPTANCE.md", "docs/symphony-acceptance-pilot.md"):
+            self.assertEqual((release / relative).read_bytes(),
+                             (self.source / relative).read_bytes().replace(b"\r\n", b"\n"))
+
+        decisions = self.source / "docs" / "DECISIONS.md"
+        decisions.write_bytes(decisions.read_bytes() + b"\nNew accepted decision.\n")
+        second = installer.install(self.source, self.destination)
+        self.assertNotEqual(first["version"], second["version"])
+        self.assertNotEqual((release / "docs/DECISIONS.md").read_bytes(),
+                            (Path(second["release"]) / "docs/DECISIONS.md").read_bytes())
+
+        decisions.unlink()
+        with self.assertRaisesRegex(RuntimeError, "installation_source_incomplete"):
+            installer.install(self.source, self.destination, activate=True)
+        self.assertFalse((self.destination / "current").exists())
 
     def test_corrupted_unactivated_release_cannot_become_current(self) -> None:
         valid = installer.install(self.source, self.destination)
@@ -228,7 +254,10 @@ class ServiceSupervisorTests(unittest.TestCase):
             runner = home / 'fake-runner'
             runner.write_text('#!/bin/sh\necho $$ > "$HOME/observed-runner.pid"\nexec sleep 30\n')
             runner.chmod(0o755)
-            result = subprocess.run(['bash', str(ROOT / 'scripts' / 'start_symphony_acceptance.sh')],
+            # Run the normalized installed script, as the real WSL service does.
+            bundle = installer.install(ROOT, home / 'bundle')
+            launcher = Path(bundle['release']) / 'scripts' / 'start_symphony_acceptance.sh'
+            result = subprocess.run(['bash', str(launcher)],
                                     input='harmless-test-token\n', text=True, capture_output=True, timeout=10,
                                     env=dict(os.environ, HOME=str(home), SYMPHONY_BINARY=str(runner)))
             self.assertEqual(result.returncode, 7, result.stderr)

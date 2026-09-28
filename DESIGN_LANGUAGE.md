@@ -17,6 +17,7 @@ their existing presentation.
   Provenance is recorded in `public/media/projects/SOURCES.md`.
 - Keep first-load content visible, respect reduced motion, and use native cursors.
 - Keep personal identity details off the About page. Public repository links still identify the public account.
+- Accepted About-page copy change (2026-09-28, implemented in PR #24; merge/deployment pending): remove the standalone footer paragraph “开放 Java 后端开发实习 / 校招机会。” without an empty placeholder. Preserve the surrounding copy and GitHub, article and RSS links. See [Issue #23](https://github.com/dailiuyi/blog/issues/23) and [decision D-007](docs/DECISIONS.md#d-007移除关于页底部的求职文案).
 - Do not expose placeholder sections or invented activity statistics to readers.
 
 > ACG × Music × Editorial — 一个喜欢写代码、听音乐和记录生活的人，为自己搭建的互联网小空间。

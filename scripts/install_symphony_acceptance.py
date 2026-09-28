@@ -10,11 +10,16 @@ from uuid import uuid4
 
 def install(source, destination, activate=False):
     source, destination = Path(source).resolve(), Path(destination).expanduser().resolve()
-    paths = [source / 'WORKFLOW.md', source / 'config' / 'symphony-blog.json',
+    paths = [source / 'AGENTS.md', source / 'WORKFLOW.md',
+             source / 'docs' / 'README.md', source / 'docs' / 'DECISIONS.md',
+             source / 'docs' / 'SYMPHONY_ACCEPTANCE.md',
+             source / 'docs' / 'symphony-acceptance-pilot.md',
+             source / 'config' / 'symphony-blog.json',
              source / 'scripts' / 'symphony_codex_adapter.py',
              source / 'scripts' / 'symphony_deepseek_proxy.py',
              source / 'scripts' / 'start_symphony_acceptance.sh']
     paths += sorted((source / 'scripts' / 'symphony_acceptance').glob('*.py'))
+    paths += sorted((source / 'scripts' / 'symphony_acceptance').glob('*.cjs'))
     if not all(path.is_file() for path in paths):
         raise RuntimeError('installation_source_incomplete')
     digest = hashlib.sha256()

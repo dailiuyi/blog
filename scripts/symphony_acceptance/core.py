@@ -33,7 +33,7 @@ REVIEW_SCHEMA = {
     "type": "object",
     "additionalProperties": False,
     "properties": {
-        "verdict": {"type": "string", "enum": ["pass", "rework", "blocked"]},
+        "verdict": {"type": "string", "enum": ["pass", "rework", "recapture", "blocked"]},
         "head_sha": {"type": "string"},
         "base_sha": {"type": "string"},
         "plan_hash": {"type": "string"},
@@ -261,7 +261,7 @@ def validate_review(report: Any, binding: dict[str, str], plan: dict[str, Any]) 
     required = set(REVIEW_SCHEMA["required"])
     if not isinstance(report, dict) or set(report) != required:
         raise PipelineError("review_fields_invalid")
-    if report.get("verdict") not in {"pass", "rework", "blocked"}:
+    if report.get("verdict") not in {"pass", "rework", "recapture", "blocked"}:
         raise PipelineError("review_verdict_invalid")
     for key in ("head_sha", "base_sha", "plan_hash"):
         expected = binding.get(key)
@@ -320,6 +320,10 @@ def validate_review(report: Any, binding: dict[str, str], plan: dict[str, Any]) 
         has_blocking or any(item["status"] != "met" for item in seen.values())
     ):
         raise PipelineError("review_pass_conflicts_with_evidence")
+    if report["verdict"] == "recapture" and not has_blocking:
+        raise PipelineError("review_recapture_request_missing")
+    if report["verdict"] == "rework" and not has_blocking:
+        raise PipelineError("review_rework_request_missing")
     return {
         "verdict": report["verdict"],
         "head_sha": report["head_sha"],

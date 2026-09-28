@@ -17,6 +17,7 @@ import subprocess
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
@@ -137,6 +138,47 @@ class GitHub:
             if len(items) < self.PAGE_SIZE:
                 return result
             page += 1
+
+    def issues_with_label(self, label: str) -> list[dict[str, Any]]:
+        encoded_label = urllib.parse.quote(str(label), safe="")
+        path = f"{self._repo_api}/issues?state=open&labels={encoded_label}"
+        return [
+            issue for issue in self._get_pages(path, None)
+            if "pull_request" not in issue
+        ]
+
+    def issue_events(self, number: int) -> list[dict[str, Any]]:
+        path = f"{self._repo_api}/issues/{self._number(number)}/events"
+        return self._get_pages(path, None)
+
+    def issue_last_edited_at(self, number: int) -> str | None:
+        owner, name = self.repo.split("/", 1)
+        query = (
+            "query($owner: String!, $name: String!, $number: Int!) { "
+            "repository(owner: $owner, name: $name) { issue(number: $number) { lastEditedAt } } }"
+        )
+        response = self.request("POST", "/graphql", {
+            "query": query,
+            "variables": {"owner": owner, "name": name, "number": self._number(number)},
+        })
+        if not isinstance(response, dict) or response.get("errors"):
+            raise APIError("GitHub GraphQL issue timestamp lookup failed")
+        try:
+            timestamp = response["data"]["repository"]["issue"]["lastEditedAt"]
+        except (KeyError, TypeError):
+            raise APIError("GitHub GraphQL issue timestamp lookup returned an invalid response") from None
+        if timestamp is None:
+            return None
+        if not isinstance(timestamp, str):
+            raise APIError("GitHub GraphQL issue timestamp lookup returned an invalid timestamp")
+        normalized = timestamp[:-1] + "+00:00" if timestamp.endswith("Z") else timestamp
+        try:
+            parsed = datetime.fromisoformat(normalized)
+        except ValueError:
+            raise APIError("GitHub GraphQL issue timestamp lookup returned an invalid timestamp") from None
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
+            raise APIError("GitHub GraphQL issue timestamp lookup returned an invalid timestamp")
+        return timestamp
 
     def set_labels(self, issue: int, add: list[str], remove: list[str]) -> list[str]:
         add_labels = self._managed_labels(add)
