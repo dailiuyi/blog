@@ -31,7 +31,8 @@ if [[ -f $target ]]; then cp -p -- "$target" "$previous"; fi
 mv -f -- "$next" "$target"
 systemctl restart nabunana-stats.service
 
-if ! curl --fail --silent --show-error --retry 5 --retry-delay 1 http://127.0.0.1:8787/api/stats/health >/dev/null; then
+if ! curl --fail --silent --show-error --retry 15 --retry-delay 1 --retry-connrefused \
+  --connect-timeout 2 --max-time 3 --retry-max-time 30 http://127.0.0.1:8787/api/stats/health >/dev/null; then
   echo "Statistics health check failed; restoring the previous binary." >&2
   if [[ -f $previous ]]; then
     mv -f -- "$previous" "$target"
