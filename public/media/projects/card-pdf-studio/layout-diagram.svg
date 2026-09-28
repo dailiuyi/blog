@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="448" height="622" viewBox="0 0 448 622" role="img" aria-labelledby="card-pdf-title">
+  <title id="card-pdf-title">A4 卡牌排版示意：3 行 3 列，卡片 59 × 86 mm</title>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9" fill="#9a9486" letter-spacing=".5">
+    <line x1="26" y1="29" x2="422" y2="29" stroke="#d9d3c6" stroke-width="1" />
+    <line x1="26" y1="26" x2="26" y2="32" stroke="#d9d3c6" stroke-width="1" />
+    <line x1="422" y1="26" x2="422" y2="32" stroke="#d9d3c6" stroke-width="1" />
+    <text x="224" y="22" text-anchor="middle">210 mm</text>
+    <line x1="20" y1="34" x2="20" y2="594" stroke="#d9d3c6" stroke-width="1" />
+    <line x1="17" y1="34" x2="23" y2="34" stroke="#d9d3c6" stroke-width="1" />
+    <line x1="17" y1="594" x2="23" y2="594" stroke="#d9d3c6" stroke-width="1" />
+    <text x="13" y="314" text-anchor="middle" transform="rotate(-90 13 314)">297 mm</text>
+  </g>
+  <rect x="26" y="34" width="396" height="560" rx="3" fill="#fcfbf7" stroke="#ddd7ca" stroke-width="1" />
+  <rect x="41.1" y="49.1" width="365.8" height="529.8" rx="2" fill="none" stroke="#d9d3c6" stroke-width="1" stroke-dasharray="5 5" />
+  <g fill="#f6f4ed" stroke="#ded8cb" stroke-width="1">
+    <rect x="53.34" y="66.97" width="111.26" height="162.17" rx="4" />
+    <rect x="168.37" y="66.97" width="111.26" height="162.17" rx="4" />
+    <rect x="283.40" y="66.97" width="111.26" height="162.17" rx="4" />
+    <rect x="53.34" y="232.91" width="111.26" height="162.17" rx="4" />
+    <rect x="168.37" y="232.91" width="111.26" height="162.17" rx="4" />
+    <rect x="283.40" y="232.91" width="111.26" height="162.17" rx="4" />
+    <rect x="53.34" y="398.86" width="111.26" height="162.17" rx="4" />
+    <rect x="168.37" y="398.86" width="111.26" height="162.17" rx="4" />
+    <rect x="283.40" y="398.86" width="111.26" height="162.17" rx="4" />
+  </g>
+  <g fill="#dbe7e1">
+    <rect x="61.34" y="74.97" width="95.26" height="104" rx="3" />
+    <rect x="176.37" y="74.97" width="95.26" height="104" rx="3" />
+    <rect x="291.40" y="74.97" width="95.26" height="104" rx="3" />
+    <rect x="61.34" y="240.91" width="95.26" height="104" rx="3" />
+    <rect x="176.37" y="240.91" width="95.26" height="104" rx="3" />
+    <rect x="291.40" y="240.91" width="95.26" height="104" rx="3" />
+    <rect x="61.34" y="406.86" width="95.26" height="104" rx="3" />
+    <rect x="176.37" y="406.86" width="95.26" height="104" rx="3" />
+    <rect x="291.40" y="406.86" width="95.26" height="104" rx="3" />
+  </g>
+  <g fill="#e7e3d8">
+    <rect x="63.34" y="186.97" width="76" height="6" rx="3" /><rect x="63.34" y="198.97" width="56" height="6" rx="3" />
+    <rect x="178.37" y="186.97" width="76" height="6" rx="3" /><rect x="178.37" y="198.97" width="56" height="6" rx="3" />
+    <rect x="293.40" y="186.97" width="76" height="6" rx="3" /><rect x="293.40" y="198.97" width="56" height="6" rx="3" />
+    <rect x="63.34" y="352.91" width="76" height="6" rx="3" /><rect x="63.34" y="364.91" width="56" height="6" rx="3" />
+    <rect x="178.37" y="352.91" width="76" height="6" rx="3" /><rect x="178.37" y="364.91" width="56" height="6" rx="3" />
+    <rect x="293.40" y="352.91" width="76" height="6" rx="3" /><rect x="293.40" y="364.91" width="56" height="6" rx="3" />
+    <rect x="63.34" y="518.86" width="76" height="6" rx="3" /><rect x="63.34" y="530.86" width="56" height="6" rx="3" />
+    <rect x="178.37" y="518.86" width="76" height="6" rx="3" /><rect x="178.37" y="530.86" width="56" height="6" rx="3" />
+    <rect x="293.40" y="518.86" width="76" height="6" rx="3" /><rect x="293.40" y="530.86" width="56" height="6" rx="3" />
+  </g>
+</svg>

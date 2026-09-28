@@ -4,11 +4,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/common/SiteHeader.astro';
 import PageHero from '../components/common/PageHero.astro';
 import ProjectShowcase from '../components/common/ProjectShowcase.astro';
-const extraProjects = (await getCollection('projects')).filter(p => p.data.name !== 'Three Body Lab');
-const articleByProject: Record<string,string> = {'Chat Digest Agent':'/blog/chat-digest-resilience/', 'Card PDF Studio':'/blog/tcg-card-pdf-layout/'};
+import { projectPageProjects } from '../data/selected-projects';
+const showcaseNames = new Set<string>(projectPageProjects.map(p => p.name));
+const extraProjects = (await getCollection('projects')).filter(p => !showcaseNames.has(p.data.name));
+const articleByProject: Record<string,string> = {'Chat Digest Agent':'/blog/chat-digest-resilience/'};
+const totalProjects = projectPageProjects.length + extraProjects.length;
 ---
 <BaseLayout title="作品 · nabunana" description="个人项目与工程实验，附真实预览、源码和构建记录。" pageClass="acg-site" lightingRegister="quiet">
-  <SiteHeader current="projects" /><PageHero eyebrow="作品 / PROJECTS" title="从一个问题开始。" description="记录想法怎样变成软件，以及实现过程中需要作出的选择。" count={`${3 + extraProjects.length} PROJECTS`} />
-  <main class="projects-page container"><h2 class="sr-only">精选作品</h2><ProjectShowcase /><section class="other-projects"><h2>还有一些小工具。</h2>{extraProjects.map(project => <a href={articleByProject[project.data.name] ?? '/blog/'}><div><h3>{project.data.name}</h3><p>{project.data.description}</p><small>{project.data.tech.join(' / ')}</small></div><span aria-hidden="true">↗</span></a>)}</section></main>
+  <SiteHeader current="projects" /><PageHero eyebrow="作品 / PROJECTS" title="从一个问题开始。" description="记录想法怎样变成软件，以及实现过程中需要作出的选择。" count={`${totalProjects} PROJECTS`} />
+  <main class="projects-page container"><h2 class="sr-only">精选作品</h2><ProjectShowcase projects={projectPageProjects} /><section class="other-projects"><h2>还有一些小工具。</h2>{extraProjects.map(project => <a href={articleByProject[project.data.name] ?? '/blog/'}><div><h3>{project.data.name}</h3><p>{project.data.description}</p><small>{project.data.tech.join(' / ')}</small></div><span aria-hidden="true">↗</span></a>)}</section></main>
 </BaseLayout>
 <style>.projects-page{padding-block:40px 64px}.other-projects{margin-top:56px}.other-projects h2{font-size:25px;font-weight:500;margin-bottom:25px}.other-projects>a{display:flex;justify-content:space-between;gap:24px;padding:25px 0;border-top:1px solid var(--border)}h3{font-size:20px;font-weight:500;margin:0 0 10px}p{font-size:14px;line-height:1.8;color:var(--muted)}small{font:11px var(--font-mono);color:var(--muted)}.other-projects>a>span{color:var(--accent-deep)}.other-projects a:hover h3{text-decoration:underline;text-underline-offset:5px}</style>

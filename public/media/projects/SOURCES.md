@@ -7,3 +7,4 @@ Assets retrieved 2026-09-23 from the owner's public repositories.
 - `elma-preview.jpg`: same repository and commit, `docs/images/readme/social-preview.jpg` (mini-program discovery card).
 - `threebody.png`: `dailiuyi/ThreeBodySimulation`, commit `444c21154677bd01a3d483d051fc051398bd8b00`, `screenshots/2026-08-14/屏幕截图 2026-08-14 144744.png`.
 - minialloc's text preview quotes `minimalloc.c` from `dailiuyi/minialloc`, commit `79afe6a16ed41e92116a896eff55f27f1c1f0e39`. It is labeled source code, not a running application screenshot.
+- `card-pdf-studio/layout-diagram.svg`: 排版示意图，不是运行截图。按 `src/content/blog/tcg-card-pdf-layout.md` 记录的工具输出规格绘制（A4 210 × 297 mm、卡片 59 × 86 mm、8 mm 页边距、2 mm 间距、300 DPI，正好排成 3 × 3）。图中卡面为占位图形，不代表任何真实卡牌内容。
