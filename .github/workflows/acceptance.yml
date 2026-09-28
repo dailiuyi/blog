@@ -1,0 +1,56 @@
+name: Symphony acceptance tests
+
+on:
+  push:
+    paths:
+      - ".github/workflows/acceptance.yml"
+      - "WORKFLOW.md"
+      - "config/symphony-blog.json"
+      - "scripts/install_symphony_acceptance.py"
+      - "scripts/symphony_acceptance/**"
+      - "scripts/symphony_codex_adapter.py"
+      - "scripts/symphony_deepseek_proxy.py"
+      - "scripts/start_symphony_acceptance.sh"
+      - "scripts/test_symphony_codex_adapter.py"
+      - "scripts/test_symphony_deepseek_proxy.py"
+      - "scripts/workflow_verify.mjs"
+      - "tests/test_acceptance_*.py"
+  pull_request:
+    paths:
+      - ".github/workflows/acceptance.yml"
+      - "WORKFLOW.md"
+      - "config/symphony-blog.json"
+      - "scripts/install_symphony_acceptance.py"
+      - "scripts/symphony_acceptance/**"
+      - "scripts/symphony_codex_adapter.py"
+      - "scripts/symphony_deepseek_proxy.py"
+      - "scripts/start_symphony_acceptance.sh"
+      - "scripts/test_symphony_codex_adapter.py"
+      - "scripts/test_symphony_deepseek_proxy.py"
+      - "scripts/workflow_verify.mjs"
+      - "tests/test_acceptance_*.py"
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Run acceptance unit suite
+        run: python -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Run adapter and proxy protocol tests
+        run: python -m unittest discover -s scripts -p 'test_symphony_*.py'
+
+      - name: Verify workflow policy self-test
+        run: node scripts/workflow_verify.mjs self-test

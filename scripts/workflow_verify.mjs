@@ -229,8 +229,8 @@ function evaluateAttempt(state, sourceFingerprint, hash) {
   if (last?.status === 'failed' && last.fingerprint === sourceFingerprint) {
     throw new PolicyError('unchanged_failed_submission');
   }
-  const failures = runs.filter((run) => run.status === 'failed').length;
-  if (failures >= 2) throw new PolicyError('repair_limit_reached');
+  // The external acceptance controller owns the shared check/review repair
+  // budget. This checker only prevents reusing an unchanged failed source.
   return 'execute';
 }
 
@@ -623,8 +623,7 @@ function selfTest() {
     ) === 'execute',
     'one repair is allowed',
   );
-  throwsCode(
-    () =>
+  assert(
       evaluateAttempt(
         {
           runs: [
@@ -634,8 +633,8 @@ function selfTest() {
         },
         first,
         hash,
-      ),
-    'repair_limit_reached',
+      ) === 'execute',
+    'changed submissions are budgeted by the external controller',
   );
 
   const home = issueHome(repo, 'proof');
