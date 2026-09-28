@@ -7,7 +7,6 @@ const elmaProject = {
   tech: ['Java', 'Spring Boot', 'Vue'],
   article: '/blog/elma-low-regret/',
   repo: 'https://github.com/dailiuyi/elma-gohan',
-  source: 'https://github.com/dailiuyi/elma-gohan/blob/bbc45f1e5972facb8beb790e9ebb94efbc08c587/docs/images/readme/product-demo.gif',
 } as const;
 
 const threeBodyProject = {
@@ -19,7 +18,6 @@ const threeBodyProject = {
   tech: ['Java', 'WebSocket', 'Canvas'],
   article: '/blog/threebody-realtime-pipeline/',
   repo: 'https://github.com/dailiuyi/ThreeBodySimulation',
-  source: 'https://github.com/dailiuyi/ThreeBodySimulation/tree/444c21154677bd01a3d483d051fc051398bd8b00/screenshots/2026-08-14',
   live: 'https://threebody.elma-gohan.xyz/',
 } as const;
 
@@ -32,7 +30,6 @@ const miniAllocProject = {
   tech: ['C', 'Memory', 'Testing'],
   article: '/blog/minimalloc-from-scratch/',
   repo: 'https://github.com/dailiuyi/minialloc',
-  source: 'https://github.com/dailiuyi/minialloc/blob/79afe6a16ed41e92116a896eff55f27f1c1f0e39/minimalloc.c',
 } as const;
 
 const cardPdfProject = {
@@ -44,7 +41,6 @@ const cardPdfProject = {
   tech: ['Python', 'Pillow', 'Tkinter'],
   article: '/blog/tcg-card-pdf-layout/',
   repo: 'https://github.com/dailiuyi/card-pdf-studio',
-  source: '/blog/tcg-card-pdf-layout/',
 } as const;
 
 /** Showcase entries on the home page and /about/ (three projects). */
