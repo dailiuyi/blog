@@ -12,8 +12,8 @@ Class(heap_node)
 };`;
 ---
 <div class:list={['project-preview', `preview-${id}`]}>
-  {id === 'elma' && <><div class="preview-caption"><span>ELMA / 微信小程序</span><span>操作录屏</span></div><div class="phone-stage"><div class="phone"><img src="/media/projects/elma-still.png" width="320" height="690" alt="ELMA 小程序真实界面：距离、预算与品类筛选" loading="lazy" data-elma-demo /></div><div class="demo-notes"><span>01 / 选择条件</span><span>02 / 看看推荐</span><span>03 / 换一家</span><button type="button" data-demo-toggle aria-pressed="false">播放演示 <span aria-hidden="true">▷</span></button></div></div></>}
-  {id === 'threebody' && <><div class="preview-caption"><span>THREE BODY LAB</span><span>运行截图</span></div><a class="simulation-image" href="/media/projects/threebody.png" target="_blank" rel="noopener" aria-label="查看三体实验室完整运行截图（新标签页）"><img src="/media/projects/threebody.png" width="1920" height="1010" alt="三体实验室真实界面：参数编辑、天体轨迹、时间轴和守恒量图表" loading="lazy" /><span>查看完整截图 ↗</span></a></>}
+  {id === 'elma' && <><div class="preview-caption"><span>ELMA / 微信小程序</span><span>操作录屏</span></div><div class="phone-stage"><div class="phone"><img src="/media/projects/elma-still.webp" width="320" height="690" alt="ELMA 小程序真实界面：距离、预算与品类筛选" loading="lazy" data-elma-demo /></div><div class="demo-notes"><span>01 / 选择条件</span><span>02 / 看看推荐</span><span>03 / 换一家</span><button type="button" data-demo-toggle aria-pressed="false">播放演示 <span aria-hidden="true">▷</span></button></div></div></>}
+  {id === 'threebody' && <><div class="preview-caption"><span>THREE BODY LAB</span><span>运行截图</span></div><a class="simulation-image" href="/media/projects/threebody.webp" target="_blank" rel="noopener" aria-label="查看三体实验室完整运行截图（新标签页）"><img src="/media/projects/threebody.webp" width="1600" height="843" alt="三体实验室真实界面：参数编辑、天体轨迹、时间轴和守恒量图表" loading="lazy" /><span>查看完整截图 ↗</span></a></>}
   {id === 'minialloc' && <><div class="preview-caption"><span>minimalloc.c</span><span>源码节选 / C</span></div><div class="code-stage"><div class="memory-heading"><strong>8<span>KB</span></strong><span>一块堆，<br />从分配到归还。</span></div><pre><code>{excerpt}</code></pre><span class="code-caption">静态内存池 · 空闲链表 · 相邻合并</span></div></>}
   {id === 'cardpdf' && <><div class="preview-caption"><span>CARD PDF STUDIO</span><span>排版示意 / 非截图</span></div><div class="sheet-stage"><img src="/media/projects/card-pdf-studio/layout-diagram.svg" width="448" height="622" alt="按 300 DPI 输出的 A4 排版示意：59 × 86 mm 卡牌以 3 行 3 列排列，8 mm 页边距与 2 mm 间距，卡片内容为占位图形。" loading="lazy" /><span class="sheet-note">A4 · 3 × 3 · 59 × 86 mm · 300 DPI</span></div></>}
 </div>
@@ -28,7 +28,7 @@ Class(heap_node)
         const img = button.closest('.project-preview')?.querySelector<HTMLImageElement>('[data-elma-demo]');
         if (!img) return;
         const playing = button.getAttribute('aria-pressed') !== 'true';
-        img.src = playing ? '/media/projects/elma-demo.gif' : '/media/projects/elma-still.png';
+        img.src = playing ? '/media/projects/elma-demo.gif' : '/media/projects/elma-still.webp';
         button.setAttribute('aria-pressed', String(playing));
         button.textContent = playing ? '停止演示 □' : '播放演示 ▷';
       }, { signal });
