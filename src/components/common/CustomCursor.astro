@@ -38,16 +38,33 @@
       document.documentElement.classList.add('custom-cursor-ready');
       if (!cursorFrame) cursorFrame = requestAnimationFrame(draw);
     };
-    const updateTarget = (event: PointerEvent) => {
-      const target = event.target instanceof Element ? event.target : null;
+    let hoverTarget: Element | null = null;
+
+    const applyTargetState = (target: Element | null) => {
       cursor.classList.toggle('is-editing', Boolean(target?.closest(editableSelector)));
       cursor.classList.toggle('is-dragging', Boolean(target?.closest(dragSelector)));
       cursor.classList.toggle('is-interactive', Boolean(target?.closest(interactiveSelector)));
     };
+    const updateTarget = (event: PointerEvent) => {
+      hoverTarget = event.target instanceof Element ? event.target : null;
+      applyTargetState(hoverTarget);
+    };
+    const matchesFocusVisible = (target: Element) => {
+      try { return target.matches(':focus-visible'); } catch { return true; }
+    };
+    // 键盘与鼠标共用同一套判定：focusin 让 :focus-visible 目标进入 is-interactive，
+    // focusout 退回当前指针目标，避免鼠标点击（非 :focus-visible）时误清除悬停状态。
+    const updateFocusTarget = (event: FocusEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (event.type === 'focusout') { applyTargetState(hoverTarget); return; }
+      if (target && matchesFocusVisible(target)) applyTargetState(target);
+    };
 
     document.addEventListener('pointermove', move, { passive: true, signal });
     document.addEventListener('pointerover', updateTarget, { passive: true, signal });
-    document.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'), { signal });
+    document.addEventListener('focusin', updateFocusTarget, { signal });
+    document.addEventListener('focusout', updateFocusTarget, { signal });
+    document.addEventListener('pointerleave', () => { hoverTarget = null; cursor.classList.remove('is-visible'); }, { signal });
     window.addEventListener('blur', () => cursor.classList.remove('is-visible'), { signal });
   };
 

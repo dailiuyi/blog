@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import { ClientRouter } from 'astro:transitions';
 import EnvironmentLighting from '../components/common/EnvironmentLighting.astro';
 import MotionDirector from '../components/common/MotionDirector.astro';
@@ -24,16 +23,6 @@ interface Props {
 const { title, description = 'nabunana 的个人数字空间：写作、项目、技术与生活。', prototype, image = '/og-default.svg', pageClass, lightingIntensity = 'standard', lightingRegister = 'quiet' } = Astro.props;
 const isFormalPage = !prototype && !Astro.url.pathname.startsWith('/prototype/');
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
-const pages = [
-  { title: 'Projects', description: '正在构建的项目与实验', href: '/projects/', meta: 'Page' },
-  { title: 'Music', description: 'Yorushika、n-buna、Vocaloid 与听歌记录', href: '/music/', meta: 'Page' },
-  { title: 'About', description: '关于这个数字空间和它的主人', href: '/about/', meta: 'Page' },
-];
-const searchItems = [
-  ...posts.map((post) => ({ title: post.data.title, description: post.data.description, href: `/blog/${post.id}/`, meta: `${post.data.category} · ${post.data.tags.join(' ')}` })),
-  ...pages,
-];
 ---
 <!doctype html>
 <html lang="zh-CN" data-lighting-register={lightingRegister} data-lighting-preset={DEFAULT_LIGHTING_PRESET}>
@@ -98,11 +87,13 @@ const searchItems = [
         <button class="icon-button" type="button" data-search-close aria-label="关闭搜索">×</button>
       </div>
       <div class="search-results" data-search-results>
-        {searchItems.map((item) => <a class="search-result" data-search-item data-search-text={`${item.title} ${item.description} ${item.meta}`.toLowerCase()} href={item.href}><strong>{item.title}</strong><small>{item.meta} · {item.description}</small></a>)}
-        <p class="search-empty" data-search-empty hidden>没有找到匹配内容。</p>
+        <noscript><p class="search-empty">搜索需要启用 JavaScript。</p></noscript>
       </div>
+      <p class="search-status" data-search-status aria-live="polite" hidden></p>
     </dialog>
     <script>
+      import { searchEntries, type SearchEntry } from '../lib/site-search';
+
       let globalControlsAbort: AbortController | undefined;
       const bindGlobalControls = () => {
         globalControlsAbort?.abort();
@@ -111,13 +102,68 @@ const searchItems = [
 
         const dialog = document.querySelector<HTMLDialogElement>('[data-search-dialog]');
         const input = document.querySelector<HTMLInputElement>('[data-search-input]');
-        const items = [...document.querySelectorAll<HTMLElement>('[data-search-item]')];
-        const empty = document.querySelector<HTMLElement>('[data-search-empty]');
+        const results = document.querySelector<HTMLElement>('[data-search-results]');
+        const status = document.querySelector<HTMLElement>('[data-search-status]');
         const motion = matchMedia('(prefers-reduced-motion: reduce)');
         const openEase = 'cubic-bezier(.16, 1, .3, 1)';
         const closeEase = 'cubic-bezier(.4, 0, 1, 1)';
+        let entries: SearchEntry[] | null = null;
+        let indexRequest: Promise<void> | null = null;
+        let debounce = 0;
         let lastOrigin: DOMRect | null = null;
         let closing = false;
+
+        const loadIndex = () => {
+          if (indexRequest) return indexRequest;
+          indexRequest = fetch('/search-index.json', { headers: { Accept: 'application/json' } })
+            .then((response) => (response.ok ? response.json() : null))
+            .then((payload) => {
+              if (payload && Array.isArray(payload.entries)) {
+                entries = payload.entries as SearchEntry[];
+                // 视图切换不会重载页面，用会话缓存避免每次打开搜索都重新下载索引。
+                try { sessionStorage.setItem('nabunana:search-index', JSON.stringify({ generated: payload.generated, entries })); } catch {}
+              }
+            })
+            .catch(() => { entries = null; })
+            .finally(() => { if (!entries) indexRequest = null; });
+          return indexRequest;
+        };
+        // 先看会话缓存：版本（generated）一致就直接使用本地副本。
+        try {
+          const cached = sessionStorage.getItem('nabunana:search-index');
+          if (cached) {
+            const parsed = JSON.parse(cached);
+            if (parsed && Array.isArray(parsed.entries)) entries = parsed.entries as SearchEntry[];
+          }
+        } catch {}
+        const renderResults = (query: string) => {
+          if (!results) return;
+          const hits = query ? searchEntries(entries ?? [], query) : [];
+          results.textContent = '';
+          if (status) {
+            status.hidden = false;
+            if (!query) status.textContent = '输入关键词开始搜索。';
+            else if (entries === null) status.textContent = '搜索索引加载失败，请稍后再试。';
+            else status.textContent = hits.length === 0 ? '没有找到匹配内容。' : `找到 ${hits.length} 条结果。`;
+          }
+          for (const hit of hits) {
+            const link = document.createElement('a');
+            link.className = 'search-result';
+            link.href = hit.entry.href;
+            const heading = document.createElement('strong');
+            heading.textContent = hit.entry.title;
+            const meta = document.createElement('small');
+            meta.textContent = `${hit.entry.meta}${hit.entry.meta ? ' · ' : ''}${hit.entry.description}`;
+            link.append(heading, meta);
+            if (hit.snippet) {
+              const snippet = document.createElement('span');
+              snippet.className = 'search-snippet';
+              snippet.textContent = hit.snippet;
+              link.append(snippet);
+            }
+            results.append(link);
+          }
+        };
 
         const originRect = (target: EventTarget | null) => {
           if (target instanceof Element) return target.getBoundingClientRect();
@@ -154,6 +200,8 @@ const searchItems = [
           lastOrigin = originRect(origin ?? null);
           dialog.classList.remove('is-closing');
           dialog.showModal();
+          // 预热索引，让第一次输入就能直接出结果；失败不影响搜索框本身。
+          void loadIndex();
           requestAnimationFrame(() => {
             if (!motion.matches) {
               dialog.getAnimations().forEach((animation) => animation.cancel());
@@ -165,6 +213,7 @@ const searchItems = [
         const closeSearch = async () => {
           if (!dialog?.open || closing) return;
           closing = true;
+          clearTimeout(debounce);
           dialog.classList.add('is-closing');
           if (!motion.matches) {
             dialog.getAnimations().forEach((animation) => animation.cancel());
@@ -189,12 +238,17 @@ const searchItems = [
           if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); openSearch(); }
         }, { signal });
         input?.addEventListener('input', () => {
-          const query = input.value.trim().toLowerCase();
-          let count = 0;
-          items.forEach((item) => { const visible = !query || item.dataset.searchText?.includes(query); item.hidden = !visible; if (visible) count++; });
-          if (empty) empty.hidden = count > 0;
+          clearTimeout(debounce);
+          const query = input.value.trim();
+          if (!query) { renderResults(''); return; }
+          // 已有索引时立刻重排（本地匹配，不需要再等）；首次使用先加载一次索引。
+          if (entries !== null) { renderResults(query); return; }
+          debounce = window.setTimeout(async () => {
+            await loadIndex();
+            renderResults(input.value.trim());
+          }, 120);
         }, { signal });
-        document.addEventListener('astro:before-swap', () => { if (dialog?.open) dialog.close(); }, { signal });
+        document.addEventListener('astro:before-swap', () => { clearTimeout(debounce); if (dialog?.open) dialog.close(); }, { signal });
       };
       document.addEventListener('astro:page-load', bindGlobalControls);
       bindGlobalControls();

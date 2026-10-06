@@ -15,9 +15,11 @@ their existing presentation.
 - Project media comes from the owner's repositories. ELMA plays only after a click;
   Three Body opens a full screenshot; minialloc is explicitly a source excerpt.
   Provenance is recorded in `public/media/projects/SOURCES.md`.
-- Keep first-load content visible, respect reduced motion, and use native cursors.
+- Keep first-load content visible and respect reduced motion. Cursors stay native by default; only on `hover: hover` + `pointer: fine` without `prefers-reduced-motion: reduce` does `CustomCursor.astro` hide the native cursor and draw the follower, and `:focus-visible` targets get the same `is-interactive` feedback as hover.
 - Keep personal identity details off the About page. Public repository links still identify the public account.
 - Do not expose placeholder sections or invented activity statistics to readers.
+
+> **章节状态（2026-10-06 核对实装）**：第 3–6 节与第 9 节里的青绿调色板、衬线标题层级、`1180px` 容器，以及 Watching / Fragments 等章节，只对应 `src/components/acg/*` 存档原型（以及 `src/pages/og/[...slug].svg.ts` 生成的分享图）的呈现；公开站页面已被上面的「Current public-site rules」取代，现行值见 `src/styles/tokens.css`、`src/styles/editorial.css` 与 `src/pages/index.astro`。第 7、8、11 节仍描述公开站行为，动效细节以 `MOTION_DESIGN.md` 和实装为准。
 
 > ACG × Music × Editorial — 一个喜欢写代码、听音乐和记录生活的人，为自己搭建的互联网小空间。
 
@@ -78,6 +80,8 @@ their existing presentation.
 
 ## 4. Typography
 
+> **历史方案 / 已被开头规则取代**：公开站标题与正文统一使用无衬线体（`src/styles/editorial.css` 在正式页把 `--font-serif` 指向 `--font-sans`，首页 h1 为 `clamp(40px,5vw,68px)`）。下面的衬线大标题与字号层级只保留给存档原型。
+
 - 大标题使用衬线字体，强调文学性、呼吸感和中日文字形。
 - 正文使用系统无衬线字体，确保中文长文稳定可读。
 - 编号、日期、标签使用等宽字体。
@@ -93,9 +97,11 @@ their existing presentation.
 
 ## 5. Layout
 
-- 页面容器上限约 `1180px`。
+> **历史方案 / 已被开头规则取代**：公开站容器为 `1120px`（`editorial.css` 覆盖 `--container`），桌面 32px、移动 20px 边距；`1180px` 是 `tokens.css` 的默认值与原型值。下面的电影章描述同样只适用于存档原型。
+
+- 页面容器上限约 `1180px`（公开站以上方 1120px 规则为准）。
 - 主要依靠留白、细线和明暗对比建立层级。
-- 首页仍按 Hero → Currently → Writing → Music → Notes → Projects → Watching → Fragments → About 排列，不重排信息架构。Hero、Currently、Watching 是 scroll-driven 电影章；Music 是暗房章节，不占用加长滚动时间轴；Writing、Notes、Projects、Fragments、About 是普通编辑流。电影章之间由文档流留出呼吸，页面不是 scroll-snap 式全屏演示。
+- 公开站首页顺序为 identity → three selected projects → selected writing → music and personal links（`src/pages/index.astro`），与开头「Current public-site rules」一致。历史方案（存档原型）：Hero → Currently → Writing → Music → Notes → Projects → Watching → Fragments → About；其中 Hero、Currently、Watching 是 scroll-driven 电影章，Music 是暗房章节，不占用加长滚动时间轴，Writing、Notes、Projects、Fragments、About 是普通编辑流；电影章之间由文档流留出呼吸，页面不是 scroll-snap 式全屏演示。
 - 电影章使用 `track + sticky pin + stage`：桌面 pin 固定在 `top: 0`、高 `100svh`，底部至少留出 `80px` 给播放器与环境控件；锚点始终落在 track 顶。站点 Header 保持普通文档流。
 - 文章列表使用 Editorial List，不使用重复圆角卡片。
 - 正文阅读优先，ACG 视觉不得侵入文章主体。
@@ -103,7 +109,7 @@ their existing presentation.
 
 ## 6. Component Rules
 
-- 默认圆角：`6px`；轻量容器可用 `10px`；少量媒体内容上限 `14px`。
+- 默认圆角：`6px`；轻量容器可用 `10px`；少量媒体内容上限 `14px`。（历史值：公开站实际使用 `src/styles/tokens.css` 的 `--radius-sm: 8px` / `--radius-md: 16px` / `--radius-lg: 28px`，`editorial.css` 在正式页覆盖为 `--radius-md: 12px` / `--radius-lg: 20px`。）
 - 默认无阴影；Hover 阴影最多 `0 12px 40px rgba(25,91,86,.08)`。
 - Glassmorphism 只用于导航、搜索、浮动 Summer/Night 控件和全站迷你播放器。
 - 按钮数量要少，优先文本链接与箭头反馈。

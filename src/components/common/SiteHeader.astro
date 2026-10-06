@@ -10,6 +10,7 @@ const links = [
 ] as const;
 ---
 
+<a class="sr-only skip-link" href="#main">跳到正文</a>
 <header class="site-header container">
   <a class="site-brand" href="/" aria-label="nabunana 首页"><b>nabunana</b></a>
   <nav aria-label="主导航">{links.map((link) => <a href={link.href} aria-current={current === link.key ? 'page' : undefined}><span>{link.label}</span><small>{link.sub}</small></a>)}</nav>
@@ -20,4 +21,9 @@ const links = [
 <style>
   .site-header{height:72px;display:flex;align-items:center;justify-content:space-between;gap:2rem;border-bottom:1px solid var(--border)}.site-brand{display:flex;align-items:center;font-family:var(--font-serif)}.site-brand b{font-weight:600;letter-spacing:-.02em}.site-header nav{display:flex;align-items:center;gap:1.7rem}.site-header nav a{display:grid;color:var(--muted);font-size:.72rem;line-height:1.25;transition:color .2s var(--ease)}.site-header nav a span{width:max-content;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .22s var(--ease)}.site-header nav a small{font-size:.52rem;letter-spacing:.08em;opacity:.7}.site-header nav a:hover,.site-header nav a[aria-current='page']{color:var(--text)}.site-header nav a:hover span,.site-header nav a[aria-current='page'] span{background-size:100% 1px}.header-actions{display:flex;align-items:center;gap:.35rem}.header-action{box-sizing:border-box;width:124px;height:38px;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:0 .7rem;border:1px solid var(--border);border-radius:999px;background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--text);font:600 .62rem/1 var(--font-sans);cursor:pointer}.header-action:hover{background:var(--surface-2)}.search-action svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}.github-link svg{width:14px;height:14px;flex-shrink:0;fill:currentColor}.mobile-menu{display:none;position:relative}.mobile-menu summary{list-style:none;padding:.55rem .65rem;border:1px solid var(--border);border-radius:6px;color:var(--text);font:.65rem var(--font-mono);cursor:pointer}.mobile-menu summary::-webkit-details-marker{display:none}.mobile-menu>div{position:absolute;z-index:40;right:0;top:calc(100% + .5rem);width:210px;padding:.5rem;border:1px solid var(--border);border-radius:8px;background:var(--surface);box-shadow:0 12px 40px rgb(25 91 86 / 8%)}.mobile-menu a{display:block;padding:.7rem;color:var(--muted);font-size:.75rem}.mobile-menu a[aria-current='page']{color:var(--accent-deep)}
   @media(max-width:800px){.site-header{gap:.6rem}.site-header nav{display:none}.github-link{display:none}.search-action{width:38px;padding:0}.search-action span{display:none}.mobile-menu{display:block}}
+  /* 跳过导航链接。SiteHeader 是 body 的直接子元素，会命中 global.css 的
+     `body > :not(...) { position: relative; z-index: 1 }`，该选择器优先级高于
+     `.sr-only`，因此这里用 !important 把链接固定到视口左上，并保证它在 Header 之上。 */
+  .skip-link{position:fixed!important;top:12px;left:12px;z-index:200!important}
+  .skip-link:focus-visible{width:auto;height:auto;margin:0;padding:.55rem .95rem;overflow:visible;clip:auto;white-space:nowrap;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow);font-size:.8rem;font-weight:600;line-height:1.2}
 </style>

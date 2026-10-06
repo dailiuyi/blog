@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/common/SiteHeader.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import { buildTagSlugMap } from '../../lib/tag-slug';
+const posts = await getCollection('blog', ({data})=>!data.draft);
+const tagCounts = new Map<string, number>();
+posts.forEach(post=>post.data.tags.forEach(tag=>tagCounts.set(tag,(tagCounts.get(tag)??0)+1)));
+const tags = [...tagCounts].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name,'zh-CN'));
+const slugByTag = buildTagSlugMap(tags.map(tag=>tag.name));
+---
+<BaseLayout title="标签 · nabunana" description="按标签浏览站内的全部文章。" pageClass="acg-site" lightingRegister="quiet">
+  <SiteHeader current="writing" /><PageHero eyebrow="标签 / TAGS" title="按标签找文章。" description="这里是我写过的所有主题，按文章数量从多到少排列。" count={`${tags.length} TAGS`} />
+  <main id="main" class="tags-page container"><div class="tag-list">{tags.map(tag=><a href={`/tags/${slugByTag.get(tag.name)}/`}><span>{tag.name}</span><small>{tag.count}</small></a>)}</div><a class="archive-link" href="/archive/">按时间浏览全部文章 ↗</a></main>
+</BaseLayout>
+<style>
+  .tags-page{padding-block:30px 64px}.tag-list{display:flex;flex-wrap:wrap;gap:10px}.tag-list a{display:inline-flex;align-items:baseline;gap:8px;padding:9px 14px;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;transition:border-color .2s var(--ease),color .2s var(--ease)}.tag-list a:hover{border-color:var(--accent-deep);color:var(--accent-deep)}.tag-list small{color:var(--muted);font:10px var(--font-mono)}.archive-link{display:inline-block;margin-top:32px;font-size:13px;color:var(--accent-deep)}
+</style>
