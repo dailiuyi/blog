@@ -93,7 +93,9 @@ img, svg { display: block; max-width: 100%; }
 .search-result { display: grid; gap: .2rem; padding: .85rem 1rem; border-radius: 14px; }
 .search-result:hover, .search-result:focus { background: var(--surface-2); }
 .search-result small { color: var(--muted); }
+.search-snippet { display: block; margin-top: .25rem; color: var(--muted); font-size: .78rem; line-height: 1.65; }
 .search-empty { padding: 2rem; text-align: center; color: var(--muted); }
+.search-status { margin: 0; padding: 0 1.55rem 1rem; color: var(--muted); font: .7rem/1.6 var(--font-mono); letter-spacing: .04em; }
 
 .site-page { padding: 7rem 0 9rem; }
 .page-head { max-width: 780px; margin-bottom: 4rem; }

@@ -10,12 +10,12 @@ export async function getStaticPaths(){
 }
 const { post, newer, older }=Astro.props;
 const { Content, headings }=await render(post);
-const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headline:post.data.title,description:post.data.description,datePublished:post.data.published.toISOString(),dateModified:(post.data.updated??post.data.published).toISOString(),author:{"@type":"Person",name:'nabunana',url:'https://github.com/dailiuyi'},mainEntityOfPage:Astro.url.href};
+const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headline:post.data.title,description:post.data.description,datePublished:post.data.published.toISOString(),dateModified:(post.data.updated??post.data.published).toISOString(),author:{"@type":"Person",name:'nabunana',url:'https://github.com/dailiuyi'},mainEntityOfPage:Astro.url.href,inLanguage:'zh-CN',keywords:post.data.tags.join(','),image:new URL(`/og/${post.id}.svg`,Astro.site).href};
 ---
-<BaseLayout title={`${post.data.title} · nabunana`} description={post.data.description} pageClass="acg-site" lightingIntensity="reading" lightingRegister="quiet">
+<BaseLayout title={`${post.data.title} · nabunana`} description={post.data.description} image={`/og/${post.id}.svg`} pageClass="acg-site" lightingIntensity="reading" lightingRegister="quiet">
   <SiteHeader current="writing" />
   <div class="reading-progress" data-reading-progress></div>
-  <article class="article-page">
+  <article class="article-page" id="main">
     <header class="article-hero container" data-editorial-depth data-reveal-group>
       <div class="article-heading"><a href="/blog/" data-scroll-reveal>← 文章 / Writing</a><p data-scroll-reveal><span>{post.data.category}</span><time datetime={post.data.published.toISOString()}>{post.data.published.toLocaleDateString('zh-CN')}</time><b>{post.data.readingTime}</b><b class="mobile-article-views">阅读 <i data-article-views>—</i></b><a href="https://github.com/dailiuyi" target="_blank" rel="author me noopener">编者 nabunana ↗</a></p><h1 data-scroll-reveal>{post.data.title}</h1><div class="description" data-scroll-reveal>{post.data.description}</div><footer data-scroll-reveal>{post.data.tags.map((tag)=><span>#{tag}</span>)}</footer></div>
       <div class="article-view-count" aria-label="文章阅读量"><small>ARTICLE VIEWS</small><span>阅读 <strong data-article-views aria-live="polite">—</strong></span></div>

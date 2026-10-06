@@ -1,6 +1,6 @@
 # 博客交接文档
 
-更新日期：2026-08-25
+更新日期：2026-10-06
 
 ## 1. 当前状态
 
@@ -36,14 +36,14 @@
 
 项目要求 Node.js 22.19 或更高版本，CI 使用 `.node-version` 指定的 Node.js 24。
 
-```powershell
+```bash
 npm ci
 npm run dev
 ```
 
 提交前至少执行：
 
-```powershell
+```bash
 npm run build
 ```
 

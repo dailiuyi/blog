@@ -66,6 +66,17 @@ jobs:
           test -f dist/robots.txt
           test -f dist/rss.xml
 
+      - name: Verify build artifacts
+        shell: bash
+        run: |
+          test -f dist/search-index.json
+          test -f dist/404.html
+          test -f dist/tags/index.html
+          test -f dist/archive/index.html
+
+      - name: Verify content assets
+        run: node scripts/check-content-assets.mjs
+
       - name: Test atomic deployment script
         run: bash scripts/test-deploy-release.sh
 

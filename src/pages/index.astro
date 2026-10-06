@@ -10,7 +10,7 @@ const album = musicAlbums.find(album => album.slug === 'elma') ?? musicAlbums[0]
 ---
 <BaseLayout title="nabunana · 写作、音乐与代码" description="nabunana 的个人空间。Java 与 AI 协作的工程实践、项目构建记录，以及音乐和 ACG。" pageClass="acg-site" lightingRegister="quiet">
   <SiteHeader current="home" />
-  <main class="home-page container">
+  <main class="home-page container" id="main">
     <section class="home-intro" aria-labelledby="home-title"><div><p class="eyebrow">NABUNANA / PERSONAL SPACE</p><h1 id="home-title">写代码，<br />也留一点时间<br />给<span class="title-hand">喜欢的事。</span></h1><p class="home-description">我是 nabunana，软件工程大三，关键词：Java、算法、Agent应用<br />这里记录做过的项目、以及解决问题的过程<br />不止是代码，还有生活和音乐</p><div class="intro-actions"><a class="button" href="#projects">看看作品 <span aria-hidden="true">↓</span></a><a href="/about/">关于我 ↗</a></div></div>
       <a href="/music/" class="hero-record" aria-label="进入音乐档案"><span class="record-top">SIDE A <span>CODE / WORDS / MUSIC</span></span><span class="record-disc"><span class="record-label"><RecordAvatar /></span></span><span class="record-bottom"><span class="record-hand">一些反复听的歌。</span><span>打开音乐档案 ↗</span></span></a>
     </section>

@@ -1,17 +1,17 @@
 # nabunana 博客编译与维护手册
 
-这份文档用于维护 `E:\blog\astro-blog` 中的 Astro 静态博客。博客文章、页面前端、音乐播放器和静态资源会由同一次构建生成，不需要再运行旧 Hexo 项目。
+这份文档用于维护本仓库根目录中的 Astro 静态博客（本机工作副本为 `/home/innovation/文档/Code/blog`；旧文档里的 `E:\blog\astro-blog` 已不再使用）。博客文章、页面前端、音乐播放器和静态资源会由同一次构建生成，不需要再运行旧 Hexo 项目。
 
 ## 1. 环境与目录
 
 推荐环境：
 
-- Windows 10/11
-- Node.js 22.19 或 24
+- Linux（生产与 CI）、macOS 或 WSL；本文示例统一使用 bash
+- Node.js `>= 22.19`；`.node-version` 与 CI 固定为 `24`
 - npm 10 或更高版本
-- PowerShell
+- bash
 
-当前验证环境为 Node.js `v24.19.0`、npm `11.17.0`。
+仓库 `.node-version` 为 `24`，`package.json` 的 `engines.node` 为 `>=22.19.0`：22.19 及以上的 22.x 也能本地构建，CI 与生产发布使用 Node 24。生产环境是 Linux + Nginx（见第 8 节与 `HANDOFF.md`），本文不再假设 Windows 路径。
 
 主要目录：
 
@@ -30,10 +30,10 @@
 
 ## 2. 第一次安装
 
-打开 PowerShell：
+在仓库根目录打开终端：
 
-```powershell
-Set-Location -LiteralPath 'E:\blog\astro-blog'
+```bash
+cd <仓库根目录>
 node --version
 npm --version
 npm ci
@@ -45,9 +45,9 @@ npm ci
 
 进入项目并启动开发服务器：
 
-```powershell
-Set-Location -LiteralPath 'E:\blog\astro-blog'
-$env:ASTRO_TELEMETRY_DISABLED = '1'
+```bash
+cd <仓库根目录>
+export ASTRO_TELEMETRY_DISABLED=1
 npm run dev -- --host 127.0.0.1
 ```
 
@@ -62,7 +62,7 @@ npm run dev -- --host 127.0.0.1
 
 如果 4321 端口被占用：
 
-```powershell
+```bash
 npm run dev -- --host 127.0.0.1 --port 4322
 ```
 
@@ -140,17 +140,17 @@ public/media/music/covers/<album-slug>.webp
 
 只检查 Astro、内容结构和 TypeScript：
 
-```powershell
-Set-Location -LiteralPath 'E:\blog\astro-blog'
-$env:ASTRO_TELEMETRY_DISABLED = '1'
+```bash
+cd <仓库根目录>
+export ASTRO_TELEMETRY_DISABLED=1
 npm run check
 ```
 
 生成正式网站：
 
-```powershell
-Set-Location -LiteralPath 'E:\blog\astro-blog'
-$env:ASTRO_TELEMETRY_DISABLED = '1'
+```bash
+cd <仓库根目录>
+export ASTRO_TELEMETRY_DISABLED=1
 npm run build
 ```
 
@@ -168,8 +168,8 @@ dist/
 
 构建完成后启动生产预览：
 
-```powershell
-Set-Location -LiteralPath 'E:\blog\astro-blog'
+```bash
+cd <仓库根目录>
 npm run preview -- --host 127.0.0.1
 ```
 
@@ -181,16 +181,16 @@ http://127.0.0.1:4321/
 
 正式预览不会像开发服务器一样自动重新构建。修改源码后需要重新执行：
 
-```powershell
+```bash
 npm run build
 ```
 
 基础产物检查：
 
-```powershell
-(Get-ChildItem -LiteralPath '.\dist' -Recurse -Filter '*.html').Count
-(Get-ChildItem -LiteralPath '.\dist\media\music' -Recurse -Filter '*.mp3').Count
-(Get-ChildItem -LiteralPath '.\dist\media\music' -Recurse -Filter '*.lrc').Count
+```bash
+find dist -type f -name '*.html' | wc -l
+find dist/media/music -type f -name '*.mp3' | wc -l
+find dist/media/music -type f -name '*.lrc' | wc -l
 ```
 
 当前基线应为：
@@ -200,6 +200,8 @@ npm run build
 - 94 个 LRC
 - 7 张专辑封面
 - 3 张首页动画宣传图
+
+以上是上一次构建的产物基线；新增或删除路由后，HTML 页面数需要重新统计。MP3 不入 Git（见第 8 节），只在服务器和本地 `public/media/music` 中保存。
 
 还需要人工检查：
 
@@ -276,9 +278,9 @@ MP3 不进入 Git 仓库。自动发布会从服务器当前版本继承 `media/
 
 ### `npm` 或 `node` 找不到
 
-安装 Node.js 22/24 后重新打开 PowerShell，再运行：
+安装 Node.js 22.19 或更高版本（CI 与 `.node-version` 使用 24）后重新打开终端，再运行：
 
-```powershell
+```bash
 node --version
 npm --version
 ```
@@ -287,7 +289,7 @@ npm --version
 
 优先重新执行：
 
-```powershell
+```bash
 npm ci
 ```
 
@@ -301,7 +303,7 @@ npm ci
 
 开发模式确认使用的是 `npm run dev`。生产预览模式需要先停止服务、重新构建，再启动预览：
 
-```powershell
+```bash
 npm run build
 npm run preview -- --host 127.0.0.1
 ```
@@ -314,7 +316,7 @@ npm run preview -- --host 127.0.0.1
 
 改用其他端口：
 
-```powershell
+```bash
 npm run preview -- --host 127.0.0.1 --port 4322
 ```
 
