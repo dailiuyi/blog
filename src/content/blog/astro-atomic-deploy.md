@@ -6,6 +6,8 @@ category: Engineering
 tags: [Astro, Nginx, SFTP, 部署, 静态网站]
 featured: false
 readingTime: "7 min"
+series: "静态博客发布链路"
+seriesOrder: 1
 ---
 
 这个博客是 Astro 静态站，Nginx 直接读取 `/var/www/blog`。只看代码的话，发布似乎就是把 `dist` 传到服务器。站里放了 94 首 MP3、对应的 LRC 和 7 张专辑封面以后，构建产物已经接近 400 MB，直接覆盖线上目录不太合适。

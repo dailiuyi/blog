@@ -15,6 +15,11 @@ const blog = defineCollection({
     featured: z.boolean().default(false),
     author: z.string().default('nabunana'),
     readingTime: z.string().default('6 min'),
+    // 系列/连载：同一主题的多篇文章。seriesOrder 从 1 开始。
+    // 未填 seriesOrder 的文章排在已编号文章之后（视为"新连载"，而不是顶到最前），
+    // 具体排序规则见 src/lib/series.ts。
+    series: z.string().optional(),
+    seriesOrder: z.number().int().positive().optional(),
   }),
 });
 

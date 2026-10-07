@@ -6,6 +6,8 @@ category: Engineering
 tags: [Astro, GitHub Actions, Nginx, SSH, CI/CD, 部署]
 featured: false
 readingTime: "11 min"
+series: "静态博客发布链路"
+seriesOrder: 2
 ---
 
 这次迁移的目标看起来很简单:让新 Astro 博客成为 `main`,不再发布旧博客,GitHub Pages 可以停掉,以后每次推送都由 GitHub Actions 发布到自己的服务器.

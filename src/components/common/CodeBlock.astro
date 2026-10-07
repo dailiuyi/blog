@@ -1,0 +1,24 @@
+---
+import CodeCopy from './CodeCopy.astro';
+
+// Astro 会把 <pre> 的全部属性透传过来：class（Shiki 的 astro-code …）、data-language、
+// style、tabindex 等。这里必须原样透传，否则 Shiki 高亮与换行样式会失效。
+type Props = { class?: string; 'data-language'?: string; [key: string]: any };
+const { class: className, 'data-language': dataLanguage, ...rest } = Astro.props as Props;
+
+// 语言标签：本仓库实际产物同时给出 data-language 与 class，两个来源都兼容，取不到就省略。
+const classLanguage = typeof className === 'string' ? className.match(/(?:^|\s)language-([\w+#.-]+)/)?.[1] : undefined;
+const language = String(dataLanguage || classLanguage || '').trim().toLowerCase();
+const languageAliases: Record<string, string> = { plaintext: 'text', shell: 'bash', sh: 'bash', yml: 'yaml', node: 'javascript', md: 'markdown' };
+const label = language ? languageAliases[language] ?? language : '';
+---
+
+<div class="code-block" data-code-block>
+  <div class="code-block-bar">
+    {label && <span class="code-block-lang">{label}</span>}
+    <button type="button" class="code-block-copy" data-code-copy aria-label={label ? `复制 ${label} 代码` : '复制代码'}><span data-code-copy-label>复制</span></button>
+    <span class="code-block-status" role="status" aria-live="polite" data-code-status></span>
+  </div>
+  <pre class={className} {...rest}><slot /></pre>
+</div>
+<CodeCopy />

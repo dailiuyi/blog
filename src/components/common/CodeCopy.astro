@@ -1,0 +1,116 @@
+---
+// 代码块复制的客户端行为 + 代码块外观样式（全局命名空间 .code-block-*）。
+// 只负责「行为与样式」，不产出可见结构：结构由 CodeBlock.astro 或 rehype 插件注入。
+// 每个页面渲染一次即可（Astro 会把 <script> 打包成单份模块并做去重）。
+---
+
+<script>
+  let codeCopyAbort: AbortController | undefined;
+  let codeCopyTimer = 0;
+
+  /** 兜底方案：非安全上下文（http）或 clipboard 权限被拒时使用 execCommand。 */
+  const fallbackCopy = (text: string) => {
+    try {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.top = '-1000px';
+      area.style.opacity = '0';
+      document.body.append(area);
+      area.select();
+      area.setSelectionRange(0, area.value.length);
+      const copied = document.execCommand('copy');
+      area.remove();
+      return copied;
+    } catch {
+      return false;
+    }
+  };
+
+  const writeClipboard = async (text: string) => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch {
+      // 权限被拒 / 非安全上下文：继续走兜底。
+    }
+    return fallbackCopy(text);
+  };
+
+  const labelOf = (button: HTMLElement) => button.querySelector<HTMLElement>('[data-code-copy-label]');
+  const statusOf = (button: HTMLElement) => button.closest<HTMLElement>('[data-code-block]')?.querySelector<HTMLElement>('[data-code-status]');
+
+  const resetCopyState = (button: HTMLElement) => {
+    const label = labelOf(button);
+    if (button.dataset.state !== 'copied' && button.dataset.state !== 'error') return;
+    delete button.dataset.state;
+    button.setAttribute('aria-label', button.dataset.codeCopyAria || '复制代码');
+    if (label) label.textContent = label.dataset.codeCopyText || '复制';
+    const status = statusOf(button);
+    if (status) status.textContent = '';
+  };
+
+  const setCopyState = (button: HTMLElement, state: 'copied' | 'error') => {
+    const label = labelOf(button);
+    const status = statusOf(button);
+    button.dataset.state = state;
+    button.setAttribute('aria-label', state === 'copied' ? '已复制' : '复制失败');
+    if (label) label.textContent = state === 'copied' ? '已复制' : '复制失败';
+    if (status) status.textContent = state === 'copied' ? '代码已复制到剪贴板' : '复制失败，请手动选择代码';
+    window.clearTimeout(codeCopyTimer);
+    codeCopyTimer = window.setTimeout(() => resetCopyState(button), 1500);
+  };
+
+  const bindCodeCopy = () => {
+    codeCopyAbort?.abort();
+    codeCopyAbort = new AbortController();
+    const { signal } = codeCopyAbort;
+    signal.addEventListener('abort', () => {
+      window.clearTimeout(codeCopyTimer);
+      codeCopyTimer = 0;
+    }, { once: true });
+
+    // 首次绑定前固化初始文案，避免重复点击时把「已复制」记成初始值。
+    document.querySelectorAll<HTMLElement>('[data-code-copy]').forEach((button) => {
+      if (!button.dataset.codeCopyAria) button.dataset.codeCopyAria = button.getAttribute('aria-label') || '复制代码';
+      const label = labelOf(button);
+      if (label && !label.dataset.codeCopyText) label.dataset.codeCopyText = label.textContent || '复制';
+    });
+
+    document.addEventListener('click', async (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const button = target?.closest<HTMLElement>('[data-code-copy]');
+      if (!button) return;
+      const block = button.closest<HTMLElement>('[data-code-block]');
+      const code = block?.querySelector('pre code') ?? block?.querySelector('pre');
+      const text = code?.textContent?.replace(/\n$/, '') ?? '';
+      if (!text.trim()) return;
+      resetCopyState(button);
+      const copied = await writeClipboard(text);
+      setCopyState(button, copied ? 'copied' : 'error');
+    }, { signal });
+  };
+
+  document.addEventListener('astro:before-swap', () => codeCopyAbort?.abort());
+  document.addEventListener('astro:page-load', bindCodeCopy);
+  queueMicrotask(bindCodeCopy);
+</script>
+
+<style is:global>
+  .code-block{position:relative;max-width:100%;margin:1.6rem 0;border:1px solid var(--border);border-radius:var(--radius-md);background:color-mix(in srgb,#0d1117 94%,var(--accent));overflow:hidden}
+  .code-block-bar{display:flex;align-items:center;gap:.4rem;min-height:44px;padding:0 .45rem 0 .95rem;border-bottom:1px solid rgb(230 237 243/9%);background:color-mix(in srgb,#0d1117 88%,var(--accent))}
+  .code-block-lang{font:600 .64rem/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:#7f8c96;white-space:nowrap}
+  .code-block-copy{margin-left:auto;display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0 .7rem;border:1px solid rgb(230 237 243/14%);border-radius:var(--radius-sm);background:transparent;color:#a9b6c0;font:500 .68rem/1 var(--font-mono);letter-spacing:.06em;cursor:pointer;transition:color .18s ease,border-color .18s ease,background .18s ease}
+  .code-block-copy:hover{border-color:rgb(230 237 243/30%);color:#e6edf3}
+  .code-block-copy:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
+  .code-block-copy[data-state='copied']{border-color:color-mix(in srgb,var(--accent) 60%,transparent);color:#d7f1ec}
+  .code-block-copy[data-state='error']{border-color:rgb(230 237 243/14%);color:#9aa6b0}
+  .code-block-status{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+  div.code-block>pre{margin:0;border:0;border-radius:0;padding:1.05rem 1.15rem;background:#0d1117}
+  div.code-block>pre:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
+  @media(max-width:600px){.code-block{margin:1.35rem 0}.code-block-bar{padding:0 .3rem 0 .75rem}div.code-block>pre{padding:.95rem 1rem}}
+  @media(prefers-reduced-motion:reduce){.code-block-copy{transition:none}}
+</style>

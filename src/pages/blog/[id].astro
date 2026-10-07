@@ -3,12 +3,14 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteHeader from '../../components/common/SiteHeader.astro';
 import WindWaveMotif from '../../components/acg/WindWaveMotif.astro';
+import { buildSeriesIndex, buildSeriesMembershipMap } from '../../lib/series';
 
 export async function getStaticPaths(){
   const posts=(await getCollection('blog',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
-  return posts.map((post,index)=>({params:{id:post.id},props:{post,newer:posts[index-1]??null,older:posts[index+1]??null}}));
+  const seriesByPost=buildSeriesMembershipMap(buildSeriesIndex(posts));
+  return posts.map((post,index)=>({params:{id:post.id},props:{post,newer:posts[index-1]??null,older:posts[index+1]??null,series:seriesByPost.get(post.id)??null}}));
 }
-const { post, newer, older }=Astro.props;
+const { post, newer, older, series }=Astro.props;
 const { Content, headings }=await render(post);
 const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headline:post.data.title,description:post.data.description,datePublished:post.data.published.toISOString(),dateModified:(post.data.updated??post.data.published).toISOString(),author:{"@type":"Person",name:'nabunana',url:'https://github.com/dailiuyi'},mainEntityOfPage:Astro.url.href,inLanguage:'zh-CN',keywords:post.data.tags.join(','),image:new URL(`/og/${post.id}.svg`,Astro.site).href};
 ---
@@ -27,6 +29,7 @@ const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headl
     </div>
     <section class="after-reading container">
       <div class="listening-note"><small>今聴いている / NOW LISTENING</small><a href="/music/"><strong>Yorushika ↗</strong></a><p>读完之后，也可以到音乐页听听歌。</p></div>
+      {series && <nav class="series-nav" aria-label="系列导航"><div class="series-nav-head"><a href={`/series/${series.slug}/`}>{series.name}</a><small>第 {series.position} 篇 / 共 {series.total} 篇</small></div><div class="series-nav-links">{series.previous ? <a href={`/blog/${series.previous.id}/`}><small>上一章 / PREVIOUS</small><strong>{series.previous.data.title}</strong></a> : <span class="series-nav-gap"></span>}{series.next ? <a href={`/blog/${series.next.id}/`}><small>下一章 / NEXT</small><strong>{series.next.data.title}</strong></a> : <a href={`/series/${series.slug}/`}><small>系列完结</small><strong>回到「{series.name}」目录</strong></a>}</div></nav>}
       <nav aria-label="相邻文章">{older ? <a href={`/blog/${older.id}/`}><small>上一篇 / OLDER</small><strong>{older.data.title}</strong></a> : <span></span>}{newer ? <a href={`/blog/${newer.id}/`}><small>下一篇 / NEWER</small><strong>{newer.data.title}</strong></a> : <a href="/blog/"><small>返回</small><strong>全部文章</strong></a>}</nav>
     </section>
   </article>
@@ -56,4 +59,15 @@ const articleSchema={"@context":"https://schema.org","@type":"BlogPosting",headl
   @media(max-height:800px){.article-hero{min-height:0}.article-heading{padding:4.5rem 2.5rem 3.5rem 0}}
   @media(max-width:900px){.article-hero{grid-template-columns:1fr;min-height:auto}.article-heading{padding:5rem 0 4rem}.article-view-count{display:none}.mobile-article-views{display:inline}.article-hero :global(.wind-wave){min-height:180px;border-left:0;border-top:1px solid var(--border)}.article-content{grid-template-columns:minmax(0,720px)}.article-content aside{display:none}}
   @media(max-width:600px){.article-heading>p{margin-top:3rem}.listening-note{grid-template-columns:1fr;gap:.8rem}.after-reading nav{grid-template-columns:1fr}.after-reading nav>a+a{padding-left:0;border-left:0}}
+  .after-reading .series-nav{display:grid;grid-template-columns:1fr;gap:1.1rem;margin:0;padding:1.8rem 0;border-top:0;border-bottom:1px solid var(--border)}
+  .after-reading .series-nav-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.9rem}
+  .after-reading .series-nav-head a{color:var(--accent-deep);font:500 1.05rem var(--font-serif)}
+  .after-reading .series-nav-head small{color:var(--muted);font:.58rem var(--font-mono);letter-spacing:.06em}
+  .after-reading .series-nav-links{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .after-reading .series-nav-links>a{display:grid;gap:.5rem;padding:1.2rem 2rem 1.2rem 0;border-bottom:0}
+  .after-reading .series-nav-links>a+a{padding-left:2rem;border-left:1px solid var(--border)}
+  .after-reading .series-nav-links small{color:var(--accent);font:.58rem var(--font-mono)}
+  .after-reading .series-nav-links strong{font:500 1.05rem/1.4 var(--font-serif);transition:transform .22s var(--ease)}
+  .after-reading .series-nav-links>a:hover strong{transform:translateX(4px)}
+  @media(max-width:600px){.after-reading .series-nav-links{grid-template-columns:1fr}.after-reading .series-nav-links>a+a{padding-left:0;border-left:0;border-top:1px solid var(--border)}}
 </style>

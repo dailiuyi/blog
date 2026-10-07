@@ -5,7 +5,9 @@ import MotionDirector from '../components/common/MotionDirector.astro';
 import MusicPlayer from '../components/common/MusicPlayer.astro';
 import SiteStats from '../components/common/SiteStats.astro';
 import SiteFooter from '../components/common/SiteFooter.astro';
+import CodeCopy from '../components/common/CodeCopy.astro';
 import { DEFAULT_LIGHTING_PRESET, type LightingIntensity, type LightingRegister } from '../lib/environment';
+import { REPO_CARD_CSS } from '../../scripts/remark-repo-card.mjs';
 import '../styles/global.css';
 import '../styles/motion.css';
 import '../styles/editorial.css';
@@ -28,6 +30,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 <html lang="zh-CN" data-lighting-register={lightingRegister} data-lighting-preset={DEFAULT_LIGHTING_PRESET}>
   <head>
     <meta charset="UTF-8" />
+    <!-- 仓库卡片样式：remark 插件按 injectStyles:false 关闭了每文档注入，
+         这里全站注入唯一一份，避免一页多篇文档时重复（约 1.4KB/份）。 -->
+    <style is:inline set:html={REPO_CARD_CSS} data-repo-card-global />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
@@ -68,6 +73,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class:list={[prototype && `prototype-${prototype}`, isFormalPage && 'formal-site', pageClass]} data-lighting-register={lightingRegister} data-lighting-intensity={lightingIntensity}>
     <EnvironmentLighting />
+    <CodeCopy />
     <slot />
     {isFormalPage && <SiteFooter />}
     {isFormalPage && <SiteStats />}

@@ -1,0 +1,18 @@
+---
+/**
+ * GitHub 仓库卡片（.astro 组件形态）。
+ *
+ * Markdown 正文里的 `::repo{...}` 由 scripts/remark-repo-card.mjs 直接产出同样的卡片 HTML；
+ * 这个组件是同一套渲染逻辑在 .astro 页面里的入口（例如项目页、about 页），
+ * 卡片标记与样式只有一份来源：scripts/remark-repo-card.mjs。
+ *
+ * 用法：<RepoCard repo="dailiuyi/minialloc" desc="从零实现的分配器" lang="C" stars="128" />
+ * repo 必须是合法 owner/name；不合法时组件渲染一条可读提示（含具体原因），绝不生成坏链接。
+ */
+import { renderRepoCard, REPO_CARD_CSS } from '../../../scripts/remark-repo-card.mjs';
+interface Props { repo: string; desc?: string; lang?: string; stars?: string | number; }
+const { repo, desc, lang, stars } = Astro.props;
+const card = renderRepoCard({ repo, desc, lang, stars });
+---
+<Fragment set:html={`<style data-repo-card>${REPO_CARD_CSS}</style>`} />
+{card.html ? <Fragment set:html={card.html} /> : <p class="repo-card-error" role="note">仓库卡片参数无效：{card.error}</p>}
