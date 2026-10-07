@@ -1,0 +1,16 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/common/SiteHeader.astro';
+import PageHero from '../../components/common/PageHero.astro';
+const notes = (await getCollection('notes')).sort((a,b)=>b.data.created.valueOf()-a.data.created.valueOf());
+const rendered = await Promise.all(notes.map(async note=>({note,...(await render(note))})));
+const excerpt = (text:string) => text.replace(/[#>*_`[\]()!-]/g,' ').replace(/\s+/g,' ').trim().slice(0,80);
+---
+<BaseLayout title="短记录 · nabunana" description="代码之外随手记下的一些短句与片段。" pageClass="acg-site" lightingRegister="quiet">
+  <SiteHeader current="home" /><PageHero eyebrow="短记录 / NOTES" title="随手记下的几句。" description="比文章更短，比日记更轻，写代码之余的零星片段。" count={`${notes.length} NOTES`} />
+  <main id="main" class="notes-page container">{rendered.map(({note,Content})=><article class="note-row"><div class="note-meta"><time datetime={note.data.created.toISOString()}>{note.data.created.toLocaleDateString('zh-CN')}</time>{note.data.tags.length>0&&<span>{note.data.tags.join(' · ')}</span>}</div><h2>{note.data.title.trim()||excerpt(note.data.description??note.body??'')}</h2><div class="note-body"><Content /></div></article>)}<a class="archive-link" href="/archive/">按时间浏览全部文章 ↗</a></main>
+</BaseLayout>
+<style>
+  .notes-page{padding-block:30px 64px}.note-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:40px;padding:26px 0;border-top:1px solid var(--border)}.note-row:last-of-type{border-bottom:1px solid var(--border)}.note-meta{display:flex;flex-direction:column;gap:6px;color:var(--muted);font:11px/1.6 var(--font-mono)}.note-meta span{color:var(--accent-deep)}.note-row h2{font:500 19px/1.6 var(--font-sans);letter-spacing:-.02em;margin:0 0 10px}.note-body{font-size:14px;line-height:1.9;color:var(--muted)}.note-body :global(p){margin:0 0 10px}.note-body :global(p:last-child){margin-bottom:0}.archive-link{display:inline-block;margin-top:32px;font-size:13px;color:var(--accent-deep)}@media(max-width:650px){.notes-page{padding-block:24px 48px}.note-row{grid-template-columns:1fr;gap:10px}}
+</style>

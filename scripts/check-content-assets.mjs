@@ -157,6 +157,13 @@ async function main() {
     const coverRelative = toMusicRelative(album.cover);
     declare(coverRelative, `专辑 ${album.slug} 封面`);
     await expect(coverRelative, `封面（专辑 ${album.slug}）`);
+
+    // 播放器列表只显示 44×44，所以每张封面还有一个 96px 缩略图（covers/thumbs/），
+    // 由生成脚本从封面派生。它不是 music.ts 里的独立声明，但属于合法资产。
+    // 注意：declare() 用的路径没有前导斜杠，所以这里不能按 '/covers/' 匹配。
+    const thumbRelative = coverRelative.replace(/(^|\/)covers\//, '$1covers/thumbs/');
+    declare(thumbRelative, `专辑 ${album.slug} 封面缩略图`);
+    await expect(thumbRelative, `封面缩略图（专辑 ${album.slug}）`);
   }
 
   const albumSlugs = new Set(albums.map((album) => album.slug));

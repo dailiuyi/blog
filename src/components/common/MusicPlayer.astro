@@ -13,7 +13,7 @@ const serializedTracks = JSON.stringify(playerTracks);
         return (
           <details class="library-album" data-album-group data-start-index={startIndex} data-end-index={startIndex + album.tracks.length - 1} open={albumIndex === 0}>
             <summary>
-              <img src={album.cover} alt="" width="44" height="44" loading="lazy" />
+              <img src={album.cover.replace('/covers/', '/covers/thumbs/')} alt="" width="44" height="44" loading="lazy" />
               <span><strong>{album.title}</strong><small>{album.artist} · {album.year}</small></span>
               <em>{album.tracks.length} TRACKS</em>
             </summary>

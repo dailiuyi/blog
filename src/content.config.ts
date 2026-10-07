@@ -32,6 +32,9 @@ const projects = defineCollection({
     tech: z.array(z.string()),
     featured: z.boolean().default(false),
     url: z.string().optional(),
+    article: z.string().optional(),
+    repo: z.string().optional(),
+    live: z.string().optional(),
   }),
 });
 
@@ -39,6 +42,7 @@ const notes = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
   schema: z.object({
     title: z.string(),
+    description: z.string().optional(),
     created: z.coerce.date(),
     tags: z.array(z.string()).default([]),
   }),
