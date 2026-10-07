@@ -6,6 +6,8 @@ category: Engineering
 tags: [Java, WebSocket, Nginx, Vue, 部署]
 featured: true
 readingTime: "8 min"
+series: "Three Body Lab"
+seriesOrder: 2
 ---
 
 Three Body Lab 部署到公网后，首页能打开，REST 接口也正常。可一点击开始实验，页面就一直显示“正在重连”。实验详情页第一次能进去，刷新又变成 Spring 的 Whitelabel 404。

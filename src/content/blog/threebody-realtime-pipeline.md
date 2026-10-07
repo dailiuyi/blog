@@ -7,6 +7,8 @@ category: Engineering
 tags: [Java, Vue, WebSocket, Canvas, 性能优化]
 featured: true
 readingTime: "13 min"
+series: "Three Body Lab"
+seriesOrder: 1
 ---
 
 我在做一个本地 N 体引力模拟器。后端用 RK4 积分推进状态，前端通过 WebSocket 接收位置、轨迹、指标和事件，再画到 Canvas 上。

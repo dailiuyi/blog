@@ -107,6 +107,34 @@ readingTime: "6 min"
 http://127.0.0.1:4321/blog/my-new-post/
 ```
 
+### 4.1 系列 / 连载（可选）
+
+同一主题的多篇文章用两个可选字段串起来，读者能看到阅读顺序：
+
+```yaml
+series: "Three Body Lab"
+seriesOrder: 2
+```
+
+- `series` 是系列名；`seriesOrder` 从 1 开始。
+- 填写后会自动生成 `/series/` 总览与该系列的 `/series/<slug>/` 页面；文章页会显示「第 N 篇 / 共 M 篇」与上一篇/下一篇。
+- **没填这两项的文章完全不受影响**，这是可选的。
+- 未填 `seriesOrder` 的文章排在已编号文章之后（视为"新连载"），组内按发布时间排序。
+- URL slug 由系列名生成：含 ASCII 的名字直接转换（`Three Body Lab` → `three-body-lab`）；纯中文名回退为 `series-<短哈希>`，稳定且不会因插入新系列而变号。
+
+### 4.2 仓库卡片（可选）
+
+正文里单独成段写一行指令，就会渲染成一张带链接的仓库卡片：
+
+```text
+::repo{repo="dailiuyi/minialloc" desc="从零实现的分配器" lang="C" stars="128"}
+```
+
+- 只有 `repo="owner/name"` 是必需的，其余属性可省略。
+- `stars` 只显示你手填的数字，**不请求 GitHub API**（构建离线可复现）。省略时只显示「GitHub ↗」。
+- 写法不合法时该段落会**原样显示**，不会生成坏链接，同时构建日志里会有一条 `[remark-repo-card]` 警告。
+- 该指令必须**单独成段**；写在行内不会生效。
+
 ## 5. 音乐资源维护
 
 音乐库的来源文件是：

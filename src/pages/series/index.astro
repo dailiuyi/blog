@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/common/SiteHeader.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import { buildSeriesIndex } from '../../lib/series';
+const posts = await getCollection('blog', ({data})=>!data.draft);
+const series = buildSeriesIndex(posts);
+---
+<BaseLayout title="系列 · nabunana" description="按阅读顺序浏览站内的系列与连载。" pageClass="acg-site" lightingRegister="quiet">
+  <SiteHeader current="writing" /><PageHero eyebrow="系列 / SERIES" title="按顺序读完一个主题。" description="连载文章已经按阅读顺序排好，从第一篇往下读即可。" count={`${series.length} SERIES`} />
+  <main id="main" class="series-page container">{series.length ? <div class="series-list">{series.map(item=><a href={`/series/${item.slug}/`}><span>{item.name}</span><small>{item.posts.length} 篇</small></a>)}</div> : <p class="series-empty">暂无连载中的系列。</p>}<nav class="series-nav" aria-label="相关页面"><a href="/blog/">全部文章 ↗</a><a href="/archive/">按时间浏览 ↗</a></nav></main>
+</BaseLayout>
+<style>
+  .series-page{padding-block:30px 64px}.series-list{display:flex;flex-wrap:wrap;gap:10px}.series-list a{display:inline-flex;align-items:baseline;gap:8px;padding:9px 14px;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;transition:border-color .2s var(--ease),color .2s var(--ease)}.series-list a:hover{border-color:var(--accent-deep);color:var(--accent-deep)}.series-list small{color:var(--muted);font:10px var(--font-mono)}.series-empty{margin:0;color:var(--muted);font-size:13px}.series-nav{display:flex;gap:24px;margin-top:32px;font-size:13px}.series-nav a{color:var(--accent-deep)}
+</style>
