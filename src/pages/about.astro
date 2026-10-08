@@ -4,7 +4,7 @@ import SiteHeader from '../components/common/SiteHeader.astro';
 import RecordAvatar from '../components/common/RecordAvatar.astro';
 import { selectedProjects as projects } from '../data/selected-projects';
 ---
-<BaseLayout title="关于 · nabunana" description="我是 nabunana。在这里记录 Java、AI 协作与个人项目，也分享音乐、文字和 ACG 兴趣。" pageClass="acg-site" lightingRegister="quiet">
+<BaseLayout title="关于 · nabunana" description="我是 nabunana。读软件工程大三，主要写 Java，也用 AI 辅助写小工具。这里放做过的项目和听过的音乐。" pageClass="acg-site" lightingRegister="quiet">
   <SiteHeader current="about" />
   <main id="main" class="personal-page">
     <section class="intro" aria-labelledby="personal-title">
@@ -13,7 +13,7 @@ import { selectedProjects as projects } from '../data/selected-projects';
         <ul class="tags" aria-label="个人方向"><li>Java 后端</li><li>算法与工程</li><li>AI 协作</li><li>Yorushika / n-buna</li></ul>
         <a class="text-link" href="#selected">最近在做的 <span aria-hidden="true">↓</span></a>
       </div>
-      <a class="record" href="/music/" aria-label="进入我的音乐页"><span class="record-note">SIDE A / SOMEWHERE IN SUMMER</span><span class="disc"><span class="disc-label"><RecordAvatar /></span></span><span class="record-caption">写代码的时候，也听音乐。<span aria-hidden="true">↗</span></span></a>
+      <a class="record" href="/music/" aria-label="进入我的音乐页"><span class="record-note">SIDE A / SOMEWHERE IN SUMMER</span><span class="disc"><span class="disc-label"><RecordAvatar /></span></span><span class="record-caption">随身带着耳机写代码。<span aria-hidden="true">↗</span></span></a>
     </section>
     <section id="selected" class="section" aria-labelledby="projects-title">
       <div class="section-head"><div><p class="eyeline">01 / SELECTED WORK</p><h2 id="projects-title">做过的一些东西</h2></div><a class="text-link" href="/projects/">全部作品 ↗</a></div>
@@ -21,18 +21,18 @@ import { selectedProjects as projects } from '../data/selected-projects';
       <a class="minor-link" href="/blog/tcg-card-pdf-layout/">还有一个小工具：把 TCG 卡牌排成可打印的 A4 PDF ↗</a>
     </section>
     <section class="section background" aria-labelledby="background-title">
-      <div><p class="eyeline">02 / BACKGROUND</p><h2 id="background-title">从算法到工程</h2><p class="section-note">软件工程学习背景。<br />关心原理，也关心实际使用的体验。</p></div>
+      <div><p class="eyeline">02 / BACKGROUND</p><h2 id="background-title">从算法到工程</h2><p class="section-note">软件工程大三在读。<br />喜欢弄清楚底层到底是怎么跑的，也想做出自己平时真会用的小软件。</p></div>
       <div class="experience-list">
-        <article><span class="row-number">01</span><div><h3>算法与底层</h3><p>从算法竞赛开始接触编程，参加过 NOIP、CCPC 与蓝桥杯；继续通过小型项目理解内存、数值计算与系统行为。</p><details><summary>竞赛记录 <span>+</span></summary><p>CCPC 省赛银牌、铜牌与国赛铜牌；蓝桥杯 C/C++ 国赛二等奖、省赛一等奖；NOIP 省级二等奖。</p></details></div></article>
-        <article><span class="row-number">02</span><div><h3>后端与交付</h3><p>参与过数据导出、容器部署和 MR 内容管理平台开发，处理接口、数据、文件存储与版本发布。</p><details><summary>技术与实践 <span>+</span></summary><p>Java / Spring Boot / PostgreSQL / MyBatis-Plus / JPA；REST / WebSocket；Docker / Linux。通过 OpenAPI、自动化测试与部署验证检查交付结果。</p><p>数据导出支持模板填充与动态表头；内容管理涉及场景、版本、文件存储与发布审计。</p></details></div></article>
-        <article><span class="row-number">03</span><div><h3>与 AI 一起开发</h3><p>使用 Codex、Claude Code 辅助开发，自己负责拆解任务、审查代码、纠错与验证，也记录工具在真实项目中的表现。</p><details><summary>协作方式 <span>+</span></summary><p>先明确目标和边界，再拆分任务；结合源码、测试与实际页面检查结果。前端使用 Vue、TypeScript，也探索 Canvas 与 Three.js。</p></details></div></article>
+        <article><span class="row-number">01</span><div><h3>算法与底层</h3><p>从初高中打算法竞赛开始写代码，拿过 CCPC 和蓝桥杯的奖。后来发现除了做题，自己动手写个内存分配器、算算天体轨道这类小轮子，更能理解底层细节。</p><details><summary>竞赛记录 <span>+</span></summary><p>CCPC 省赛银牌、铜牌与国赛铜牌；蓝桥杯 C/C++ 国赛二等奖、省赛一等奖；NOIP 省级二等奖。</p></details></div></article>
+        <article><span class="row-number">02</span><div><h3>后端与工程</h3><p>做过一些实际业务项目的后端开发。主要用 Spring Boot 和 PostgreSQL，处理过动态数据导出、文件存储以及 Docker 容器部署。写接口时习惯把参数校验和错误日志补齐。</p><details><summary>技术与实践 <span>+</span></summary><p>Java / Spring Boot / PostgreSQL / MyBatis-Plus / JPA；REST / WebSocket；Docker / Linux。通过 OpenAPI 文档、自动化测试和实际部署检查接口表现。</p><p>数据导出支持模板填充与动态表头；内容管理涉及场景、版本、文件存储与发布审计。</p></details></div></article>
+        <article><span class="row-number">03</span><div><h3>与 AI 一起开发</h3><p>平时经常用 Codex 和 Claude Code 写代码。把它们当结对编程的助手：自己定架构和边界、挑出逻辑错误、写测试验证，AI 负责铺路和补全重复代码。</p><details><summary>协作方式 <span>+</span></summary><p>先明确目标和边界，再拆分任务；结合源码、测试与实际页面检查结果。前端主要用 Vue 和 TypeScript，偶尔写写 Canvas 与 Three.js。</p></details></div></article>
       </div>
     </section>
     <section class="section" aria-labelledby="offscreen-title">
       <div class="section-head"><div><p class="eyeline">03 / OFF THE CLOCK</p><h2 id="offscreen-title">代码之外</h2></div><span class="handwritten">また、どこかで。</span></div>
-      <div class="interest-grid"><a href="/music/"><span class="interest-symbol" aria-hidden="true">♫</span><h3>音乐</h3><p>Yorushika、n-buna、Vocaloid。<br />一些反复听的歌，留在音乐页。</p><span class="text-link">去听听 ↗</span></a><a href="/blog/"><span class="interest-symbol" aria-hidden="true">✎</span><h3>文字与故事</h3><p>记录开发过程，也保留对动画、故事与日常片段的兴趣。</p><span class="text-link">翻翻文章 ↗</span></a></div>
+      <div class="interest-grid"><a href="/music/"><span class="interest-symbol" aria-hidden="true">♫</span><h3>音乐</h3><p>Yorushika、n-buna、Vocaloid。<br />一些单曲循环的歌，整理在音乐页。</p><span class="text-link">去听听 ↗</span></a><a href="/blog/"><span class="interest-symbol" aria-hidden="true">✎</span><h3>文字与闲聊</h3><p>记录开发中踩过的坑，也随手写写动画和日常随笔。</p><span class="text-link">翻翻文章 ↗</span></a></div>
     </section>
-    <footer class="personal-footer"><div><p class="eyeline">ELSEWHERE</p><h2>在作品里认识我。</h2><p>代码、构建记录和兴趣，都可以从这里继续。</p><p>开放 Java 后端开发实习 / 校招机会。</p></div><div class="footer-links"><a href="https://github.com/dailiuyi" target="_blank" rel="me noopener noreferrer">GitHub <span>↗</span></a><a href="/blog/">文章 <span>↗</span></a><a href="/rss.xml">订阅 RSS <span>↗</span></a></div><small class="signature">nabunana <span>CODE · WORDS · MUSIC</span></small></footer>
+    <footer class="personal-footer"><div><p class="eyeline">ELSEWHERE</p><h2>想交流随时找我。</h2><p>正在找 Java 后端开发的实习 / 校招机会。<br />如果你对我做的项目或者代码感兴趣，欢迎随时交流。</p></div><div class="footer-links"><a href="https://github.com/dailiuyi" target="_blank" rel="me noopener noreferrer">GitHub <span>↗</span></a><a href="/blog/">文章 ↗</a><a href="/rss.xml">订阅 RSS <span>↗</span></a></div><small class="signature">nabunana <span>CODE · WORDS · MUSIC</span></small></footer>
   </main>
 </BaseLayout>
 <style>
