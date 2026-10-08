@@ -80,6 +80,16 @@ export function languageOf(pre) {
 export function wrapCodeBlock(pre) {
   const label = languageOf(pre);
   const barChildren = [];
+  barChildren.push({
+    type: 'element',
+    tagName: 'div',
+    properties: { className: ['code-block-dots'], 'aria-hidden': 'true' },
+    children: [
+      { type: 'element', tagName: 'span', properties: { className: ['dot', 'dot-red'] }, children: [] },
+      { type: 'element', tagName: 'span', properties: { className: ['dot', 'dot-yellow'] }, children: [] },
+      { type: 'element', tagName: 'span', properties: { className: ['dot', 'dot-green'] }, children: [] },
+    ],
+  });
   if (label) {
     barChildren.push({ type: 'element', tagName: 'span', properties: { className: ['code-block-lang'] }, children: [{ type: 'text', value: label }] });
   }

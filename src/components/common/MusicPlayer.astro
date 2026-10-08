@@ -320,6 +320,10 @@ const serializedTracks = JSON.stringify(playerTracks);
     player.on('play', () => {
       setExpanded(true);
       scheduleCollapse(1800);
+      window.dispatchEvent(new CustomEvent('nabunana:player-state', { detail: { playing: true } }));
+    });
+    player.on('pause', () => {
+      window.dispatchEvent(new CustomEvent('nabunana:player-state', { detail: { playing: false } }));
     });
     player.on('volumechange', () => localStorage.setItem('nabunana-player-volume', String(player.audio.volume)));
     let lastSavedSecond = -1;

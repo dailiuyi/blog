@@ -29,5 +29,28 @@
    - [music.astro](file:///e:/blog/astro-blog/src/pages/music.astro) & [blog/index.astro](file:///e:/blog/astro-blog/src/pages/blog/index.astro)：音乐页与文章列表的导引文案。
    - [src/content/projects/*.md](file:///e:/blog/astro-blog/src/content/projects/)：各项目对应 Markdown 文档的概要与描述。
 
-### 验证结果
-- 全站通过 `npm run fonts && astro check && astro build` 编译，73 个静态路由生成正常，无 TypeScript / Astro 语法错误。
+
+---
+
+## D-020: 文章正文排版与代码块高质感美化 (Direction C)
+
+- **日期**：2026-10-08
+- **状态**：已采纳并实施 (Accepted & Implemented)
+
+### 背景与问题
+博客正文排版与代码块较为素淡单调：
+1. 代码块缺乏容器层次与精致度，顶部栏仅有朴素的语言文字与复制按钮。
+2. 用户期望 Mac 窗口风格的红黄绿三色微圆点（`.code-block-dots`）以增加界面工艺感。
+3. Astro 5 / 7 Content Layer 会将 Markdown 产物缓存在 `node_modules/.astro/data-store.json`，若仅修改 rehype 插件而不清空该缓存，Astro build 会直接复用旧 HTML，导致插件改动不生效。
+
+### 决策内容
+1. **代码块视觉工艺**：
+   - 在 rehype 编译管线 ([scripts/rehype-code-block.mjs](file:///e:/blog/astro-blog/scripts/rehype-code-block.mjs)) 中，向每个 `<div class="code-block-bar">` 静态注入 `<div class="code-block-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>`。
+   - 在客户端组件 ([src/components/common/CodeCopy.astro](file:///e:/blog/astro-blog/src/components/common/CodeCopy.astro)) 中配置深色模式（#ff5f56, #ffbd2e, #27c93f）圆点样式及尺寸约束（9px），并保留客户端动态检测兜底。
+   - 增加微弱外发光阴影与内边框，提升暗黑风格代码块的质感与立体感。
+2. **正文微交互升级**：
+   - 顶部阅读进度条增加翡翠流光渐变（`reading-progress`）。
+   - 日系信笺感 `blockquote` 与立体图片框线。
+   - 搜索按钮增加 `<kbd>⌘K</kbd>` 快捷键标识。
+3. **构建缓存清理规范**：
+   - 若修改了 Markdown 预处理/rehype/remark 插件，需清除 `node_modules/.astro` 缓存以触发重新编译。

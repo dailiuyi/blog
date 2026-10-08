@@ -15,6 +15,11 @@ const label = language ? languageAliases[language] ?? language : '';
 
 <div class="code-block" data-code-block>
   <div class="code-block-bar">
+    <div class="code-block-dots" aria-hidden="true">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+    </div>
     {label && <span class="code-block-lang">{label}</span>}
     <button type="button" class="code-block-copy" data-code-copy aria-label={label ? `复制 ${label} 代码` : '复制代码'}><span data-code-copy-label>复制</span></button>
     <span class="code-block-status" role="status" aria-live="polite" data-code-status></span>
