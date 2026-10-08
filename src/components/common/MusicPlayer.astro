@@ -312,18 +312,30 @@ const serializedTracks = JSON.stringify(playerTracks);
         player.seek(savedTime);
       }
     });
+    const dispatchPlayerState = (playing: boolean) => {
+      const idx = player.list?.index ?? Number(localStorage.getItem('nabunana-player-index') || 0);
+      const cur = audio[idx];
+      window.dispatchEvent(new CustomEvent('nabunana:player-state', {
+        detail: {
+          playing,
+          title: cur?.title || cur?.name || 'ノーチラス',
+          artist: cur?.artist || 'Yorushika'
+        }
+      }));
+    };
     player.on('listswitch', ({ index }: { index: number }) => {
       localStorage.setItem('nabunana-player-index', String(index));
       localStorage.setItem('nabunana-player-time', '0');
       syncLibraryTrack(index);
+      dispatchPlayerState(!player.audio.paused);
     });
     player.on('play', () => {
       setExpanded(true);
       scheduleCollapse(1800);
-      window.dispatchEvent(new CustomEvent('nabunana:player-state', { detail: { playing: true } }));
+      dispatchPlayerState(true);
     });
     player.on('pause', () => {
-      window.dispatchEvent(new CustomEvent('nabunana:player-state', { detail: { playing: false } }));
+      dispatchPlayerState(false);
     });
     player.on('volumechange', () => localStorage.setItem('nabunana-player-volume', String(player.audio.volume)));
     let lastSavedSecond = -1;

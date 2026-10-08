@@ -22,7 +22,7 @@ async function capture() {
     '--user-data-dir=' + tempProfile,
     '--disable-gpu',
     '--no-sandbox',
-    '--window-size=1280,1000',
+    '--window-size=1280,960',
     'about:blank'
   ]);
 
@@ -52,24 +52,15 @@ async function capture() {
       });
 
     await send('Page.enable');
-    await send('Page.navigate', { url: 'http://localhost:4321/blog/minimalloc-from-scratch/' });
+
+    // 1. 截图：首页 Summer 模式
+    await send('Page.navigate', { url: 'http://localhost:4321/' });
     await new Promise((r) => setTimeout(r, 1500));
+    let snap = await send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync('home_summer.png', Buffer.from(snap.data, 'base64'));
+    console.log('Saved home_summer.png');
 
-    // 滚动到第一个代码块并居中
-    await send('Runtime.evaluate', {
-      expression: `(() => {
-        const el = document.querySelector('.code-block');
-        if (el) el.scrollIntoView({ block: 'center' });
-      })()`
-    });
-    await new Promise((r) => setTimeout(r, 500));
-
-    // 截取 Summer 模式视口截图
-    const resLight = await send('Page.captureScreenshot', { format: 'png' });
-    fs.writeFileSync('viewport_summer.png', Buffer.from(resLight.data, 'base64'));
-    console.log('Saved viewport_summer.png');
-
-    // 切换到 Night 模式
+    // 2. 截图：首页 Night 模式
     await send('Runtime.evaluate', {
       expression: `(() => {
         document.documentElement.dataset.environment = 'night';
@@ -77,10 +68,40 @@ async function capture() {
       })()`
     });
     await new Promise((r) => setTimeout(r, 600));
+    snap = await send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync('home_night.png', Buffer.from(snap.data, 'base64'));
+    console.log('Saved home_night.png');
 
-    const resDark = await send('Page.captureScreenshot', { format: 'png' });
-    fs.writeFileSync('viewport_night.png', Buffer.from(resDark.data, 'base64'));
-    console.log('Saved viewport_night.png');
+    // 3. 截图：关于页 Summer 模式
+    await send('Page.navigate', { url: 'http://localhost:4321/about/' });
+    await new Promise((r) => setTimeout(r, 1500));
+    snap = await send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync('about_summer.png', Buffer.from(snap.data, 'base64'));
+    console.log('Saved about_summer.png');
+
+    // 4. 截图：关于页 Night 模式
+    await send('Runtime.evaluate', {
+      expression: `(() => {
+        document.documentElement.dataset.environment = 'night';
+        document.documentElement.dataset.theme = 'dark';
+      })()`
+    });
+    await new Promise((r) => setTimeout(r, 600));
+    snap = await send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync('about_night.png', Buffer.from(snap.data, 'base64'));
+    console.log('Saved about_night.png');
+
+    // 5. 截图：关于页“经历与背景卡片”区域特写
+    await send('Runtime.evaluate', {
+      expression: `(() => {
+        const el = document.querySelector('.background');
+        if (el) el.scrollIntoView({ block: 'start' });
+      })()`
+    });
+    await new Promise((r) => setTimeout(r, 600));
+    snap = await send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync('about_experience_cards.png', Buffer.from(snap.data, 'base64'));
+    console.log('Saved about_experience_cards.png');
 
     ws.close();
   } finally {
