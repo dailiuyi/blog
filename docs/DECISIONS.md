@@ -78,3 +78,32 @@
    - 黑胶唱片联动：监听全局 `nabunana:player-state` 事件，播放时唱片持续自转并展示当前曲目，hover 时可预览旋转。
    - 经历卡片化重构：将原本的无底色下划线列表重构为三张精致微圆角卡片（`01 // 02 // 03` 胶片编号、微光边框、悬浮浮起动效、折叠内容平滑强调线）。
    - 项目缩略图与兴趣外链卡片增加微弱光泽阴影与缓动缩放。
+---
+
+## D-022: 首页四幕滚动叙事与五段文档流景深设计 (Scroll-Driven Storytelling)
+
+- **日期**：2026-10-09
+- **状态**：已采纳并实施 (Accepted & Implemented)
+- **参考依据**：`HOME_SCROLL_STORYTELLING.md`, `DESIGN_LANGUAGE.md` §5/§8
+
+### 背景与问题
+1. 首页原型与长页面体验中，缺乏统一的叙事时间轴，视觉元素以零散的 Hover 或孤立淡入为主，无法传达连贯的意境。
+2. Music 模块原本存在劫持滚轮的 `wheel preventDefault` 与独立的 AUTO CRUISE 巡航状态机，破坏了原生滚动体验。
+3. 容器原有的 `overflow: clip` 剪断了 CSS `position: sticky`，导致固定视口演进无法生效。
+
+### 决策内容
+1. **单一滚动导演 (`home-scroll.ts`)**：
+   - 使用单个 `requestAnimationFrame` 循环，仅在元素与视口相交且文档可见时运行；
+   - 电影章通过 `p = clamp(-track.top / (track.offsetHeight - innerHeight), 0, 1)` 计算 `--p` 写入 CSS 自定义属性；反向滚动必须连续可逆；
+   - 严禁引入 GSAP/Lenis/Canvas/scroll-snap 等重型库。
+2. **四幕 Sticky 电影章架构**：
+   - **Scene A (Threshold)**：`240vh` 轨，标题「写到天亮，也没关系。」，三拍副文槽交叉演进，`WindWaveMotif` 位移缩放提供微景深，指针视差仅在 `--p < 0.25` 允许；
+   - **Scene B (Currently)**：`280vh` 轨，四拍（Yorushika / 葬送のフリーレン / Personal Blog / 技术文章与随笔）单焦点呈现，右侧索引高亮；
+   - **Scene C (Music)**：`420vh` 轨，`#0a201d` 暗房，7 张真实专辑封面按 `index = --p * 6` 连续深度排布（禁止 wrap），移除 AUTO CRUISE 与滚轮劫持，水平拖拽与方向键直接映射至页面垂直滚动；
+   - **Scene D (Watching)**：`240vh` 轨，三部作品海报单焦点，其余两张作为低对比侧影。
+3. **五段文档流微景深 (`--enter`)**：
+   - Writing (02)、Notes (04)、Projects (05)、Fragments (07)、About (08) 保持自然文档流；
+   - 由导演计算 `--enter`（0.35→1，translateY 16px→0），提供进入视口时的温和景深与呼吸感，禁止整段弹入或全屏化。
+4. **响应式与无障碍保障**：
+   - `<=900px` 移动端：电影章折叠为内容高度（取消 sticky 加长时间轴），保持普通流排布，保留水平拖拽；
+   - `prefers-reduced-motion`：track 高度塌回内容高度，`--p` 恒为 0，`--enter` 恒为 1，不启动 rAF 导演，所有内容静态可读。

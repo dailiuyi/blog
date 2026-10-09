@@ -1,5 +1,5 @@
 /**
- * Single scroll director for homepage scrollytelling scenes.
+ * Single scroll director for homepage scrollytelling scenes and document-flow depth.
  * Governed by HOME_SCROLL_STORYTELLING.md
  */
 
@@ -16,12 +16,16 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
   const scenes = Array.from(root.querySelectorAll<HTMLElement>('.home-scene[data-scene]'));
-  if (scenes.length === 0) return () => {};
+  const depthElements = Array.from(root.querySelectorAll<HTMLElement>('[data-editorial-depth], .about'));
+  if (scenes.length === 0 && depthElements.length === 0) return () => {};
 
-  // If prefers-reduced-motion, freeze --p to 0 and exit director
+  // If prefers-reduced-motion, freeze --p to 0 and --enter to 1, then exit director
   if (reducedMotion.matches) {
     scenes.forEach((scene) => {
       scene.style.setProperty('--p', '0');
+    });
+    depthElements.forEach((el) => {
+      el.style.setProperty('--enter', '1');
     });
     return () => {};
   }
@@ -35,6 +39,12 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
     isIntersecting: boolean;
   }
 
+  interface DepthItem {
+    el: HTMLElement;
+    enter: number;
+    isIntersecting: boolean;
+  }
+
   const sceneItems: SceneItem[] = scenes.map((scene) => {
     const track = scene.querySelector<HTMLElement>('.scene-track') || scene;
     return {
@@ -44,6 +54,12 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
       isIntersecting: false,
     };
   });
+
+  const depthItems: DepthItem[] = depthElements.map((el) => ({
+    el,
+    enter: -1,
+    isIntersecting: false,
+  }));
 
   let rafId = 0;
   let isTicking = false;
@@ -55,6 +71,7 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
     const innerH = window.innerHeight;
     let anyIntersecting = false;
 
+    // 1. Sticky scenes --p
     for (const item of sceneItems) {
       if (!item.isIntersecting) continue;
       anyIntersecting = true;
@@ -66,6 +83,21 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
         item.p = p;
         item.scene.style.setProperty('--p', p.toFixed(4));
         item.scene.dispatchEvent(new CustomEvent('scene-progress', { detail: { p } }));
+      }
+    }
+
+    // 2. Document flow --enter
+    for (const item of depthItems) {
+      if (!item.isIntersecting) continue;
+      anyIntersecting = true;
+      const rect = item.el.getBoundingClientRect();
+      const startY = innerH * 0.85;
+      const endY = innerH * 0.65;
+      const enter = clamp((startY - rect.top) / (startY - endY), 0, 1);
+
+      if (Math.abs(enter - item.enter) > 0.005) {
+        item.enter = enter;
+        item.el.style.setProperty('--enter', enter.toFixed(3));
       }
     }
 
@@ -89,8 +121,12 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
         if (item) {
           item.isIntersecting = entry.isIntersecting;
         }
+        const depth = depthItems.find((d) => d.el === entry.target);
+        if (depth) {
+          depth.isIntersecting = entry.isIntersecting;
+        }
       }
-      if (sceneItems.some((s) => s.isIntersecting)) {
+      if (sceneItems.some((s) => s.isIntersecting) || depthItems.some((d) => d.isIntersecting)) {
         scheduleUpdate();
       }
     },
@@ -100,6 +136,7 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
   );
 
   sceneItems.forEach((item) => observer.observe(item.track));
+  depthItems.forEach((item) => observer.observe(item.el));
 
   const onScrollOrResize = () => scheduleUpdate();
 
@@ -107,7 +144,7 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
   window.addEventListener('resize', onScrollOrResize, { passive: true, signal });
 
   const onVisibilityChange = () => {
-    if (!document.hidden && sceneItems.some((s) => s.isIntersecting)) {
+    if (!document.hidden && (sceneItems.some((s) => s.isIntersecting) || depthItems.some((d) => d.isIntersecting))) {
       scheduleUpdate();
     } else if (document.hidden && rafId) {
       cancelAnimationFrame(rafId);
