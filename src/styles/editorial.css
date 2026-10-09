@@ -30,8 +30,12 @@ html body.formal-site.acg-site .prose :is(pre,table) { max-width:100%; overflow-
 html body.formal-site.acg-site .prose table { display:block; border-collapse:collapse; font-size:14px; }
 html body.formal-site.acg-site .prose :is(th,td) { padding:10px 14px; border:1px solid var(--border); }
 html body.formal-site.acg-site .prose a { color:var(--accent-deep); text-decoration:underline; text-underline-offset:3px; }
-html body.formal-site.acg-site .prose h2 { font-size:26px; line-height:1.5; font-weight:550; }
-html body.formal-site.acg-site .prose h3 { font-size:21px; }
+html body.formal-site.acg-site .prose h2 { font-size:26px; line-height:1.5; font-weight:550; margin-top:2.5em; padding-bottom:.3em; border-bottom:1px solid color-mix(in srgb, var(--border) 60%, transparent); }
+html body.formal-site.acg-site .prose h3 { font-size:21px; margin-top:1.8em; }
+html body.formal-site.acg-site .prose blockquote { margin:2rem 0; padding:1rem 1.4rem; border-left:3px solid var(--accent); border-radius:0 8px 8px 0; background:color-mix(in srgb, var(--surface-2) 65%, transparent); font-family:var(--font-hand); font-size:16.5px; line-height:1.85; color:color-mix(in srgb, var(--text) 90%, var(--muted)); box-shadow:0 4px 16px rgba(0,0,0,0.02); }
+html body.formal-site.acg-site .prose blockquote p:last-child { margin-bottom:0; }
+html body.formal-site.acg-site .prose img { margin:2.2rem auto; border-radius:10px; border:1px solid var(--border); box-shadow:0 12px 36px rgba(0,0,0,0.06); transition:transform .3s var(--ease),box-shadow .3s var(--ease); }
+html body.formal-site.acg-site .prose img:hover { transform:scale(1.01); box-shadow:0 18px 48px rgba(0,0,0,0.1); }
 html body.formal-site.acg-site .prose pre { font-size:13px; overflow-wrap:normal; }
 html body.formal-site.acg-site .article-content aside a { font-size:12px; line-height:1.65; }
 html body.formal-site.acg-site .after-reading { padding-bottom:60px; }

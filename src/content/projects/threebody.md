@@ -1,6 +1,6 @@
 ---
 name: "Three Body Lab"
-description: "实时 N 体引力模拟实验室，从纯 Java 物理核心到 60Hz Canvas。"
+description: "实时 N 体引力模拟器，后端 Java 算数值积分，前端 Canvas 实时绘制。"
 status: Active
 tech: [Java, Vue, WebSocket, Canvas]
 featured: true
@@ -9,4 +9,4 @@ repo: "https://github.com/dailiuyi/ThreeBodySimulation"
 live: "https://threebody.elma-gohan.xyz/"
 ---
 
-一个把数值计算、实时数据链路和可视化交互放在一起的长期工程实验。
+把数值积分、WebSocket 实时链路和 Canvas 轨道绘制连在一起的小实验。
