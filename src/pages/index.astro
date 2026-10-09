@@ -10,16 +10,16 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft && data.fea
 const notes = (await getCollection('notes')).sort((a,b)=>b.data.created.valueOf()-a.data.created.valueOf()).slice(0,3);
 
 const watching = [
-  { title: '葬送のフリーレン', meta: 'Frieren · 旅途与时间', progress: 82, status: 'Watching', image: '/media/anime/frieren.webp', source: 'https://frieren-anime.jp/special/gallery/' },
-  { title: 'ぼっち・ざ・ろっく！', meta: 'Bocchi the Rock! · 孤独摇滚', progress: 100, status: 'Finished', image: '/media/anime/bocchi-the-rock.webp', source: 'https://bocchi.rocks/tv/' },
-  { title: '86 —Eighty Six—', meta: '86 —不存在的战区—', progress: 64, status: 'Watching', image: '/media/anime/eighty-six.webp', source: 'https://anime-86.com/' },
+  { title: '葬送的芙莉莲', meta: 'Frieren / 奇幻冒险', progress: 82, status: '在看', image: '/media/anime/frieren.webp', source: 'https://frieren-anime.jp/special/gallery/' },
+  { title: '孤独摇滚！', meta: 'Bocchi the Rock! / 音乐喜剧', progress: 100, status: '已看完', image: '/media/anime/bocchi-the-rock.webp', source: 'https://bocchi.rocks/tv/' },
+  { title: '86 —不存在的战区—', meta: 'Eighty Six / 科幻剧情', progress: 64, status: '在看', image: '/media/anime/eighty-six.webp', source: 'https://anime-86.com/' },
 ];
 
 const nowBeats = [
-  { index: '01', kicker: '今聴いている', title: 'Yorushika', desc: '最近的音乐片段，反复单曲循环，没有伪装成播放器。' },
-  { index: '02', kicker: '今見ている', title: '葬送のフリーレン', desc: '把旅途、时间和告别慢慢看完。' },
-  { index: '03', kicker: '制作中', title: 'Personal Blog', desc: 'Astro、内容系统与属于自己的视觉语言。' },
-  { index: '04', kicker: '読んでいる', title: '技术文章与随笔', desc: '在工程实践之外，留一点给文字。' },
+  { index: '01', kicker: '单曲循环', title: 'Yorushika', desc: '写代码时基本都在单曲循环几张老专辑，听着顺手。' },
+  { index: '02', kicker: '在看的动画', title: '葬送的芙莉莲', desc: '节奏比较慢的奇幻公路片，周末有空慢慢看。' },
+  { index: '03', kicker: '近期折腾', title: '个人博客', desc: '用 Astro 搭建的静态博客，主要记录踩坑笔记和小工具。' },
+  { index: '04', kicker: '常读内容', title: '技术文章与杂文', desc: '后端工程、开源项目实现细节，偶尔看看生活随笔。' },
 ];
 ---
 <BaseLayout title="nabunana · 写作、音乐与代码" description="nabunana 的个人空间。主要记录 Java、AI 协作与小工具开发，还有常听的音乐。" pageClass="acg-site" lightingRegister="quiet">
@@ -39,7 +39,7 @@ const nowBeats = [
           <span class="status-sep">/</span>
           <span class="status-activity">大三 · 编码与小工具</span>
           <span class="status-sep">/</span>
-          <a href="#music" class="status-track" data-status-track title="前往音乐暗房查看专辑">
+          <a href="#music" class="status-track" data-status-track title="前往常听专辑">
             <span class="track-icon">♫</span>
             <span class="track-name" data-track-name>ノーチラス · Yorushika</span>
           </a>
@@ -49,10 +49,10 @@ const nowBeats = [
           <a href="/about/">关于我 ↗</a>
         </div>
       </div>
-      <a href="#music" class="hero-record" aria-label="前往音乐暗房" data-hero-record>
+      <a href="#music" class="hero-record" aria-label="前往常听专辑" data-hero-record>
         <span class="record-top">SIDE A <span>CODE / WORDS / MUSIC</span></span>
         <span class="record-disc"><span class="record-label"><RecordAvatar /></span></span>
-        <span class="record-bottom"><span class="record-hand">一些反复听的歌。</span><span>进入 3D 唱片廊 ↗</span></span>
+        <span class="record-bottom"><span class="record-hand">一些反复听的歌。</span><span>看看常听的歌 ↗</span></span>
       </a>
     </section>
 
@@ -60,8 +60,8 @@ const nowBeats = [
       <span>EXPLORE</span>
       <a href="#projects">01 作品</a>
       <a href="#writing">02 文章</a>
-      <a href="#life">03 状态与追番</a>
-      <a href="#music">04 音乐暗房</a>
+      <a href="#life">03 状态与日常</a>
+      <a href="#music">04 常用歌单</a>
     </nav>
 
     <!-- 01 / SELECTED WORK -->
@@ -105,7 +105,7 @@ const nowBeats = [
       <header class="section-heading">
         <div>
           <p class="eyebrow">03 / OFF THE CLOCK</p>
-          <h2 id="life-title">状态、动画与日常</h2>
+          <h2 id="life-title">日常状态与记录</h2>
         </div>
         <a href="/about/">认识我 ↗</a>
       </header>
@@ -113,9 +113,9 @@ const nowBeats = [
       <!-- 亮点 1: NOW 单焦点状态看板 -->
       <div class="now-widget" data-now-widget>
         <div class="now-focus">
-          <small class="now-kicker" data-now-kicker>01 / 今聴いている</small>
+          <small class="now-kicker" data-now-kicker>01 / 单曲循环</small>
           <strong class="now-title" data-now-title>Yorushika</strong>
-          <p class="now-desc" data-now-desc>最近的音乐片段，反复单曲循环，没有伪装成播放器。</p>
+          <p class="now-desc" data-now-desc>写代码时基本都在单曲循环几张老专辑，听着顺手。</p>
         </div>
         <ul class="now-nav" aria-label="当前状态索引">
           {nowBeats.map((beat, idx) => (
@@ -139,8 +139,8 @@ const nowBeats = [
       <!-- 亮点 2: Watching 追番/观影进度条卡片 -->
       <div class="watching-section">
         <div class="sub-heading">
-          <p class="eyebrow">WATCHING / 最近在看</p>
-          <small>一次只看一部，留一些给安静的时间。</small>
+          <p class="eyebrow">WATCHLIST / 动画记录</p>
+          <small>平时写完代码抽空看几部，记一下进度。</small>
         </div>
         <div class="watching-grid">
           {watching.map((item, index) => (
@@ -148,7 +148,7 @@ const nowBeats = [
               <a class="watch-cover" href={item.source} target="_blank" rel="noopener" aria-label={`${item.title} 官方视觉图来源`}>
                 <img src={item.image} alt={`${item.title} 官方宣传视觉图`} width="900" height="1200" loading="lazy" />
                 <span class="watch-badge">{String(index + 1).padStart(2, '0')}</span>
-                <i class="watch-ext">OFFICIAL ↗</i>
+                <i class="watch-ext">作品主页 ↗</i>
               </a>
               <div class="watch-meta-slot">
                 <small>{item.meta}</small>
@@ -198,15 +198,15 @@ const nowBeats = [
       </div>
     </section>
 
-    <!-- 亮点 3: AFTER DARK 3D 黑胶唱片画廊 -->
+    <!-- 亮点 3: 常听专辑 3D 唱片画廊 -->
     <section class="home-section home-music-section" id="music" aria-labelledby="music-title" data-editorial-depth>
       <header class="section-heading inverse">
         <div>
-          <p class="eyebrow">04 / AFTER DARK</p>
-          <h2 id="music-title">音乐暗房 · 7 封黑胶</h2>
+          <p class="eyebrow">04 / ALBUMS</p>
+          <h2 id="music-title">常听的几张专辑</h2>
         </div>
         <div class="music-heading-meta">
-          <small>3D 深度画廊，左右拖拽对齐，点击从第一首开播</small>
+          <small>写代码时常听的唱片，支持拖拽切换和点击试听</small>
           <a href="/music/">进入完整曲库 ↗</a>
         </div>
       </header>
@@ -240,7 +240,7 @@ const nowBeats = [
           <button type="button" class="album-ctrl-btn" data-album-next aria-label="下一张专辑">下一张 →</button>
         </div>
         <p class="gallery-note">
-          <span>DRAG & KEYS</span> 鼠标水平拖拽、方向键或点击切换，点击封面直接开播。
+          <span>操作提示</span> 支持鼠标拖拽或方向键切换，点击封面直接开播。
         </p>
       </div>
     </section>

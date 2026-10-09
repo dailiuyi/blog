@@ -52,6 +52,12 @@ async function capture() {
       });
 
     await send('Page.enable');
+    await send('Emulation.setDeviceMetricsOverride', {
+      width: 1280,
+      height: 960,
+      deviceScaleFactor: 1,
+      mobile: false
+    });
 
     // 1. 首页 Hero + 导航
     await send('Page.navigate', { url: 'http://localhost:4321/' });
@@ -64,10 +70,13 @@ async function capture() {
     await send('Runtime.evaluate', {
       expression: `(() => {
         const el = document.getElementById('life');
-        if (el) el.scrollIntoView({ block: 'start' });
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 30;
+          window.scrollTo({ top, behavior: 'instant' });
+        }
       })()`
     });
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 600));
     snap = await send('Page.captureScreenshot', { format: 'png' });
     fs.writeFileSync('homepage_now_and_watching.png', Buffer.from(snap.data, 'base64'));
     console.log('Saved homepage_now_and_watching.png');
@@ -76,21 +85,27 @@ async function capture() {
     await send('Runtime.evaluate', {
       expression: `(() => {
         const el = document.getElementById('music');
-        if (el) el.scrollIntoView({ block: 'start' });
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 30;
+          window.scrollTo({ top, behavior: 'instant' });
+        }
       })()`
     });
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 600));
     snap = await send('Page.captureScreenshot', { format: 'png' });
     fs.writeFileSync('homepage_music_gallery.png', Buffer.from(snap.data, 'base64'));
     console.log('Saved homepage_music_gallery.png');
 
-    // 5. 追番卡片近景特写
+    // 4. 追番卡片近景特写
     await send('Runtime.evaluate', {
       expression: `(() => {
         document.documentElement.dataset.environment = 'summer';
         document.documentElement.dataset.theme = 'light';
         const el = document.querySelector('.watching-section');
-        if (el) el.scrollIntoView({ block: 'start' });
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 30;
+          window.scrollTo({ top, behavior: 'instant' });
+        }
       })()`
     });
     await new Promise((r) => setTimeout(r, 600));
