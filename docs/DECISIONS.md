@@ -150,4 +150,7 @@
    - 依托 Astro `<ClientRouter />` 与 `transition:persist="nabunana-music-player"`，跨页面切换音频流完全零断流；
    - `localStorage` 全量持久化当前索引、秒级进度、音量、循环模式（列表循环/单曲循环/随机播放）、歌词开启状态、固定状态与展开状态；
    - 监听全站 `nabunana:play-track` 切歌事件，广播 `nabunana:player-state` 事件同步首页黑胶自转与全局状态胶囊。
+6. **3D 唱片画廊点击开播与播放键重绘**：
+   - 修复画廊容器在 `pointerdown` 时过早捕获指针导致吞掉底层卡片原生 `click` 的缺陷，优化为仅在移动位移 `dragDistance > 6` 时激活指针捕获，点击任意专辑封面可即刻对齐并开播对应曲目。
+   - 废弃原 `<i>` + `<b>▶</b>` 分离式文字拼凑按钮，重构为居中矢量 SVG 的 `.album-play-badge`，带 `margin-left: 2px` 光学重心补偿，且支持根据全局播放状态在播放键与暂停键（`❚❚`）间丝滑过渡。
 

@@ -220,13 +220,20 @@ const nowBeats = [
               style={`--i:${index}`}
               data-album-index={index}
               data-play-index={albumStartIndexes[albumItem.slug]}
+              data-track-count={albumItem.tracks.length}
               aria-label={`播放专辑 ${albumItem.title}`}
               tabindex={index === 0 ? 0 : -1}
             >
               <span class="album-cover">
                 <img src={albumItem.cover} alt={`${albumItem.title} 专辑封面`} loading={index === 0 ? 'eager' : 'lazy'} />
-                <i aria-hidden="true"></i>
-                <b aria-hidden="true">▶</b>
+                <span class="album-play-badge" aria-hidden="true">
+                  <svg class="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86a1 1 0 0 0-1.5.86z"/>
+                  </svg>
+                  <svg class="pause-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 5h4v14H6zm8 0h4v14h-4z"/>
+                  </svg>
+                </span>
               </span>
               <span class="album-number">{String(index + 1).padStart(2, '0')} / {albumItem.year}</span>
               <strong>{albumItem.title}</strong>
@@ -262,14 +269,21 @@ const nowBeats = [
       heroRecord.dataset.playing = 'true';
     }
     window.addEventListener('nabunana:player-state', (e) => {
-      const detail = (e as CustomEvent<{ playing: boolean; title?: string; artist?: string }>).detail;
-      const isPlaying = detail?.playing;
+      const detail = (e as CustomEvent<{ playing: boolean; trackIndex?: number; album?: string; title?: string; artist?: string }>).detail;
+      const isPlaying = !!detail?.playing;
       if (heroRecord) {
-        heroRecord.dataset.playing = String(!!isPlaying);
+        heroRecord.dataset.playing = String(isPlaying);
       }
       if (trackName && detail?.title) {
         trackName.textContent = `${detail.title}${detail.artist ? ' · ' + detail.artist : ''}`;
       }
+      const cards = document.querySelectorAll<HTMLButtonElement>('.album-card');
+      cards.forEach((card) => {
+        const playIdx = Number.parseInt(card.dataset.playIndex || '-1', 10);
+        const count = Number.parseInt(card.dataset.trackCount || '0', 10);
+        const isCurrentAlbum = detail?.trackIndex !== undefined && detail.trackIndex >= playIdx && detail.trackIndex < playIdx + count;
+        card.dataset.playing = String(isPlaying && isCurrentAlbum);
+      });
     }, { signal });
 
     // 2. 亮点 1: NOW 单焦点状态看板交互
@@ -338,30 +352,52 @@ const nowBeats = [
         startX = e.clientX;
         startProgress = currentIndex;
         albumGallery.classList.add('is-dragging');
-        albumGallery.setPointerCapture(e.pointerId);
       }, { signal });
 
       albumGallery.addEventListener('pointermove', (e) => {
         if (!isDragging) return;
         const dx = e.clientX - startX;
         dragDistance = Math.abs(dx);
+        if (dragDistance > 6 && !albumGallery.hasPointerCapture(e.pointerId)) {
+          try { albumGallery.setPointerCapture(e.pointerId); } catch (_) {}
+        }
         const cardWidth = 240;
         const nextProgress = startProgress - dx / cardWidth;
         const clampedProgress = Math.max(0, Math.min(total - 1, nextProgress));
         albumGallery.style.setProperty('--p', (clampedProgress / (total - 1)).toFixed(4));
       }, { signal });
 
-      const onPointerEnd = () => {
+      const onPointerEnd = (e: PointerEvent) => {
         if (!isDragging) return;
         isDragging = false;
         albumGallery.classList.remove('is-dragging');
+        if (albumGallery.hasPointerCapture(e.pointerId)) {
+          try { albumGallery.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
         const p = Number.parseFloat(albumGallery.style.getPropertyValue('--p') || '0');
         const targetIndex = Math.round(p * (total - 1));
         updateGallery(targetIndex);
+        setTimeout(() => { dragDistance = 0; }, 60);
       };
 
       albumGallery.addEventListener('pointerup', onPointerEnd, { signal });
       albumGallery.addEventListener('pointercancel', onPointerEnd, { signal });
+
+      const handleCardAction = (index: number) => {
+        const card = cards[index];
+        if (!card) return;
+        updateGallery(index);
+        const playIdxStr = card.dataset.playIndex;
+        if (playIdxStr !== undefined) {
+          const playIdx = Number.parseInt(playIdxStr, 10);
+          const isPlaying = card.dataset.playing === 'true';
+          if (isPlaying) {
+            window.dispatchEvent(new CustomEvent('nabunana:toggle-play'));
+          } else {
+            window.dispatchEvent(new CustomEvent('nabunana:play-track', { detail: playIdx }));
+          }
+        }
+      };
 
       // 点击封面
       cards.forEach((card, index) => {
@@ -370,15 +406,7 @@ const nowBeats = [
             e.preventDefault();
             return;
           }
-          if (index !== currentIndex) {
-            e.preventDefault();
-            updateGallery(index);
-          } else {
-            const playIdx = card.dataset.playIndex;
-            if (playIdx !== undefined) {
-              window.dispatchEvent(new CustomEvent('nabunana:play-track', { detail: Number.parseInt(playIdx, 10) }));
-            }
-          }
+          handleCardAction(index);
         }, { signal });
       });
 
@@ -506,11 +534,14 @@ const nowBeats = [
   .album-gallery.is-dragging .album-card{transition:none}
   .album-cover{position:relative;display:block;aspect-ratio:1;overflow:hidden;border:1px solid rgba(160,220,212,.2);border-radius:12px;background:#102b27;box-shadow:0 24px 60px rgba(0,10,9,.35)}
   .album-cover img{width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;transition:transform .4s ease}
-  .album-card:hover .album-cover img{transform:scale(1.03)}
-  .album-cover i{position:absolute;right:8%;bottom:8%;width:22%;aspect-ratio:1;border:1px solid rgba(232,243,241,.5);border-radius:50%;background:rgba(7,24,22,.65);backdrop-filter:blur(8px);opacity:0;transform:scale(.85);transition:all .25s ease}
-  .album-cover b{position:absolute;right:calc(19% - 4px);bottom:calc(19% - 6px);color:#effffc;font-size:13px;opacity:0;transition:opacity .2s}
-  .album-card:hover .album-cover i,.album-card:hover .album-cover b{opacity:1;transform:scale(1)}
-  .album-card[aria-current='true'] .album-cover i,.album-card[aria-current='true'] .album-cover b{opacity:1;transform:scale(1)}
+  .album-play-badge{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;background:rgba(7,24,22,.75);border:1px solid rgba(232,243,241,.45);box-shadow:0 4px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;color:#f0fdfa;opacity:0;transform:scale(.85);transition:all .25s cubic-bezier(.16,1,.3,1);pointer-events:none;z-index:5}
+  .album-play-badge .play-icon{display:block;margin-left:2px}
+  .album-play-badge .pause-icon{display:none}
+  .album-card[data-playing='true'] .album-play-badge .play-icon{display:none}
+  .album-card[data-playing='true'] .album-play-badge .pause-icon{display:block}
+  .album-card:hover .album-play-badge,.album-card[aria-current='true'] .album-play-badge{opacity:1;transform:scale(1)}
+  .album-card:hover .album-play-badge{background:#64c7bd;color:#081d1a;border-color:#96ddd5;box-shadow:0 6px 24px rgba(100,199,189,.5),inset 0 1px 0 rgba(255,255,255,.4);transform:scale(1.08)}
+  .album-card:active .album-play-badge{transform:scale(.95)}
   .album-number{display:block;margin:1rem 0 .35rem;color:#64c7bd;font:.65rem var(--font-mono);letter-spacing:.12em}
   .album-card strong{display:block;color:#f3fbf9;font:500 1.25rem/1.2 var(--font-serif);letter-spacing:-.02em}
   .album-card small{display:block;margin-top:.4rem;color:#789b96;font:.62rem var(--font-mono);letter-spacing:.06em}

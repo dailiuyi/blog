@@ -507,6 +507,9 @@ const serializedTracks = JSON.stringify(playerTracks);
           this.playTrack(index);
         }
       });
+      window.addEventListener('nabunana:toggle-play', () => {
+        this.togglePlay();
+      });
     }
 
     private setupAstroTransitions() {
@@ -565,6 +568,12 @@ const serializedTracks = JSON.stringify(playerTracks);
 
     public playTrack(index: number) {
       if (index < 0 || index >= this.tracks.length) return;
+      if (this.currentIndex === index && this.audio.src.includes(this.tracks[index].url)) {
+        if (this.audio.paused) {
+          this.audio.play().catch(() => {});
+        }
+        return;
+      }
       this.currentIndex = index;
       localStorage.setItem('nabunana-player-index', String(index));
       localStorage.setItem('nabunana-player-time', '0');
@@ -709,6 +718,8 @@ const serializedTracks = JSON.stringify(playerTracks);
       window.dispatchEvent(new CustomEvent('nabunana:player-state', {
         detail: {
           playing,
+          trackIndex: this.currentIndex,
+          album: cur?.album,
           title: cur?.name || 'ノーチラス',
           artist: cur?.artist || 'Yorushika'
         }
