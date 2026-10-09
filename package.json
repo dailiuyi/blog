@@ -8,8 +8,9 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "sync:bangumi": "node scripts/sync-bangumi.mjs",
     "fonts": "node scripts/subset-fonts.mjs",
-    "build": "npm run fonts && astro check && astro build",
+    "build": "node scripts/sync-bangumi.mjs && npm run fonts && astro check && astro build",
     "preview": "astro preview",
     "check": "astro check"
   },

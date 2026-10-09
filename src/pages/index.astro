@@ -5,15 +5,12 @@ import SiteHeader from '../components/common/SiteHeader.astro';
 import RecordAvatar from '../components/common/RecordAvatar.astro';
 import ProjectShowcase from '../components/common/ProjectShowcase.astro';
 import { albumStartIndexes, musicAlbums } from '../data/music';
+import { getBangumiWatchlist } from '../lib/bangumi';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft && data.featured)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf()).slice(0,4);
 const notes = (await getCollection('notes')).sort((a,b)=>b.data.created.valueOf()-a.data.created.valueOf()).slice(0,3);
 
-const watching = [
-  { title: '葬送的芙莉莲', meta: 'Frieren / 奇幻冒险', progress: 82, status: '在看', image: '/media/anime/frieren.webp', source: 'https://frieren-anime.jp/special/gallery/' },
-  { title: '孤独摇滚！', meta: 'Bocchi the Rock! / 音乐喜剧', progress: 100, status: '已看完', image: '/media/anime/bocchi-the-rock.webp', source: 'https://bocchi.rocks/tv/' },
-  { title: '86 —不存在的战区—', meta: 'Eighty Six / 科幻剧情', progress: 64, status: '在看', image: '/media/anime/eighty-six.webp', source: 'https://anime-86.com/' },
-];
+const watching = getBangumiWatchlist(9);
 
 const nowBeats = [
   { index: '01', kicker: '单曲循环', title: 'Yorushika', desc: '写代码时基本都在单曲循环几张老专辑，听着顺手。' },
@@ -136,33 +133,85 @@ const nowBeats = [
         </ul>
       </div>
 
-      <!-- 亮点 2: Watching 追番/观影进度条卡片 -->
-      <div class="watching-section">
-        <div class="sub-heading">
-          <p class="eyebrow">WATCHLIST / 动画记录</p>
-          <small>平时写完代码抽空看几部，记一下进度。</small>
+      <!-- 亮点 2: Watching 动画展厅轮播 -->
+      <div class="watching-section" data-watch-gallery>
+        <div class="watch-heading">
+          <div>
+            <p class="eyebrow">WATCHLIST / 动画展厅</p>
+            <h2 class="watch-title">抽空看几部，记一下进度。</h2>
+          </div>
+          <div class="watch-heading-aside">
+            <a href="https://bgm.tv/user/578278" target="_blank" rel="noopener" class="watch-bgm-link" title="前往 Bangumi 个人主页">
+              <span>bgm.tv/user/578278</span> ↗
+            </a>
+            <div class="watch-controls">
+              <button type="button" class="watch-ctrl-btn" data-watch-prev aria-label="上一组动画">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <span class="watch-counter" data-watch-counter aria-live="polite">01 / 03</span>
+              <button type="button" class="watch-ctrl-btn" data-watch-next aria-label="下一组动画">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="watching-grid">
-          {watching.map((item, index) => (
-            <article class="watch-card">
-              <a class="watch-cover" href={item.source} target="_blank" rel="noopener" aria-label={`${item.title} 官方视觉图来源`}>
-                <img src={item.image} alt={`${item.title} 官方宣传视觉图`} width="900" height="1200" loading="lazy" />
-                <span class="watch-badge">{String(index + 1).padStart(2, '0')}</span>
-                <i class="watch-ext">作品主页 ↗</i>
-              </a>
-              <div class="watch-meta-slot">
-                <small>{item.meta}</small>
-                <h3>{item.title}</h3>
-                <div class="watch-progress" role="progressbar" aria-valuenow={item.progress} aria-valuemin="0" aria-valuemax="100">
-                  <i style={`width:${item.progress}%`}></i>
+
+        <div class="watch-stage" data-watch-stage>
+          <div class="watch-track" data-watch-track style="--page:0">
+            {watching.map((item, index) => (
+              <article class="watch-card" data-index={index}>
+                <a class="watch-cover" href={item.source} target="_blank" rel="noopener" aria-label={`在 Bangumi 查看《${item.title}》`}>
+                  <img
+                    src={item.image}
+                    alt={`${item.title} 海报封面`}
+                    width="600"
+                    height="800"
+                    loading={index < 3 ? 'eager' : 'lazy'}
+                    referrerpolicy="no-referrer"
+                  />
+                  <span class="watch-badge">{String(index + 1).padStart(2, '0')}</span>
+                  <span class={`watch-status-tag ${item.type === 3 ? 'is-doing' : 'is-done'}`}>
+                    {item.status}
+                  </span>
+                  <i class="watch-ext">Bangumi ↗</i>
+                </a>
+                <div class="watch-meta-slot">
+                  <div class="watch-meta-header">
+                    <small title={item.meta}>{item.meta}</small>
+                    {item.rate > 0 && <span class="watch-rate">★ {item.rate}</span>}
+                  </div>
+                  <h3>
+                    <a href={item.source} target="_blank" rel="noopener" title={item.title}>
+                      {item.title}
+                    </a>
+                  </h3>
+                  <div class="watch-progress" role="progressbar" aria-valuenow={item.progress} aria-valuemin="0" aria-valuemax="100">
+                    <i style={`width:${item.progress}%`}></i>
+                  </div>
+                  <footer class="watch-footer">
+                    <span>{item.progressText}</span>
+                    <b class={item.type === 3 ? 'status-doing' : 'status-done'}>{item.status}</b>
+                  </footer>
+                  {item.comment && (
+                    <p class="watch-user-comment" title={item.comment}>
+                      “{item.comment}”
+                    </p>
+                  )}
                 </div>
-                <footer class="watch-footer">
-                  <span>{item.progress}%</span>
-                  <b>{item.status}</b>
-                </footer>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div class="watch-gallery-footer">
+          <div class="watch-dots" data-watch-dots>
+            <button type="button" class="watch-dot is-active" data-dot="0" aria-label="第 1 组"></button>
+            <button type="button" class="watch-dot" data-dot="1" aria-label="第 2 组"></button>
+            <button type="button" class="watch-dot" data-dot="2" aria-label="第 3 组"></button>
+          </div>
+          <p class="watch-gallery-note">
+            <span>展厅同步</span> 记录同步自 Bangumi（构建期随机精选），支持左右滑动与键盘方向键。
+          </p>
         </div>
       </div>
 
@@ -306,6 +355,83 @@ const nowBeats = [
         btn.addEventListener('click', () => setNowFocus(btn), { signal });
         btn.addEventListener('mouseenter', () => setNowFocus(btn), { signal });
       });
+    }
+
+    // 2.5 亮点 2: 动画展厅轮播交互
+    const watchGallery = document.querySelector<HTMLElement>('[data-watch-gallery]');
+    if (watchGallery) {
+      const track = watchGallery.querySelector<HTMLElement>('[data-watch-track]');
+      const prevBtn = watchGallery.querySelector<HTMLButtonElement>('[data-watch-prev]');
+      const nextBtn = watchGallery.querySelector<HTMLButtonElement>('[data-watch-next]');
+      const counterEl = watchGallery.querySelector<HTMLElement>('[data-watch-counter]');
+      const dotBtns = watchGallery.querySelectorAll<HTMLButtonElement>('.watch-dot');
+      const cards = watchGallery.querySelectorAll<HTMLElement>('.watch-card');
+      const totalCards = cards.length;
+
+      const getItemsPerPage = () => {
+        if (window.innerWidth < 640) return 1;
+        if (window.innerWidth < 900) return 2;
+        return 3;
+      };
+
+      let currentPage = 0;
+      const getTotalPages = () => Math.ceil(totalCards / getItemsPerPage());
+
+      const updateWatchGallery = (page: number) => {
+        const maxPage = Math.max(0, getTotalPages() - 1);
+        currentPage = Math.max(0, Math.min(maxPage, page));
+
+        if (track) {
+          track.style.setProperty('--page', String(currentPage));
+        }
+        if (counterEl) {
+          counterEl.textContent = `${String(currentPage + 1).padStart(2, '0')} / ${String(maxPage + 1).padStart(2, '0')}`;
+        }
+        dotBtns.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === currentPage);
+        });
+        if (prevBtn) prevBtn.disabled = currentPage === 0;
+        if (nextBtn) nextBtn.disabled = currentPage === maxPage;
+      };
+
+      prevBtn?.addEventListener('click', () => updateWatchGallery(currentPage - 1), { signal });
+      nextBtn?.addEventListener('click', () => updateWatchGallery(currentPage + 1), { signal });
+
+      dotBtns.forEach((dot, idx) => {
+        dot.addEventListener('click', () => updateWatchGallery(idx), { signal });
+      });
+
+      // 键盘左右方向键
+      watchGallery.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          updateWatchGallery(currentPage - 1);
+        } else if (e.key === 'ArrowRight') {
+          updateWatchGallery(currentPage + 1);
+        }
+      }, { signal });
+
+      // 水平触摸/拖拽手势
+      let touchStartX = 0;
+      let touchDeltaX = 0;
+      track?.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchDeltaX = 0;
+      }, { signal, passive: true });
+
+      track?.addEventListener('touchmove', (e) => {
+        touchDeltaX = e.touches[0].clientX - touchStartX;
+      }, { signal, passive: true });
+
+      track?.addEventListener('touchend', () => {
+        if (Math.abs(touchDeltaX) > 40) {
+          if (touchDeltaX > 0) updateWatchGallery(currentPage - 1);
+          else updateWatchGallery(currentPage + 1);
+        }
+      }, { signal });
+
+      window.addEventListener('resize', () => updateWatchGallery(currentPage), { signal, passive: true });
+
+      updateWatchGallery(0);
     }
 
     // 3. 亮点 3: 3D 黑胶画廊交互 (支持水平拖拽、按键切换、点击播放)
@@ -475,27 +601,60 @@ const nowBeats = [
   .now-label{font-size:13px}
   .now-label b{font-weight:600;color:var(--strong)}
 
-  /* 亮点 2: Watching 追番/观影进度条卡片 */
-  .watching-section{margin-bottom:48px;padding-top:24px;border-top:1px solid var(--border)}
-  .sub-heading{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
-  .sub-heading .eyebrow{margin:0}
-  .sub-heading small{color:var(--muted);font-size:12px}
-  .watching-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-  .watch-card{display:flex;flex-direction:column;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:0 6px 20px rgba(0,0,0,.02);transition:transform .3s ease,box-shadow .3s ease}
-  .watch-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.06)}
-  .watch-cover{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;border-radius:10px;background:var(--surface-2)}
+  /* 亮点 2: Watching 动画展厅轮播 (Exhibition Gallery) */
+  .watching-section{margin-bottom:48px;padding-top:28px;border-top:1px solid var(--border)}
+  .watch-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
+  .watch-heading .eyebrow{margin:0 0 6px}
+  .watch-title{font-size:clamp(16px,1.8vw,20px);font-weight:500;letter-spacing:-.03em;color:var(--muted);margin:0}
+  .watch-heading-aside{display:flex;align-items:center;gap:20px}
+  .watch-bgm-link{font:11px var(--font-mono);color:var(--accent-deep);text-decoration:none;transition:opacity .2s}
+  .watch-bgm-link:hover{text-decoration:underline;text-underline-offset:3px}
+  .watch-controls{display:flex;align-items:center;gap:8px}
+  .watch-ctrl-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s ease}
+  .watch-ctrl-btn:hover:not(:disabled){background:var(--surface-2);color:var(--text);border-color:color-mix(in srgb,var(--accent) 40%,var(--border));box-shadow:0 3px 10px rgba(0,0,0,.03)}
+  .watch-ctrl-btn:disabled{opacity:.35;cursor:not-allowed}
+  .watch-counter{font:600 12px var(--font-mono);color:var(--muted);min-width:44px;text-align:center}
+
+  .watch-stage{overflow:hidden;width:100%;position:relative;border-radius:16px;padding:4px 2px}
+  .watch-track{display:flex;gap:24px;transition:transform .45s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateX(calc(-1 * var(--page, 0) * (100% + 24px)))}
+  
+  .watch-card{display:flex;flex-direction:column;width:calc((100% - 48px) / 3);flex-shrink:0;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:0 6px 20px rgba(0,0,0,.02);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+  .watch-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.06);border-color:color-mix(in srgb,var(--accent) 30%,var(--border))}
+  
+  .watch-cover{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;border-radius:10px;background:#0d2420}
   .watch-cover img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-  .watch-card:hover .watch-cover img{transform:scale(1.04)}
-  .watch-badge{position:absolute;top:10px;left:10px;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,.65);color:#fff;font:600 .65rem var(--font-mono);backdrop-filter:blur(4px)}
-  .watch-ext{position:absolute;bottom:10px;right:10px;color:#fff;font:500 .62rem var(--font-mono);opacity:0;transition:opacity .2s;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+  .watch-card:hover .watch-cover img{transform:scale(1.05)}
+  .watch-badge{position:absolute;top:10px;left:10px;padding:2px 7px;border-radius:4px;background:rgba(0,0,0,.68);color:#fff;font:600 .65rem var(--font-mono);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.12)}
+  .watch-status-tag{position:absolute;top:10px;right:10px;padding:2px 8px;border-radius:999px;font:500 .62rem var(--font-mono);backdrop-filter:blur(6px)}
+  .watch-status-tag.is-doing{background:rgba(100,199,189,.22);color:#64c7bd;border:1px solid rgba(100,199,189,.4)}
+  .watch-status-tag.is-done{background:rgba(255,255,255,.1);color:#d0dedb;border:1px solid rgba(255,255,255,.15)}
+  .watch-ext{position:absolute;bottom:10px;right:10px;color:#fff;font:500 .62rem var(--font-mono);opacity:0;transition:opacity .2s;text-shadow:0 1px 4px rgba(0,0,0,.8);background:rgba(0,0,0,.65);padding:3px 8px;border-radius:4px;backdrop-filter:blur(4px)}
   .watch-card:hover .watch-ext{opacity:1}
-  .watch-meta-slot{padding-top:14px}
-  .watch-meta-slot small{color:var(--muted);font-size:11px;font-family:var(--font-mono)}
-  .watch-meta-slot h3{margin:4px 0 12px;font-size:16px;font-weight:600;color:var(--strong);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  
+  .watch-meta-slot{padding-top:14px;display:flex;flex-direction:column;flex-grow:1}
+  .watch-meta-header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .watch-meta-header small{color:var(--muted);font-size:11px;font-family:var(--font-mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .watch-rate{font:600 11px var(--font-mono);color:#e5b95c;flex-shrink:0}
+  .watch-meta-slot h3{margin:5px 0 12px;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .watch-meta-slot h3 a{color:var(--strong);text-decoration:none;transition:color .2s}
+  .watch-meta-slot h3 a:hover{color:var(--accent-deep)}
+  
   .watch-progress{height:4px;border-radius:2px;background:var(--border);overflow:hidden}
-  .watch-progress i{display:block;height:100%;border-radius:2px;background:var(--accent)}
-  .watch-footer{display:flex;justify-content:space-between;margin-top:8px;font:11px var(--font-mono);color:var(--muted)}
-  .watch-footer b{color:var(--accent-deep);font-weight:600}
+  .watch-progress i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-deep))}
+  
+  .watch-footer{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;font:11px var(--font-mono);color:var(--muted)}
+  .watch-footer .status-doing{color:var(--accent-deep);font-weight:600}
+  .watch-footer .status-done{color:var(--muted);font-weight:500}
+  
+  .watch-user-comment{margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--border);font-size:11.5px;line-height:1.45;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  
+  .watch-gallery-footer{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:20px}
+  .watch-dots{display:flex;gap:8px;justify-content:center}
+  .watch-dot{width:22px;height:3px;border:0;padding:0;border-radius:2px;background:var(--border);cursor:pointer;transition:all .3s ease}
+  .watch-dot:hover{background:color-mix(in srgb,var(--accent) 40%,var(--border))}
+  .watch-dot.is-active{background:var(--accent);width:34px}
+  .watch-gallery-note{text-align:center;margin:0;color:var(--muted);font-size:11.5px}
+  .watch-gallery-note span{color:var(--accent-deep);font:600 10.5px var(--font-mono);letter-spacing:.08em;margin-right:6px}
 
   /* 个人随笔与短记录 */
   .life-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:26px}
@@ -555,7 +714,8 @@ const nowBeats = [
   /* 响应式适配 */
   @media(max-width:900px){
     .now-widget{grid-template-columns:1fr;gap:20px;padding:24px}
-    .watching-grid{grid-template-columns:repeat(2,1fr)}
+    .watch-card{width:calc((100% - 20px) / 2)}
+    .watch-track{gap:20px;transform:translateX(calc(-1 * var(--page, 0) * (100% + 20px)))}
     .home-music-section{padding:36px 20px}
     .album-gallery{height:340px}
   }
@@ -570,7 +730,10 @@ const nowBeats = [
     .section-heading{align-items:center}
     .section-heading h2{font-size:23px}
     .home-writing h3{font-size:19px}
-    .watching-grid{grid-template-columns:1fr}
+    .watch-heading{flex-direction:column;align-items:flex-start;gap:14px}
+    .watch-heading-aside{width:100%;justify-content:space-between}
+    .watch-card{width:100%}
+    .watch-track{gap:16px;transform:translateX(calc(-1 * var(--page, 0) * (100% + 16px)))}
   }
   @media(prefers-reduced-motion:reduce){
     .hero-record,.status-ping,.watch-cover img,.watch-card{transition:none;animation:none}
