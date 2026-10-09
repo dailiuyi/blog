@@ -101,8 +101,10 @@ their existing presentation.
 
 - 页面容器上限约 `1180px`（公开站以上方 1120px 规则为准）。
 - 主要依靠留白、细线和明暗对比建立层级。
-- 公开站首页顺序为 identity → three selected projects → selected writing → music and personal links（`src/pages/index.astro`），与开头「Current public-site rules」一致。历史方案（存档原型）：Hero → Currently → Writing → Music → Notes → Projects → Watching → Fragments → About；其中 Hero、Currently、Watching 是 scroll-driven 电影章，Music 是暗房章节，不占用加长滚动时间轴，Writing、Notes、Projects、Fragments、About 是普通编辑流；电影章之间由文档流留出呼吸，页面不是 scroll-snap 式全屏演示。
-- 电影章使用 `track + sticky pin + stage`：桌面 pin 固定在 `top: 0`、高 `100svh`，底部至少留出 `80px` 给播放器与环境控件；锚点始终落在 track 顶。站点 Header 保持普通文档流。
+- 首页节奏（4 幕电影章 + 5 段文档流）：
+  - 4 幕 sticky 电影章：Hero（00 Threshold，240vh）→ Currently（01 NOW，280vh 四拍）→ Music（03 AFTER DARK，420vh 七封暗房）→ Watching（06 WATCHING，240vh 三海报）；
+  - 5 段文档流呼吸层：Writing（02 文章）夹在 Currently 与 Music 之间；Notes（04 短笔记）与 Projects（05 作品）夹在 Music 与 Watching 之间；Fragments（07 残像）与 About（08 关于）在 Watching 之后落地。文档流由单一导演 `--enter` 提供微景深（opacity 0.35→1，translateY 16px→0），禁止加长为全屏广告；
+  - 电影章使用 `track + sticky pin + stage`：桌面 pin 固定在 `top: 0`、高 `100svh`，底部至少留出 `80px` 给播放器与环境控件；锚点始终落在 track 顶。站点 Header 保持普通文档流。
 - 文章列表使用 Editorial List，不使用重复圆角卡片。
 - 正文阅读优先，ACG 视觉不得侵入文章主体。
 - 图片允许 16:9、4:3、3:4、2:3 和非对称裁切；真实专辑封面保持 1:1。
@@ -131,13 +133,18 @@ their existing presentation.
 ## 8. Motion
 
 - 正式页使用原生 CSS 与按需 rAF，保持原生滚轮；不引入 GSAP/Lenis 或 scroll-snap。
+- 滚动驱动叙事（Scroll-Driven Storytelling）预算：
+  - 滚动驱动的 `translate`：文案 ≤ 32px，Motif ≤ 24px，次级卡 ≤ 48px，禁止元素飞入飞出；
+  - `scale`：0.94–1.04；Music 邻封 `rotateY` ≤ 12°；
+  - `opacity`：0–1，连续可逆；禁止 `once` 类 fade-in 冒充叙事，禁止 `scroll-snap`；
+  - 滚动本身零 duration，`--p` 与 `--enter` 即时间；反向滚动必须原路返回。
 - 通过 MotionBlock 输出稳定测量层、滚动层、悬停层，图片在最内层独立移动。禁止对同一层叠加滚动、悬停与专辑拖拽变换。
 - 滚动位置直接映射轻翻页：桌面进入 -12deg、离开 +16deg，位移不超过 10px；中间 40% 区间完全平稳，正反滚动连续还原。最低透明度 .88，不逐字播放入场动画。
 - 正式页移除旧的 72px 横向 reveal 和整段二次淡入；每条文章、每个项目、每张 Watching 图片连同说明作为完整单元运动。音乐唱片廊整体运动，内部保留横向拖拽。
 - 悬停节奏：箭头 180ms、抬起 320ms、标题色带与图片 520ms，统一 cubic-bezier(.22, 1, .36, 1)。图片放大最多 1.035。
 - 仅 hover:hover + pointer:fine 且非减少动态效果时启用局部跟随；项目倾斜最多 2deg，图片及首屏图形位移最多 4px。柔光只出现在项目表面，不改变全站光源。拖拽时暂停封面悬停，离开与滚动时清除跟随状态。
-- ≤900px 的滚动倾斜最多 ±6deg、位移最多 4px。粗指针关闭跟随和悬停抬起，播放与访问入口始终可见。
-- prefers-reduced-motion 下所有新变换关闭、内容完整显示；无 JavaScript 时默认静态可读。键盘焦点提供与悬停相同的色带、箭头与边框反馈；正文及其标题保持稳定。
+- ≤900px：取消电影章 sticky 加长，滚动倾斜最多 ±6deg、位移最多 4px。粗指针关闭跟随和悬停抬起，播放与访问入口始终可见。
+- prefers-reduced-motion：所有电影章 track 高度塌回内容高度，`--p` 冻结为 0，`--enter` 恒为 1，不跑 rAF 导演；内容无需动画即可完整阅读。
 - IntersectionObserver 限定可见目标；ResizeObserver 与字体/图片加载修正几何。滚动或指针变化才请求帧，静止后释放 will-change；astro:before-swap 清理监听、观察器、定时器与帧。
 - 原有天气与风水波保留低频 CSS 动画，减少动态效果时静止。自定义光标实时响应指针能力/动态偏好变化，输入框保留系统文本光标。
 - 内部属性、回归方式与已验证范围见 MOTION_DESIGN.md。
