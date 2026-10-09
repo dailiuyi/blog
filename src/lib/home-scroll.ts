@@ -65,6 +65,7 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
       if (Math.abs(p - item.p) > 0.0005) {
         item.p = p;
         item.scene.style.setProperty('--p', p.toFixed(4));
+        item.scene.dispatchEvent(new CustomEvent('scene-progress', { detail: { p } }));
       }
     }
 
@@ -127,4 +128,16 @@ export function initHomeScroll(options: HomeScrollOptions = {}): () => void {
   scheduleUpdate();
 
   return cleanup;
+}
+
+export function scrollSceneTo(scene: HTMLElement, targetP: number, smooth = true): void {
+  const track = scene.querySelector<HTMLElement>('.scene-track') || scene;
+  const scrollable = track.offsetHeight - window.innerHeight;
+  if (scrollable <= 0) return;
+  const trackTop = track.getBoundingClientRect().top + window.scrollY;
+  const targetScrollY = trackTop + Math.max(0, Math.min(1, targetP)) * scrollable;
+  window.scrollTo({
+    top: targetScrollY,
+    behavior: smooth ? 'smooth' : 'auto',
+  });
 }
