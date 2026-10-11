@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 330" width="1280" height="330" font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, sans-serif">
+<rect width="100%" height="100%" fill="#fafaf8"/>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#555"/></marker></defs>
+<text x="30" y="40" font-size="20" font-weight="700" fill="#222">任务怎么从想法走到合并</text>
+<rect x="30" y="120" width="120" height="84" rx="10" fill="#fff3e0" stroke="#d98a1f" stroke-width="1.5"/>
+<text x="90.0" y="147.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">我 + 强模型</text>
+<text x="90.0" y="167.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">low 模式</text>
+<text x="90.0" y="187.0" font-size="14" text-anchor="middle" font-weight="400" fill="#666">写任务书</text>
+<line x1="150" y1="162.0" x2="184" y2="162.0" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="186" y="120" width="120" height="84" rx="10" fill="#eef3fb" stroke="#4a74b5" stroke-width="1.5"/>
+<text x="246.0" y="157.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">GitHub issue</text>
+<text x="246.0" y="177.0" font-size="14" text-anchor="middle" font-weight="400" fill="#666">打 ready</text>
+<line x1="306" y1="162.0" x2="340" y2="162.0" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="342" y="120" width="120" height="84" rx="10" fill="#eef3fb" stroke="#4a74b5" stroke-width="1.5"/>
+<text x="402.0" y="167.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">准入检查</text>
+<line x1="462" y1="162.0" x2="496" y2="162.0" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="498" y="120" width="120" height="84" rx="10" fill="#eef3fb" stroke="#4a74b5" stroke-width="1.5"/>
+<text x="558.0" y="157.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">coder agent</text>
+<text x="558.0" y="177.0" font-size="14" text-anchor="middle" font-weight="400" fill="#666">写码、自检</text>
+<line x1="618" y1="162.0" x2="652" y2="162.0" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="654" y="120" width="120" height="84" rx="10" fill="#eef3fb" stroke="#4a74b5" stroke-width="1.5"/>
+<text x="714.0" y="157.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">CI</text>
+<text x="714.0" y="177.0" font-size="14" text-anchor="middle" font-weight="400" fill="#666">冻结检查</text>
+<line x1="774" y1="162.0" x2="808" y2="162.0" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="810" y="120" width="120" height="84" rx="10" fill="#eef3fb" stroke="#4a74b5" stroke-width="1.5"/>
+<text x="870.0" y="157.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">reviewer agent</text>
+<text x="870.0" y="177.0" font-size="14" text-anchor="middle" font-weight="400" fill="#666">只读审查</text>
+<line x1="930" y1="162.0" x2="964" y2="162.0" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="966" y="120" width="120" height="84" rx="10" fill="#eef3fb" stroke="#4a74b5" stroke-width="1.5"/>
+<text x="1026.0" y="167.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">Draft PR</text>
+<line x1="1086" y1="162.0" x2="1120" y2="162.0" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="1122" y="120" width="120" height="84" rx="10" fill="#fff3e0" stroke="#d98a1f" stroke-width="1.5"/>
+<text x="1182.0" y="157.0" font-size="14" text-anchor="middle" font-weight="700" fill="#222">我合并</text>
+<text x="1182.0" y="177.0" font-size="14" text-anchor="middle" font-weight="400" fill="#666">视觉验收</text>
+<path d="M870.0,204 V264 H558.0 V207" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="714.0" y="284" font-size="13" text-anchor="middle" fill="#c0392b">不通过：有限返工</text>
+<text x="30" y="312" font-size="12" fill="#888">橙色是人，蓝色是自动化。合并和外部凭据始终留给人。</text>
+</svg>
