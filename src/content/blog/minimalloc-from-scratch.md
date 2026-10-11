@@ -1,6 +1,6 @@
 ---
 title: "拿一个 8KB 数组写个 malloc"
-description: "MiniMalloc 里真正需要想明白的几件事：块头放哪、空闲块怎么找，以及 free 后怎样把内存拼回去。"
+description: "MiniMalloc 里需要想明白的几件事：块头放哪、空闲块怎么找，以及 free 后怎样把内存拼回去。"
 published: 2026-08-20T11:50:00+08:00
 category: Systems
 tags: [C, Memory, Data Structure, 嵌入式]
@@ -40,6 +40,8 @@ typedef struct heap_node {
 分配器返回“块起点 + 16”，用户看到的只有数据区。`heap_free()` 收到指针后再减 16，找回原来的块头。
 
 这也解释了为什么 `free` 不能随便传一个块内地址。偏一个字节，分配器读到的就不再是合法的 `next` 和 `BlockSize`。
+
+![16 字节块头加用户数据，malloc(100) 实际占 120](/media/posts/mm-header.jpg)
 
 ## 初始化后可用空间是 8176 字节
 
@@ -83,6 +85,8 @@ head → 一整块空闲内存 → tail
 ```
 
 配套测试会先释放中间块，再释放两侧，确认所有空间最终重新合成 8176 字节的一块。first-fit 复用、切割、耗尽后回收和最大分配边界也都有单独用例，目前是 47 项检查。
+
+![free 后相邻空闲块合并](/media/posts/mm-coalesce.jpg)
 
 ## 修过的三个问题
 

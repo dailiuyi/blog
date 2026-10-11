@@ -49,6 +49,8 @@ location /ws/ {
 }
 ```
 
+![Host 丢了端口返回 403，带着端口升级成功返回 101](/media/posts/ws-host.jpg)
+
 ## 刷新 404 是另一条链路
 
 前端使用 Vue History 路由。浏览器在应用内进入 `/experiments/{id}` 时，由前端路由接管，不会找后端。刷新以后，请求直接落到 NGINX 和 Spring；服务器没有这个页面映射，就返回 Whitelabel 404。
@@ -57,10 +59,18 @@ location /ws/ {
 
 实际配置把路由分开处理：`/api/` 和 `/assets/` 保留真实 404，`/ws/` 走升级代理，普通前端路径才回退到 Vue 入口。实验页和报告页可以直接访问，错误的接口地址仍然会明确报错。
 
+![按路径分流：/api/ 和 /assets/ 真 404，/ws/ 升级，其余回退 Vue](/media/posts/ws-routes.jpg)
+
 ## 上线时没有重启 Java
 
 这次改动只在部署层。服务器上的旧 NGINX 配置先备份，仓库里保存同一份正式配置。上传后比较 SHA-256，执行 `nginx -t`，通过才平滑 reload。Java 进程和实验数据都没动。
 
 验收没有停在“首页 200”。我创建了一次临时实验，用浏览器同源 Origin 建立公网 WebSocket，确认状态变成 Open，并实际收到一条 `SNAPSHOT`。NGINX access log 里记录了 101；实验页和报告页直接请求都是 200；不存在的 API 与静态资源仍是 404。测试实验随后取消并删除。
 
-之前的部署检查只看了根页面和 REST，还确认过配置里写了 Upgrade，于是误以为 WebSocket 已经可用。以后这类站点的验收项得拆开：HTTP 页面、REST、WebSocket 101、至少一条业务消息、前端子路由刷新。少一个，都只能说明一部分链路活着。
+之前的部署检查只看了根页面和 REST，还确认过配置里写了 Upgrade，于是误以为 WebSocket 已经可用。以后这类站点的验收分开查，五项一个都不省：
+
+- HTTP 页面
+- REST
+- WebSocket 握手返回 101
+- 至少收到一条业务消息
+- 前端子路由刷新
