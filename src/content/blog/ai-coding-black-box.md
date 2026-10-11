@@ -31,6 +31,8 @@ gpt6-Astra 发布快 1 个月了，第一时间烧了 50 亿 token。夜色渐�
 
 ![自动化流程](/media/posts/symphony-flow.svg)
 
+![Symphony 任务看板](/media/posts/symphony-board.jpg)
+
 同时，coder 和 reviewer 选哪个模型也非常讲究。如果用强模型 review 弱模型，可能会“反复找茬，浪费 token，增加返工”；如果用弱模型 review 强模型，则可能有 review 过松的风险。EvoMap 的做法是第二种，如果任务非常难，可能会用两个强模型来完成。最好用不同厂商的模型，避免出现自我偏袒。
 
 ## 黑盒里必须有的东西
@@ -39,7 +41,7 @@ gpt6-Astra 发布快 1 个月了，第一时间烧了 50 亿 token。夜色渐�
 
 ![Harness 架构](/media/posts/harness-arch.svg)
 
-![每一步都会分叉，靠检查和记录拉回目标](/media/posts/decision-tree-ink-v2.jpg)
+![人的决策修剪发散的树，只留一根笔直主干](/media/posts/decision-tree-ink-v2.jpg)
 
 ### 为什么头脑风暴用强模型的 low 模式
 
