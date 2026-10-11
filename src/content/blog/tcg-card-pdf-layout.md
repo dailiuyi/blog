@@ -37,6 +37,8 @@ rows = max(1, int((available_height + gap) / (card_height + gap)))
 
 游戏王卡片使用 59×86mm，在默认 8mm 边距、2mm 间距下正好排成 3×3。网格算完后还会整体居中，不从左上角直接开始贴。这样换成一页 6 张的卡型时，留白不会全挤到右下角。
 
+![A4 上 3×3 张 59×86 mm 的卡](/media/posts/tcg-a4.jpg)
+
 ## 原图比例不对时留白
 
 扫描图、截图和网上保存的图片不一定符合标准卡牌比例。直接拉伸到卡片框，文字和人物都会变形。
@@ -50,6 +52,8 @@ new_h = round(image.height * scale)
 ```
 
 透明 PNG 会先铺到白色背景上再转 RGB。否则透明区域在某些 PDF 处理流程里会变黑。
+
+![拉伸变形对比 contain 等比留白](/media/posts/tcg-contain.jpg)
 
 ## 一张坏图只跳过一张
 

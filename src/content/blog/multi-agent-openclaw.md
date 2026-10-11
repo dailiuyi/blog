@@ -47,6 +47,8 @@ readingTime: "7 min"
 
 链条是这样：想到内容随手记下来 → 定期由 AI 整理成草稿 → 我在编辑器里打磨 → 推送代码后自动上线。
 
+![探活脚本全绿静默，异常才唤醒 OpenClaw 发微信告警](/media/posts/oc-watchdog.jpg)
+
 ## 我最后收敛成的样子
 
 不再让几个角色互相开会，OpenClaw 只承担明确的职责：

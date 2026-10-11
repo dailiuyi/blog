@@ -49,6 +49,8 @@ location /ws/ {
 }
 ```
 
+![Host 丢了端口返回 403，带着端口升级成功返回 101](/media/posts/ws-host.jpg)
+
 ## 刷新 404 是另一条链路
 
 前端使用 Vue History 路由。浏览器在应用内进入 `/experiments/{id}` 时，由前端路由接管，不会找后端。刷新以后，请求直接落到 NGINX 和 Spring；服务器没有这个页面映射，就返回 Whitelabel 404。
@@ -56,6 +58,8 @@ location /ws/ {
 如果把所有 404 都回退到 `index.html`，页面刷新是好了，但不存在的 API 和静态资源也可能返回一份 HTML，排错会更麻烦。
 
 实际配置把路由分开处理：`/api/` 和 `/assets/` 保留真实 404，`/ws/` 走升级代理，普通前端路径才回退到 Vue 入口。实验页和报告页可以直接访问，错误的接口地址仍然会明确报错。
+
+![按路径分流：/api/ 和 /assets/ 真 404，/ws/ 升级，其余回退 Vue](/media/posts/ws-routes.jpg)
 
 ## 上线时没有重启 Java
 
