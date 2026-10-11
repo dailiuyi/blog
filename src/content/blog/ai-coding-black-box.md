@@ -21,7 +21,7 @@ gpt6-Astra 发布快 1 个月了，第一时间烧了 50 亿 token。夜色渐�
 
 认真地说，最近 agent 写的代码，我基本很少用肉眼审。一部分原因是真的看不懂（C#、Elixir、TS，最近的项目很少有机会写 Java），另一部分是没有时间读。试想一下，AI 一个小时完成 3k 行 diff，不含注释，缩进也没有，产出速度真的赶得上你的 review 速度吗？
 
-![一小时：agent 写的，和人读得完的](/media/posts/diff-gap.svg)
+![一小时：agent 写的，和人读得完的](/media/posts/diff-gap-ink.jpg)
 
 我目前的做法一般是：先用强模型的 low 模式头脑风暴，得出一份完整的任务书，需求、验收标准、边界全部限定好，可以是一个 issue，也可以是一个持久化的 md 文档。然后交给一个 agent 自动化工作流完成所有的编码，我只负责合并 PR 和视觉上的验收。诚然，这可能是一个彻彻底底的黑盒，但对于快速迭代的产品，这已经是平衡代码质量与快速产出的一个相对优雅的解法。人只负责需求的拆解和最后的验收，剩下交给 agent 自动完成。
 
@@ -39,7 +39,7 @@ gpt6-Astra 发布快 1 个月了，第一时间烧了 50 亿 token。夜色渐�
 
 ![Harness 架构](/media/posts/harness-arch.svg)
 
-![每一步都会分叉，靠检查和记录拉回目标](/media/posts/decision-tree.svg)
+![每一步都会分叉，靠检查和记录拉回目标](/media/posts/decision-tree-ink.jpg)
 
 ### 为什么头脑风暴用强模型的 low 模式
 
