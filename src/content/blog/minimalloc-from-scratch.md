@@ -1,6 +1,6 @@
 ---
 title: "拿一个 8KB 数组写个 malloc"
-description: "MiniMalloc 里真正需要想明白的几件事：块头放哪、空闲块怎么找，以及 free 后怎样把内存拼回去。"
+description: "MiniMalloc 里需要想明白的几件事：块头放哪、空闲块怎么找，以及 free 后怎样把内存拼回去。"
 published: 2026-08-20T11:50:00+08:00
 category: Systems
 tags: [C, Memory, Data Structure, 嵌入式]
